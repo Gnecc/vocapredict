@@ -1,0 +1,25 @@
+# Entornos virtuales
+.venv/
+env/
+venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Jupyter checkpoints
+.ipynb_checkpoints
+
+# Archivos de sistema
+.DS_Store
+
+# Datos locales
+#*.xlsx
+#*.csv
+#*.joblib

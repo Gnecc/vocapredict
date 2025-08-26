@@ -1,0 +1,44 @@
+# flyctl launch added from .gitignore
+# Entornos virtuales
+**/.venv
+**/env
+**/venv
+
+# Archivos de Python
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Archivos temporales
+**/*.log
+**/*.tmp
+
+# Jupyter checkpoints
+**/.ipynb_checkpoints
+
+# Archivos de sistema
+**/.DS_Store
+
+# IDE configs
+**/.idea
+
+# Datos locales
+#*.xlsx
+#*.csv
+#*.joblib
+
+# flyctl launch added from .idea/.gitignore
+# Default ignored files
+.idea/shelf
+.idea/workspace.xml
+# Editor-based HTTP Client requests
+.idea/httpRequests
+# Datasource local storage ignored files
+.idea/dataSources
+.idea/dataSources.local.xml
+
+# flyctl launch added from .venv/.gitignore
+# created by virtualenv automatically
+.venv/**/*
+fly.toml

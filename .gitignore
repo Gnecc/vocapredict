@@ -19,6 +19,9 @@ __pycache__/
 # Archivos de sistema
 .DS_Store
 
+# IDE configs
+.idea/
+
 # Datos locales
 #*.xlsx
 #*.csv

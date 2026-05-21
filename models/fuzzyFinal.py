@@ -1,80 +1,57 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb 19 23:30:16 2022
+from pathlib import Path
 
-@author: bryanedoardocisnerosbravo
-"""
-
-%matplotlib inline
 import numpy as np
-from fcmeans import FCM
-from matplotlib import pyplot as plt
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import roc_curve, roc_auc_score, auc
+from sklearn.metrics import adjusted_rand_score
+
+from models.training_utils import load_labeled_dataset, save_artifact, save_metrics
 
 
-dataframe = pd.read_excel('conjunto_de_datos_normalizados.xlsx');
-dataset = dataframe.values
+def fuzzy_c_means(
+    values: np.ndarray,
+    n_clusters: int,
+    fuzziness: float = 2.0,
+    max_iter: int = 300,
+    tolerance: float = 1e-6,
+    random_seed: int = 20260520,
+):
+    rng = np.random.default_rng(random_seed)
+    membership = rng.random((len(values), n_clusters))
+    membership = membership / membership.sum(axis=1, keepdims=True)
 
-X = dataframe.iloc[:, :-1]
-Y = dataframe.iloc[:, -1]
+    for _ in range(max_iter):
+        weighted = membership**fuzziness
+        centers = (weighted.T @ values) / weighted.sum(axis=0)[:, None]
+        distances = np.linalg.norm(values[:, None, :] - centers[None, :, :], axis=2)
+        distances = np.maximum(distances, 1e-12)
+        ratio = distances[:, :, None] / distances[:, None, :]
+        updated = 1 / np.sum(ratio ** (2 / (fuzziness - 1)), axis=2)
+        if np.max(np.abs(updated - membership)) < tolerance:
+            membership = updated
+            break
+        membership = updated
 
-encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
+    return centers, membership
 
-X = np.array(X);
 
-fcm = FCM(n_clusters=4)
-fcm.fit(X)
+def run(dataset_path: str | Path):
+    path, _, X, y, encoder = load_labeled_dataset(dataset_path)
+    values = X.to_numpy(dtype=float)
+    centers, membership = fuzzy_c_means(values, len(encoder.classes_))
+    clusters = membership.argmax(axis=1)
+    metrics = {
+        "dataset": str(path),
+        "classes": encoder.classes_.tolist(),
+        "adjusted_rand_score": float(adjusted_rand_score(y, clusters)),
+        "fuzzy_partition_coefficient": float(np.mean(np.sum(membership**2, axis=1))),
+    }
 
-# outputs
-fcm_centers = fcm.centers
-fcm_labels = fcm.predict(X)
+    save_artifact(
+        "fuzzy_c_means_model.joblib",
+        {"centers": centers, "membership": membership, "classes": encoder.classes_},
+    )
+    save_metrics("fuzzy_c_means", metrics)
+    return metrics
 
-# plot result
-f, axes = plt.subplots(1, 2, figsize=(11,5))
-axes[0].scatter(X[:,0], X[:,1], alpha=.1)
-axes[1].scatter(X[:,0], X[:,1], c=fcm_labels, alpha=.1)
-axes[1].scatter(fcm_centers[:,0], fcm_centers[:,1], marker="+", s=500, c='r')
-plt.show()
 
-n_classes = 4
-
-hot_y = np.zeros((encoded_Y.size, encoded_Y.max()+1))
-hot_y[np.arange(encoded_Y.size),encoded_Y] = 1
-
-y_scores = np.zeros((fcm_labels.size, fcm_labels.max()+1))
-y_scores[np.arange(fcm_labels.size),fcm_labels] = 1
-
-# Compute ROC curve and ROC area for each class
-fpr = dict()
-tpr = dict()
-roc_auc = dict()
-for i in range(n_classes):
-    fpr[i], tpr[i], _ = roc_curve(hot_y[:, i], y_scores[:, i])
-    roc_auc[i] = auc(fpr[i], tpr[i])
-    
-# Compute micro-average ROC curve and ROC area
-fpr["micro"], tpr["micro"], _ = roc_curve(hot_y.ravel(), y_scores.ravel())
-roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
-
-plt.figure()
-lw = 2
-plt.plot(
-    fpr[2],
-    tpr[2],
-    color="darkorange",
-    lw=lw,
-    label="ROC curve (area = %0.2f)" % roc_auc[2],
-)
-plt.plot([0, 1], [0, 1], color="navy", lw=lw, linestyle="--")
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel("False Positive Rate")
-plt.ylabel("True Positive Rate")
-plt.title("Fuzzy ROC AUC")
-plt.legend(loc="lower right")
-plt.show()
+if __name__ == "__main__":
+    run("conjunto_de_datos_reetiquetados.xlsx")

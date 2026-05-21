@@ -12,20 +12,26 @@ para predecir una carrera desde:
 ## Flujo principal
 
 1. `train.py` selecciona un modulo de entrenamiento desde `models/factory.py`.
-2. `models/svmFinal.py` lee `conjunto_de_datos_normalizados.xlsx`, entrena el
-   modelo SVM y genera `svm_model.joblib` y `label_encoder.joblib`.
+2. `models/svmFinal.py` lee por defecto `conjunto_de_datos_reetiquetados.xlsx`,
+   separa un holdout real y aumenta solo el fold de entrenamiento.
 3. `predict.py` carga esos artefactos para predecir una entrada de 9 puntajes.
 4. `serve.py` expone la misma prediccion mediante `POST /predict`.
 
 Los artefactos SVM ya estan incluidos en el repositorio, por lo que la
 prediccion local y la API pueden ejecutarse sin volver a entrenar primero.
 
+En uso normal la API **no entrena al iniciar**. `serve.py` carga el modelo SVM
+persistido en `svm_model.joblib` y su encoder en `label_encoder.joblib`.
+Solo hace falta reentrenar cuando se quiera actualizar esos artefactos con un
+dataset, etiquetas o configuracion de modelo nuevos.
+
 ## Estructura
 
 ```text
 .
 |-- data/alumnos.csv                         # Dataset CSV de referencia
-|-- conjunto_de_datos_normalizados.xlsx      # Dataset usado por los scripts de entrenamiento
+|-- conjunto_de_datos_normalizados.xlsx      # Dataset original de referencia
+|-- conjunto_de_datos_reetiquetados.xlsx     # Dataset real usado por entrenamiento
 |-- models/                                  # Scripts de modelos y factory
 |-- train.py                                 # Entrada para entrenamiento
 |-- predict.py                               # Prediccion desde consola
@@ -91,19 +97,30 @@ python3 -u predict.py \
   --topk 4
 ```
 
-## Entrenar el SVM
+## Entrenar modelos
 
 ```bash
 python3 train.py --model svm
 ```
 
-El entrenamiento vuelve a escribir:
+El entrenamiento supervisado de `svm`, `knn` y `rf` usa por defecto el dataset
+real reetiquetado, genera datos sinteticos solo para el fold de entrenamiento y
+evalua contra un holdout real. Para usar otro dataset:
+
+```bash
+python3 train.py --model rf --dataset ruta/al/dataset.xlsx
+```
+
+El entrenamiento SVM vuelve a escribir:
 
 - `svm_model.joblib`;
 - `label_encoder.joblib`.
 
-El script SVM tambien calcula metricas ROC/AUC multiclase y muestra una grafica
-al finalizar.
+Las metricas y artefactos adicionales de los modelos se guardan en
+`artifacts/`.
+
+Despues de entrenar `svm`, la API y `predict.py` usaran los nuevos artefactos
+guardados en la raiz del proyecto en su siguiente arranque o ejecucion.
 
 ## Servir la API
 
@@ -168,16 +185,14 @@ de `fly.toml`.
 | `fcm` | `models/fuzzyFinal.py` |
 | `pca` | `models/PCAFinal.py` |
 
-El flujo integrado y persistido del repositorio es el de `svm`. Los demas
-modulos conservan scripts exploratorios de modelado y visualizacion; algunos se
-ejecutan al importarse, usan dependencias que no aparecen en
-`requirements.txt` o incluyen sintaxis propia de notebooks. Conviene revisarlos
-antes de usarlos como parte de un pipeline automatizado.
+El flujo integrado para prediccion de la API sigue siendo el de `svm`. `knn` y
+`rf` tambien guardan modelos supervisados en `artifacts/`; `kmeans`, `fcm` y
+`pca` quedan como rutas exploratorias de clustering o reduccion de dimension.
 
 ## Notas de desarrollo
 
 - `serve.py` no reentrena el modelo: solo carga artefactos existentes.
+- Para servir la API basta con que existan `svm_model.joblib` y
+  `label_encoder.joblib`.
 - El orden de los 9 puntajes es parte del contrato de entrada del modelo.
-- `requirements.txt` cubre el servicio y las dependencias base del flujo SVM;
-  los scripts de analisis historico pueden requerir librerias adicionales para
-  graficas, estadistica o clustering difuso.
+- `requirements.txt` cubre el servicio y los flujos de entrenamiento actuales.

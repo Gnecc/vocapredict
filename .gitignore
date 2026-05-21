@@ -26,3 +26,15 @@ __pycache__/
 #*.xlsx
 #*.csv
 #*.joblib
+
+# Artefactos generados por entrenamiento
+artifacts/
+
+# Salidas de auditoria y resumen regenerables
+data/auditoria_*.csv
+data/resumen_*.json
+
+# Copias CSV derivadas de datasets
+data/alumnos_reetiquetados.csv
+data/conjunto_de_datos_reetiquetados.csv
+data/conjunto_de_datos_aumentado_75_sintetico.csv

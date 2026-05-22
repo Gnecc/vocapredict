@@ -62,6 +62,27 @@ La ultima columna del dataset corresponde a la etiqueta de carrera
 (`Etiqueta` en `data/alumnos.csv` y `CARRERA_ACTUAL` en algunos scripts
 historicos).
 
+## Perfiles de reetiquetado
+
+El dataset reetiquetado se construyo comparando cada usuario contra estos
+perfiles objetivo. Cada valor representa el nivel esperado de preferencia para
+esa area en una escala normalizada.
+
+| Area | `ICO` | `ISC` | `LIA` | `LLE` |
+| --- | ---: | ---: | ---: | ---: |
+| `calculo` | 0.90 | 0.90 | 0.65 | 0.25 |
+| `C. Fisico` | 0.80 | 0.90 | 0.35 | 0.25 |
+| `C. Biologico` | 0.25 | 0.25 | 0.25 | 0.25 |
+| `Mecanico` | 0.90 | 0.70 | 0.35 | 0.25 |
+| `Servicio social` | 0.35 | 0.50 | 0.75 | 0.75 |
+| `Literario` | 0.35 | 0.45 | 0.55 | 0.95 |
+| `Persuasivo` | 0.45 | 0.55 | 0.90 | 0.75 |
+| `Artistico` | 0.30 | 0.35 | 0.45 | 0.65 |
+| `Musical` | 0.25 | 0.25 | 0.30 | 0.40 |
+
+La reetiqueta asigna la carrera cuyo perfil queda mas cerca de los 9 puntajes
+del usuario. En esta version todas las areas participan con el mismo peso.
+
 ## Requisitos
 
 - Python 3.12 o compatible.
@@ -72,7 +93,7 @@ historicos).
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Predecir desde consola

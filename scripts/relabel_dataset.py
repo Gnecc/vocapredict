@@ -23,11 +23,6 @@ FEATURES = [
     "musical",
 ]
 
-# Target profiles agreed from the career reading:
-# - ICO: technical computing / hardware orientation.
-# - ISC: engineering systems and communications orientation.
-# - LIA: technology applied to administration and organizations.
-# - LLE: languages, communication, and humanistic orientation.
 TARGET_PROFILES = {
     "ICO": [0.90, 0.80, 0.25, 0.90, 0.35, 0.35, 0.45, 0.30, 0.25],
     "ISC": [0.90, 0.90, 0.25, 0.70, 0.50, 0.45, 0.55, 0.35, 0.25],

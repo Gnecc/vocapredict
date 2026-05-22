@@ -1,10 +1,10 @@
-# models/factory.py
 from importlib import import_module
 
 SUPPORTED = {
     "svm": "models.svmFinal",
     "knn": "models.knnFinal",
     "rf":  "models.randomForestFinal",
+    "nn": "models.neuralNetworkFinal",
     "kmeans": "models.kmeansFinal",
     "fcm": "models.fuzzyFinal",
     "pca": "models.PCAFinal",

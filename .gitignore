@@ -1,10 +1,14 @@
 # Entornos virtuales
 .venv/
+**/.venv/
 env/
+**/env/
 venv/
+**/venv/
 
 # Archivos de Python
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 *.pyd
@@ -15,12 +19,32 @@ __pycache__/
 
 # Jupyter checkpoints
 .ipynb_checkpoints
+**/.ipynb_checkpoints/
 
 # Archivos de sistema
 .DS_Store
+**/.DS_Store
 
 # IDE configs
 .idea/
+**/.idea/
+.vscode/
+**/.vscode/
+
+# Frontend
+**/node_modules/
+**/.pnp/
+**/.pnp.js
+**/coverage/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+**/.eslintcache
 
 # Datos locales
 #*.xlsx
@@ -28,13 +52,13 @@ __pycache__/
 #*.joblib
 
 # Artefactos generados por entrenamiento
-artifacts/
+backend/artifacts/
 
 # Salidas de auditoria y resumen regenerables
-data/auditoria_*.csv
-data/resumen_*.json
+backend/data/auditoria_*.csv
+backend/data/resumen_*.json
 
 # Copias CSV derivadas de datasets
-data/alumnos_reetiquetados.csv
-data/conjunto_de_datos_reetiquetados.csv
-data/conjunto_de_datos_aumentado_75_sintetico.csv
+backend/data/alumnos_reetiquetados.csv
+backend/data/conjunto_de_datos_reetiquetados.csv
+backend/data/conjunto_de_datos_aumentado_75_sintetico.csv

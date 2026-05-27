@@ -1,47 +1,52 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar, useIonActionSheet } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow, useIonActionSheet } from '@ionic/react';
 import styles from "./Home.module.scss";
 
-import { informationCircleOutline } from "ionicons/icons";
+import { informationCircleOutline, playOutline } from "ionicons/icons";
 
 const Home = () => {
 
-	const [ show, hide ] = useIonActionSheet();
+	const [ show ] = useIonActionSheet();
 
 	return (
 		<IonPage>
 			<IonContent fullscreen>
-				<IonGrid>
-					<IonRow>
+				<IonGrid className={styles.homeGrid}>
+					<IonRow className={styles.logoRow}>
 						<IonCol size="12" className="ion-text-center">
-							<img src="/assets/logo.png" alt="title" className={styles.title}/>
+							<img src="/assets/logo-home.png" alt="VocaPredict" className={styles.title}/>
 						</IonCol>
 					</IonRow>
-				</IonGrid>
 
-				<div className="sponsor-strip">
-					<a
-						className="logo"
-						rel="noreferrer"
-						aria-label="CONAHCYT"
-					>
-						<img src="/assets/logos/LOGO_CONACYT.png" alt="CONAHCYT"/>
-					</a>
+					<IonRow>
+						<IonCol size="12">
+						<IonCard className={styles.instructions}>
+							<IonCardContent>
+								<h1>Cuestionario vocacional</h1>
+								<p>
+									Responde las 27 actividades del inventario corto de intereses. Al finalizar,
+									VocaPredict enviará tus puntajes al modelo para estimar la carrera más afín.
+								</p>
+								<ul>
+									<li>1. Me desagrada mucho</li>
+									<li>2. No me gusta</li>
+									<li>3. Me es indiferente</li>
+									<li>4. Me gusta</li>
+									<li>5. Me gusta mucho</li>
+								</ul>
+							</IonCardContent>
+						</IonCard>
 
-					<span className="sep" aria-hidden="true"/>
+						<div className={styles.sponsorStrip} aria-label="Instituciones participantes">
+							<img src="/assets/logos/LOGO_DOCCOM.svg" alt="Doctorado en Ciencias de la Computacion"/>
+							<span aria-hidden="true"/>
+							<img src="/assets/logos/LOGO_UAEMEX.png" alt="Universidad Autonoma del Estado de Mexico"/>
+						</div>
 
-					<a
-						className="logo"
-						rel="noreferrer"
-						aria-label="Maestría en Ciencias de la Computación UAEMéx"
-					>
-						<img src="/assets/logos/LOGO_MACSCO.png" alt="Maestría en Ciencias de la Computación UAEMéx"/>
-					</a>
-				</div>
-
-				<IonRow className={styles.buttons}>
-					<IonCol size="12">
-						<IonButton routerLink="/quiz" color="light" expand="block"
-								   className={styles.playButton}>Comenzar</IonButton>
+						<div className={styles.actions}>
+						<IonButton routerLink="/questions" color="primary" expand="block" className={styles.playButton}>
+							<IonIcon icon={playOutline} />
+							Comenzar cuestionario
+						</IonButton>
 
 						<IonButton color="dark" className={styles.helpButton} onClick={() => show({
 							buttons: [{text: 'Cerrar'}],
@@ -50,8 +55,10 @@ const Home = () => {
 						})}>
 							<IonIcon icon={informationCircleOutline}/> Términos y condiciones
 						</IonButton>
+						</div>
 					</IonCol>
 				</IonRow>
+				</IonGrid>
 			</IonContent>
 		</IonPage>
 	);

@@ -1,23 +1,32 @@
-.title {
-// height: 10rem;
-    margin-top: 30%;
+.homeGrid {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2rem);
 }
 
-.buttons {
+.logoRow {
+    flex: 0 0 auto;
+}
 
-    position: absolute;
-    bottom: 3rem;
-    width: 100%;
+.title {
+    width: clamp(190px, 46vw, 320px);
+    margin: 0 auto clamp(0.75rem, 2.5vw, 1.25rem);
 }
 
 .playButton {
 
-    height: 4rem;
+    min-height: 3.5rem;
     --border-radius: 500px;
-    width: fit-content;
-    --padding-start: 5rem;
-    --padding-end: 5rem;
+    width: min(100%, 420px);
+    --padding-start: 2rem;
+    --padding-end: 2rem;
     margin: 0 auto;
+
+    ion-icon {
+        margin-right: 0.5rem;
+    }
 }
 
 .helpButton {
@@ -29,7 +38,7 @@
     text-align: center;
     width: fit-content;
     margin: 0 auto;
-    margin-top: 3rem;
+    margin-top: 0.85rem;
     opacity: 70%;
     --border-radius: 10rem !important;
     --padding-end: 1.25rem;
@@ -38,5 +47,95 @@
 
         margin-top: 0.2rem;
         margin-right: 0.5rem;
+    }
+}
+
+.instructions {
+    width: min(100%, 520px);
+    margin: 0 auto 1rem;
+
+    h1 {
+        margin-top: 0;
+        font-size: 1.35rem;
+        font-weight: 700;
+    }
+
+    p {
+        line-height: 1.45;
+    }
+
+    ul {
+        margin-bottom: 0;
+        padding-left: 1.25rem;
+        line-height: 1.55;
+    }
+}
+
+.sponsorStrip {
+    width: min(100%, 520px);
+    min-height: 94px;
+    margin: 0 auto 1rem;
+    padding: 0.75rem 1rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(0.75rem, 3vw, 1.25rem);
+    background: #f4f5f8;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+
+    img {
+        display: block;
+        max-width: 100%;
+        max-height: 70px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        justify-self: center;
+    }
+
+    span {
+        width: 1px;
+        height: 44px;
+        background: rgba(0, 0, 0, 0.22);
+        border-radius: 1px;
+    }
+}
+
+.actions {
+    width: min(100%, 420px);
+    margin: 0 auto;
+}
+
+@media (max-width: 420px) {
+    .homeGrid {
+        justify-content: flex-start;
+        padding-top: 1rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .instructions {
+        h1 {
+            font-size: 1.15rem;
+        }
+
+        p,
+        li {
+            font-size: 0.92rem;
+        }
+    }
+
+    .sponsorStrip {
+        min-height: 78px;
+        padding: 0.65rem 0.75rem;
+
+        img {
+            max-height: 56px;
+        }
+
+        span {
+            height: 36px;
+        }
     }
 }

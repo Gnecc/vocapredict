@@ -2,9 +2,9 @@ import React from "react";
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-    IonList, IonItem, IonLabel, IonBadge, IonButtons, IonButton, IonIcon, useIonRouter
+    IonList, IonItem, IonLabel, IonBadge, IonButton, useIonRouter
 } from "@ionic/react";
-import { homeOutline, analyticsOutline } from "ionicons/icons";
+import styles from "./Prediction.module.scss";
 
 const STORAGE_KEY = "last_prediction";
 
@@ -18,31 +18,23 @@ function loadLastPrediction() {
 
 export default function Prediction() {
     const router = useIonRouter();
-    // state inyectado por Results.jsx (router.push)
     const nav = router.routeInfo?.state ?? {};
     const prediction = nav?.prediction ?? loadLastPrediction()?.prediction ?? null;
     const probabilities = nav?.probabilities ?? loadLastPrediction()?.probabilities ?? null;
+    const sortedProbabilities = probabilities
+        ? Object.entries(probabilities).sort((a, b) => b[1] - a[1])
+        : [];
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Predicción del modelo</IonTitle>
-{/*
-                    <IonButtons slot="end">
-                        <IonButton onClick={() => router.push("/results")} title="Ver resultados">
-                            <IonIcon icon={analyticsOutline} />
-                        </IonButton>
-                        <IonButton onClick={() => router.push("/")} title="Inicio">
-                            <IonIcon icon={homeOutline} />
-                        </IonButton>
-                    </IonButtons>
-*/}
                 </IonToolbar>
             </IonHeader>
 
             <IonContent className="ion-padding">
-                <IonCard className="animate__animated animate__fadeInUp">
+                <IonCard className={styles.predictionCard}>
                     <IonCardHeader>
                         <IonCardTitle>
                             {"Predicción."}
@@ -52,22 +44,36 @@ export default function Prediction() {
                         {probabilities ? (
                             <>
                                 <p>Probabilidades por clase:</p>
-                                <IonList>
-                                    {Object.entries(probabilities)
-                                        .sort((a,b) => b[1]-a[1])
-                                        .map(([label, p]) => (
-                                            <IonItem key={label}>
-                                                <IonLabel>{label}</IonLabel>
-                                                <IonBadge color="primary">{(p*100).toFixed(1)}%</IonBadge>
+                                <IonList className={styles.probabilityList}>
+                                    {sortedProbabilities.map(([label, p]) => {
+                                        const percent = Math.max(0, Math.min(100, p * 100));
+
+                                        return (
+                                            <IonItem key={label} lines="none" className={styles.probabilityItem}>
+                                                <IonLabel className={styles.probabilityContent}>
+                                                    <div className={styles.probabilityHeader}>
+                                                        <span className={styles.probabilityLabel}>{label}</span>
+                                                        <IonBadge className={styles.probabilityBadge}>
+                                                            {percent.toFixed(1)}%
+                                                        </IonBadge>
+                                                    </div>
+                                                    <div className={styles.probabilityTrack}>
+                                                        <div
+                                                            className={styles.probabilityBar}
+                                                            style={{ width: `${percent}%` }}
+                                                        />
+                                                    </div>
+                                                </IonLabel>
                                             </IonItem>
-                                        ))}
+                                        );
+                                    })}
                                 </IonList>
                             </>
                         ) : (
                             <p>El servicio no devolvió probabilidades. Solo se muestra la clase predicha.</p>
                         )}
 
-                        <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
+                        <div className={styles.predictionActions}>
                             <IonButton expand="block" onClick={() => router.push("/results")}>
                                 Ver perfil / resultados
                             </IonButton>

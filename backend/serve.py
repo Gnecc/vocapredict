@@ -19,7 +19,7 @@ cors_origins = [
     origin.strip()
     for origin in os.getenv(
         "CORS_ORIGINS",
-        "http://localhost:3000,http://localhost:8100,https://ionic-react-quiz-app.fly.dev",
+        "http://localhost:3000,http://localhost:8100,http://127.0.0.1:3000,http://127.0.0.1:8100,https://vocapredict-frontend.fly.dev,https://ionic-react-quiz-app.fly.dev",
     ).split(",")
     if origin.strip()
 ]
@@ -27,6 +27,7 @@ cors_origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -1,9 +1,4 @@
-# fly.toml app configuration file generated for ionic-react-quiz-app on 2025-09-09T21:31:50-06:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = 'ionic-react-quiz-app'
+app = 'vocapredict-frontend'
 primary_region = 'iad'
 
 [build]

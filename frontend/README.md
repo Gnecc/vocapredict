@@ -1,27 +1,53 @@
-# ionic-quiz-app
-A quiz app built with Ionic React
-<br />
-If you'd like to support, you can <a className="link" href="https://www.buymeacoffee.com/ionicreacthub" target="_blank" rel="noopener">buy me a coffee</a> ☕️
+# VocaPredict Frontend
 
-![Ionic React Quiz App](https://repository-images.githubusercontent.com/394470899/357c4337-ed04-47b5-81cb-8775643373ec)
+Frontend web para responder el cuestionario vocacional corto y enviar los puntajes al backend de prediccion.
 
-### Included in this Ionic React Template/UI
-* Fetch questions/answers from API
-* Animations
-* State management with Pullstate
-* SASS Modules & Ionic CSS utilities
+## Requisitos
 
-> API used: <br />
-https://quizapi.io
+- Node.js 16 recomendado para este proyecto basado en Create React App 4.
+- npm.
 
-### To run
+## Instalacion
 
-```javascript
-npm install
-ionic serve
+```bash
+npm ci
 ```
 
-Alternatively, you can add the iOS, Android platform and run natively.
+## Configuracion local
 
-# Are you on Twitter? Lets connect [@93alan](https://twitter.com/93alan)
-# Have you checked out Ionic React Hub yet? [Ionic React Hub](https://ionicreacthub.com)
+Crea `frontend/.env.local` cuando quieras apuntar a un backend local:
+
+```bash
+REACT_APP_API_URL=http://localhost:8080
+```
+
+Si no se define, la app usa el backend desplegado configurado en el codigo.
+
+## Desarrollo
+
+```bash
+npm start
+```
+
+La app abre en `http://localhost:3000`.
+
+## Build
+
+Con Node 17 o superior:
+
+```bash
+NODE_OPTIONS=--openssl-legacy-provider npm run build
+```
+
+Con Node 16:
+
+```bash
+npm run build
+```
+
+## Flujo de la app
+
+- `/home`: instrucciones e inicio del cuestionario.
+- `/questions`: cuestionario de intereses de 27 reactivos.
+- `/results`: resumen de puntajes y envio al backend.
+- `/prediction`: prediccion y probabilidades devueltas por el modelo.

@@ -1,7 +1,6 @@
-// src/index.js
-// Inventario de Intereses de Karl Hereford (90 ítems) – Mock compatible con quizapi
+// Inventario corto de Intereses de Karl Hereford (27 ítems).
 // Cada ítem se califica en escala Likert 1..5 (a..e).
-// Fuente de los enunciados y la asignación por categorías: cuadernillo oficial. 
+// Mantiene 3 reactivos por cada una de las 9 áreas usadas por el backend.
 
 const LIKERT_LABELS = {
     answer_a: "Me desagrada mucho",  // 1
@@ -32,7 +31,7 @@ const CATEGORIAS = {
     "Musical":              new Set([4,15,23,33,41,54,60,70,74,89])
 };
 
-// Lista de los 90 enunciados (en el orden del cuadernillo)
+// Lista original de 90 enunciados (en el orden del cuadernillo).
 export const HEREFORD_QUESTIONS = [
     "Reparar una licuadora",                                  // 1
     "Participar en debates y argumentos",                     // 2
@@ -126,6 +125,18 @@ export const HEREFORD_QUESTIONS = [
     "Observar a menudo como transportan las hormigas su carga" // 90
 ];
 
+const SHORT_FORM_QUESTION_IDS = new Set([
+    3, 32, 88,  // Cálculo
+    8, 53, 81,  // C. Físico
+    5, 51, 90,  // C. Biológico
+    1, 34, 79,  // Mecánico
+    19, 49, 71, // Servicio Social
+    9, 52, 83,  // Literario
+    2, 35, 75,  // Persuasivo
+    7, 44, 85,  // Artístico
+    4, 54, 89   // Musical
+]);
+
 // Determina la categoría de un reactivo según su número
 function categoriaDeReactivo(n) {
     for (const [cat, set] of Object.entries(CATEGORIAS)) {
@@ -134,7 +145,7 @@ function categoriaDeReactivo(n) {
     return "Intereses"; // fallback genérico
 }
 
-// Construye el objeto de respuestas tipo quizapi
+// Construye el objeto de respuestas para la escala Likert.
 function buildAnswers() {
     return {
         answer_a: LIKERT_LABELS.answer_a,
@@ -157,7 +168,7 @@ function buildCorrectAnswersAllTrue() {
     };
 }
 
-// Export principal: arreglo con los 90 objetos compatibles con tu UI
+// Export principal: versión corta de 27 reactivos balanceada por área.
 export const MOCK_QUESTIONS = HEREFORD_QUESTIONS.map((texto, idx) => {
     const numero = idx + 1;
     return {
@@ -173,4 +184,4 @@ export const MOCK_QUESTIONS = HEREFORD_QUESTIONS.map((texto, idx) => {
         category: categoriaDeReactivo(numero),
         difficulty: "Easy"
     };
-});
+}).filter(question => SHORT_FORM_QUESTION_IDS.has(question.id));

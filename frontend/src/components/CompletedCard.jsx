@@ -1,40 +1,28 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonNote, IonRow, useIonRouter } from "@ionic/react";
-import styles from "../pages/Quiz.module.scss";
-import { updateChosenCategory, updateChosenDifficulty } from "../store/SettingsStore";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow, useIonRouter } from "@ionic/react";
 
-export const CompletedCard = ({ completionContainerRef, score, questionsLength }) => {
+export const CompletedCard = ({ completionContainerRef }) => {
 
     const router = useIonRouter();
 
     const playAgain = () => {
-
-        updateChosenCategory(false);
-        updateChosenDifficulty(false);
         router.push("/");
     }
 
     return (
-        <IonGrid className="animate__animated" ref={ completionContainerRef }>
+        <IonGrid ref={ completionContainerRef }>
             <IonRow className="ion-text-center">
                 <IonCol size="12">
                     <IonCard>
                         <IonCardHeader>
-{/*
-                            <IonCardSubtitle>Congratulations</IonCardSubtitle>
-*/}
                             <IonCardTitle>Cuestionario completado</IonCardTitle>
-                            <p className={ styles.emoji }>🎉</p>
                         </IonCardHeader>
 
                         <IonCardContent>
-                            {/*<IonNote>You scored</IonNote>
-
-                            <IonCardTitle className="ion-margin-bottom">
-                                { score }/{ questionsLength }
-                            </IonCardTitle>*/}
-
                             <IonButton expand="block" onClick={() => router.push("/results")}>
-                                Ver Resultados
+                                Ver resultados
+                            </IonButton>
+                            <IonButton expand="block" fill="outline" onClick={playAgain}>
+                                Volver al inicio
                             </IonButton>
                         </IonCardContent>
                     </IonCard>

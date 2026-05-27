@@ -1,7 +1,8 @@
-/* ===== UAEMéx Theme: ORO predominante (manteniendo tu fondo) ===== */
+/* ===== VocaPredict theme ===== */
 
 :root {
-  /* Verde UAEMéx (primario para acciones) */
+  color-scheme: light;
+
   --ion-color-primary: #2C5234;
   --ion-color-primary-rgb: 44,82,52;
   --ion-color-primary-contrast: #ffffff;
@@ -9,7 +10,6 @@
   --ion-color-primary-shade: #26472d;
   --ion-color-primary-tint: #3d6a46;
 
-  /* Oro UAEMéx (predominante en UI) */
   --ion-color-secondary: #9C8412;
   --ion-color-secondary-rgb: 156,132,18;
   --ion-color-secondary-contrast: #000000;
@@ -33,198 +33,95 @@
   --ion-color-medium:  #92949c;
   --ion-color-light:   #f4f5f8;
 
-  /* Fondo general en ORO */
-  --ion-background-color: #9C8412;
-  --ion-text-color: #000; /* texto por defecto sobre oro */
+  --vp-green: #2C5234;
+  --vp-gold: #9C8412;
+  --vp-gold-soft: #efe6b8;
+  --vp-cream: #fbf8ef;
+  --vp-ink: #1f261f;
+  --vp-muted: #697168;
+
+  --ion-background-color: var(--vp-cream);
+  --ion-text-color: var(--vp-ink);
 }
 
-/* ===== Layout & Fondo (manteniendo tu SVG) ===== */
+html,
+body,
+ion-app {
+  color-scheme: light;
+  background: var(--vp-cream);
+}
 
-/* Mantén tu padding de columnas */
 ion-col { padding: 5px; }
 
-/* Mantén tu clase utilitaria */
 .ontop { z-index: 9999; }
 
-/* Aplica ORO + tu patrón en los contenedores principales */
 ion-content,
 ion-toolbar,
 ion-header {
-  background-color: #9C8412 !important; /* ORO predominante */
-  /* Tu mismo SVG tal cual */
-  --background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M0 85.02l4.62-4.27a49.09 49.09 0 0 0 7.33 3.74l-1.2 10.24 2.66.87 5.05-9c2.62.65 5.34 1.08 8.12 1.28L28.6 98h2.8l2.02-10.12c2.74-.2 5.46-.62 8.12-1.28l5.05 8.99 2.66-.86-1.2-10.24c2.55-1.03 5-2.29 7.33-3.74l7.58 7 2.26-1.65-4.3-9.38a48.3 48.3 0 0 0 5.8-5.8l9.38 4.3 1.65-2.26-7-7.58a49.09 49.09 0 0 0 3.74-7.33l10.24 1.2.87-2.66-9-5.05a48.07 48.07 0 0 0 1.28-8.12L88 41.4v-2.8l-10.12-2.02c-.2-2.74-.62-5.46-1.28-8.12l8.99-5.05-.86-2.66-10.24 1.2c-1.03-2.55-2.29-5-3.74-7.33l7-7.58-1.65-2.26-9.38 4.3a48.3 48.3 0 0 0-5.8-5.8L62.42 0h2.16l-1.25 2.72a50.31 50.31 0 0 1 3.95 3.95l9.5-4.36 3.52 4.85-7.08 7.68c.94 1.6 1.79 3.27 2.54 4.98l10.38-1.21 1.85 5.7-9.11 5.12c.39 1.8.68 3.65.87 5.52L90 37v6l-10.25 2.05a49.9 49.9 0 0 1-.87 5.52l9.11 5.12-1.85 5.7-10.38-1.21c-.75 1.7-1.6 3.37-2.54 4.98l7.08 7.68-3.52 4.85-9.5-4.36a50.31 50.31 0 0 1-3.95 3.95l4.36 9.5-4.85 3.52-7.68-7.08c-1.6.94-3.27 1.79-4.98 2.54l1.21 10.38-5.7 1.85-5.12-9.11c-1.8.39-3.65.68-5.52.87L33 100h-6l-2.05-10.25a49.9 49.9 0 0 1-5.52-.87l-5.12 9.11-5.7-1.85 1.21-10.38c-1.7-.75-3.37-1.6-4.98-2.54L0 87.68v-2.66zM0 52.7V27.3l8.38 4.84a22.96 22.96 0 0 0 0 15.72L0 52.7zm0-39.16A39.91 39.91 0 0 1 26 .2v17.15a22.98 22.98 0 0 0-13.62 7.86L0 18.06v-4.52zm0 52.92v-4.52l12.38-7.15A22.98 22.98 0 0 0 26 62.65V79.8A39.91 39.91 0 0 1 0 66.46zM34 79.8V62.65a22.98 22.98 0 0 0 13.62-7.86l14.85 8.58A39.97 39.97 0 0 1 34 79.8zm32.48-23.36l-14.86-8.58a22.96 22.96 0 0 0 0-15.72l14.86-8.58A39.86 39.86 0 0 1 70 40a39.9 39.9 0 0 1-3.52 16.44zm-4.01-39.8L47.62 25.2A22.98 22.98 0 0 0 34 17.35V.2a39.97 39.97 0 0 1 28.47 16.43v.01zM0 50.38l5.98-3.45a25.01 25.01 0 0 1 0-13.88L0 29.6v20.78zm.5-34.35l11.48 6.63c3.27-3.4 7.44-5.8 12.02-6.94V2.47A37.96 37.96 0 0 0 .5 16.04v-.01zm0 47.92A37.96 37.96 0 0 0 24 77.53V64.28a24.97 24.97 0 0 1-12.02-6.95L.5 63.96v-.01zM36 77.53a37.96 37.96 0 0 0 23.5-13.57l-11.48-6.63A24.97 24.97 0 0 1 36 64.28v13.25zm29.5-23.96a37.91 37.91 0 0 0 0-27.14l-11.48 6.63a25.01 25.01 0 0 1 0 13.88l11.49 6.63h-.01zm-6-37.53A37.96 37.96 0 0 0 36 2.47v13.25c4.66 1.15 8.8 3.6 12.02 6.95l11.48-6.63z'/%3E%3C/svg%3E");
+  background-color: var(--vp-cream) !important;
+  --background: linear-gradient(180deg, #fbf8ef 0%, #f3ecd1 100%);
 }
 
-/* ===== Toolbar/Header ===== */
 ion-toolbar, ion-header {
   --border: none;
   --border-color: transparent;
-  --padding-top: 2rem;
-  --padding-bottom: 2rem;
-  --color: #000; /* texto negro sobre oro */
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: var(--vp-ink);
 }
 
-/* ===== Tipografía base sobre ORO ===== */
 ion-content, ion-item, ion-list, ion-text, p, h1, h2, h3, h4, h5, h6, label {
-  color: #000 !important;
+  color: var(--vp-ink) !important;
 }
 
-/* ===== Cards / superficies de lectura para contraste ===== */
 ion-card, .card, .surface {
   background: #ffffff !important;
-  color: #1d1d1d !important;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  border: 1px solid rgba(0,0,0,0.06);
+  color: var(--vp-ink) !important;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(44, 82, 52, 0.10);
+  border: 1px solid rgba(44, 82, 52, 0.10);
 }
 
-/* ===== Botones ===== */
-/* Primario: VERDE (contrasta con el oro) */
 .ion-color-primary {
   --ion-color-base: var(--ion-color-primary);
   --ion-color-contrast: var(--ion-color-primary-contrast);
 }
 
-/* Secundario: ORO (para acciones secundarias/coherencia cromática) */
 .ion-color-secondary {
   --ion-color-base: var(--ion-color-secondary);
   --ion-color-contrast: var(--ion-color-secondary-contrast);
 }
 
-/* Variante outline dorada útil sobre fondo oro (se ve “pill” más limpio) */
 ion-button.ion-color-secondary.button-outline {
   --ion-color-contrast: var(--ion-color-secondary);
   --border-color: rgba(0,0,0,0.55);
-  color: #000;
+  color: var(--vp-ink);
 }
 
-/* Botones “ghost” sobre oro: contorno sutil + texto negro */
 .button-ghost {
   --background: transparent;
-  --color: #000;
+  --color: var(--vp-ink);
   --border-width: 1px;
   --border-color: rgba(0,0,0,0.4);
   --border-style: solid;
 }
 
-/* Inputs sobre oro: mejorar contraste */
 ion-item {
-  --background: rgba(255,255,255,0.85);
+  --background: #ffffff;
   --highlight-color-focused: var(--ion-color-primary);
-  --border-color: rgba(0,0,0,0.15);
-  --color: #1a1a1a;
-  border-radius: 10px;
+  --border-color: rgba(44, 82, 52, 0.10);
+  --color: var(--vp-ink);
+  border-radius: 12px;
   margin: 6px 0;
 }
 
-/* Toasts y alerts para que no “se pierdan” en fondo oro */
 ion-toast {
   --background: #ffffff;
-  --color: #1a1a1a;
+  --color: var(--vp-ink);
   --border-radius: 10px;
   --box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 ion-alert, ion-modal {
   --background: #ffffff;
-  --color: #1a1a1a;
+  --color: var(--vp-ink);
 }
-
-/* ===== Modo oscuro opcional (oro más sobrio) ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ion-background-color: #6e5c0e; /* oro más oscuro */
-    --ion-text-color: #f2f2f2;
-
-    /* toolbar sigue en oro, texto claro */
-  }
-  ion-content,
-  ion-toolbar,
-  ion-header {
-    background-color: #6e5c0e !important;
-    --background: none; /* si quieres mantener el patrón en dark, quita esta línea */
-  }
-  ion-toolbar, ion-header { --color: #f2f2f2; }
-  ion-card, .card, .surface {
-    background: #1e1e1e !important;
-    color: #f2f2f2 !important;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-  }
-  ion-item {
-    --background: rgba(255,255,255,0.07);
-    --color: #f0f0f0;
-    --border-color: rgba(255,255,255,0.12);
-  }
-}
-
-/* Contenedor de la tira de logos */
-.sponsor-strip {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  /* Ajusta la distancia al fondo: que quede justo sobre tu botón */
-  width: min(90%, 520px);
-  height: 96px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-
-  /* Caja semitransparente para que “respire” sobre el oro + patrón */
-  background: #f4f5f8;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(0,0,0,0.18);
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.20);
-  padding: 12px 16px;
-
-  /* Evita que el contenido se pegue a los bordes curvos */
-  box-sizing: border-box;
-}
-
-/* Cada logo se mantiene dentro sin deformarse */
-.sponsor-strip .logo img {
-  max-height: 56px;       /* alto visual */
-  max-width: 44vw;        /* seguridad en pantallas muy estrechas */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  image-rendering: -webkit-optimize-contrast;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
-}
-
-/* Separador sutil entre logos */
-.sponsor-strip .sep {
-  width: 1px;
-  height: 60%;
-  background: rgba(0,0,0,0.22);
-  border-radius: 1px;
-}
-
-/* Botón "Comenzar" (si quieres ajustar el espacio con la tira) */
-.cta-wrap {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 70px; /* debajo de la tira */
-  width: min(90%, 420px);
-}
-.btn-start {
-  --border-radius: 24px;
-  --background: var(--ion-color-light, #fff);
-  --color: #000;
-}
-
-/* Dark mode: mantiene legibilidad de la tira */
-@media (prefers-color-scheme: dark) {
-  .sponsor-strip {
-    background: rgba(0,0,0,0.35);
-    border-color: rgba(255,255,255,0.18);
-  }
-  .sponsor-strip .sep {
-    background: rgba(255,255,255,0.22);
-  }
-}
-

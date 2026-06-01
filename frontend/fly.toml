@@ -1,4 +1,4 @@
-app = 'vocapredict-frontend'
+app = 'ionic-react-quiz-app'
 primary_region = 'iad'
 
 [build]

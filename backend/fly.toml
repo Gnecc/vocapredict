@@ -4,7 +4,7 @@
 #
 
 app = 'macso-patient-dream-1724'
-primary_region = 'qro'
+primary_region = 'dfw'
 
 [build]
 

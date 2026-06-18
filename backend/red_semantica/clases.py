@@ -1,76 +1,50 @@
-# Super clase Persona
-class Persona():
-    def __init__(self, nombre):
-        self.nombre = nombre
-    
-    def setNombre(self, Nnombre):
-        if not Nnombre.strip(): 
-            print("El campo esta vacio")
-        else:
-            self.nombre = Nnombre  
+class Thing:
+    def __init__(self, id):
+        self._id = id
 
-    def getNombre(self):
-        return self.nombre
+    def get_id(self):
+        return self._id
 
-# Clase hija Alumno que hereda de Persona
+
+class Persona(Thing):
+    def __init__(self, id, nombre):
+        super().__init__(id)
+        self._nombre = nombre
+
+    def get_nombre(self):
+        return self._nombre
+
+
 class Alumno(Persona):
-    def __init__(self, nombre, no_control, carrera_sugerida):
-        super().__init__(nombre)         
-        self.no_control = no_control
-        self.carrera_sugerida = carrera_sugerida
+    def __init__(self, id, nombre, no_control, carrera_sugerida):
+        super().__init__(id, nombre)
+        self._no_control = no_control
+        self._carrera_sugerida = carrera_sugerida
 
-    def setNoControl(self, Nno_control):
-        if not str(Nno_control).strip():
-            print("El campo esta vacio")
-        else:
-            self.no_control = Nno_control  
+    def get_no_control(self):
+        return self._no_control
 
-    def getNoControl(self):
-        return self.no_control    
+    def get_carrera_sugerida(self):
+        return self._carrera_sugerida
 
-    def setCarreraSugerida(self, Ncarrera_sugerida):
-        if not Ncarrera_sugerida.strip():
-            print("El campo esta vacio")
-        else:
-            self.carrera_sugerida = Ncarrera_sugerida 
 
-    def getCarreraSugerida(self):
-        return self.carrera_sugerida
-     
-# Clase Bloque
-class Bloque:
-    def __init__(self, nombre, puntaje):
-        self.nombre = nombre
-        self.puntaje = puntaje
+class BloqueAptitud(Thing):
+    def __init__(self, id, nombre, puntaje):
+        super().__init__(id)
+        self._nombre = nombre
+        self._puntaje = puntaje
 
-    def setNombre(self, Nnombre):
-        if not Nnombre.strip():
-            print("El campo esta vacio")
-        else:
-            self.nombre = Nnombre 
+    def get_nombre(self):
+        return self._nombre
 
-    def getNombre(self):
-        return self.nombre     
+    def get_puntaje(self):
+        return self._puntaje
 
-    def setPuntaje(self, Npuntaje):
-        if not str(Npuntaje).strip():
-            print("El campo esta vacio")
-        else:
-            self.puntaje = Npuntaje 
 
-    def getPuntaje(self): 
-        return self.puntaje  
+class Carrera(Thing):
+    def __init__(self, id, nombre):
+        super().__init__(id)
+        self._nombre = nombre
 
-# Clase Carrera
-class Carrera:
-    def __init__(self, nombre):
-        self.nombre = nombre
-
-    def setNombre(self, Nnombre):
-        if not Nnombre.strip():
-            print("El campo esta vacio")
-        else:
-            self.nombre = Nnombre 
-
-    def getNombre(self):
-        return self.nombre
+    def get_nombre(self):
+        return self._nombre

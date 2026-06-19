@@ -4,13 +4,16 @@ from clases import Alumno, BloqueAptitud, Carrera
 
 G = nx.DiGraph()
 
+#Nombre de las clases para el grafo
 clases = ["Thing", "Persona", "Alumno", "Bloque/Aptitud", "Carrera"]
 G.add_nodes_from(clases, tipo="clase")
 
+#Instacias de las clases (archivo "clases.py")
 a1 = Alumno("a1", "Juan Perez", "202301", "ICO")
 a2 = Alumno("a2", "Maria Lopez", "202302", "ISC")
 a3 = Alumno("a3", "Carlos Ruiz", "202303", "LIA")
 
+#Instacias de bloques (esta mal, porque se tendria que ser 10 instancias por cada alumno)
 b1 = BloqueAptitud("b1", "Calculo", 85)
 b2 = BloqueAptitud("b2", "C. Fisico", 78)
 b3 = BloqueAptitud("b3", "C. Biologico", 90)
@@ -22,15 +25,18 @@ b8 = BloqueAptitud("b8", "Artistico", 75)
 b9 = BloqueAptitud("b9", "Musical", 60)
 b10 = BloqueAptitud("b10", "Situacion socioeconomica", 95)
 
+#Instancias de carreras
 c1 = Carrera("c1", "Ingenieria en Computacion (ICO)")
 c2 = Carrera("c2", "Licenciatura en Informatica Administrativa (LIA)")
 c3 = Carrera("c3", "Ingenieria en Sistemas Inteligentes (ISC)")
 c4 = Carrera("c4", "Licenciatura en Lenguas (LLE)")
 
+#guarde las instancias en arreglos para que poder 
 alumnos = [a1, a2, a3]
 bloques = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10]
 carreras = [c1, c2, c3, c4]
 
+#fors que hace autmaticamente los nodos y los enlaces con ayuda de los arreglos anteriores
 for a in alumnos:
     G.add_node(a.get_id(), tipo="instancia")
     G.add_edge(a.get_id(), "Alumno")
@@ -60,6 +66,7 @@ for c in carreras:
     G.add_node(f"nombre_{c.get_id()}:{c.get_nombre()}", tipo="atributo")
     G.add_edge(c.get_id(), f"nombre_{c.get_id()}:{c.get_nombre()}")
 
+#Aqui relacione las instancias maualmente
 relaciones_instancias = [
     (a1.get_id(), b1.get_id(), "tiene"),
     (a1.get_id(), b2.get_id(), "tiene"),
@@ -94,6 +101,7 @@ G.add_edges_from([
     ("Alumno", "Persona")
 ])
 
+#metodo de impresion pedidio por la Doctora
 def imprimir_reporte_ontologia(alumnos, bloques, carreras, relaciones_instancias):
     print("=" * 60)
     print(" " * 15 + "REPORTE DE DATOS DE LA ONTOLOGÍA")
@@ -130,6 +138,7 @@ def imprimir_reporte_ontologia(alumnos, bloques, carreras, relaciones_instancias
 
     print("\n" + "=" * 60)
 
+#De aqui ya es pintar el grafo
 pos = {}
 
 pos["Thing"] = (5, 6)

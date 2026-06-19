@@ -7,21 +7,20 @@ G = nx.DiGraph()
 clases = ["Thing", "Persona", "Alumno", "Bloque/Aptitud", "Carrera"]
 G.add_nodes_from(clases, tipo="clase")
 
-# Instancias
 a1 = Alumno("a1", "Juan Perez", "202301", "ICO")
 a2 = Alumno("a2", "Maria Lopez", "202302", "ISC")
 a3 = Alumno("a3", "Carlos Ruiz", "202303", "LIA")
 
-b1 = BloqueAptitud("b1", "Calculo", 0.85)
-b2 = BloqueAptitud("b2", "C. Fisico", 0.78)
-b3 = BloqueAptitud("b3", "C. Biologico", 0.90)
-b4 = BloqueAptitud("b4", "Mecanico", 0.70)
-b5 = BloqueAptitud("b5", "Servicio social", 0.88)
-b6 = BloqueAptitud("b6", "Literario", 0.92)
-b7 = BloqueAptitud("b7", "Persuasivo", 0.80)
-b8 = BloqueAptitud("b8", "Artistico", 0.75)
-b9 = BloqueAptitud("b9", "Musical", 0.60)
-b10 = BloqueAptitud("b10", "Situacion socioeconomica", 0.95)
+b1 = BloqueAptitud("b1", "Calculo", 85)
+b2 = BloqueAptitud("b2", "C. Fisico", 78)
+b3 = BloqueAptitud("b3", "C. Biologico", 90)
+b4 = BloqueAptitud("b4", "Mecanico", 70)
+b5 = BloqueAptitud("b5", "Servicio social", 88)
+b6 = BloqueAptitud("b6", "Literario", 92)
+b7 = BloqueAptitud("b7", "Persuasivo", 80)
+b8 = BloqueAptitud("b8", "Artistico", 75)
+b9 = BloqueAptitud("b9", "Musical", 60)
+b10 = BloqueAptitud("b10", "Situacion socioeconomica", 95)
 
 c1 = Carrera("c1", "Ingenieria en Computacion (ICO)")
 c2 = Carrera("c2", "Licenciatura en Informatica Administrativa (LIA)")
@@ -29,8 +28,8 @@ c3 = Carrera("c3", "Ingenieria en Sistemas Inteligentes (ISC)")
 c4 = Carrera("c4", "Licenciatura en Lenguas (LLE)")
 
 alumnos = [a1, a2, a3]
-bloques = [b1,b2,b3,b4,b5,b6,b7,b8,b9,b10]
-carreras = [c1,c2,c3,c4]
+bloques = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10]
+carreras = [c1, c2, c3, c4]
 
 for a in alumnos:
     G.add_node(a.get_id(), tipo="instancia")
@@ -61,9 +60,7 @@ for c in carreras:
     G.add_node(f"nombre_{c.get_id()}:{c.get_nombre()}", tipo="atributo")
     G.add_edge(c.get_id(), f"nombre_{c.get_id()}:{c.get_nombre()}")
 
-
 relaciones_instancias = [
-    # Alumno "tiene" Bloque/Aptitud
     (a1.get_id(), b1.get_id(), "tiene"),
     (a1.get_id(), b2.get_id(), "tiene"),
     (a2.get_id(), b3.get_id(), "tiene"),
@@ -75,7 +72,6 @@ relaciones_instancias = [
     (a3.get_id(), b9.get_id(), "tiene"),
     (a1.get_id(), b10.get_id(), "tiene"),
     
-    # Bloque/Aptitud es "importante para" Carrera
     (b1.get_id(), c1.get_id(), "importante para"),
     (b2.get_id(), c1.get_id(), "importante para"),
     (b3.get_id(), c2.get_id(), "importante para"),
@@ -91,7 +87,6 @@ relaciones_instancias = [
 for origen, destino, etiqueta in relaciones_instancias:
     G.add_edge(origen, destino, label=etiqueta)
 
-# Relaciones estáticas entre clases
 G.add_edges_from([
     ("Persona", "Thing"),
     ("Carrera", "Thing"),
@@ -99,6 +94,41 @@ G.add_edges_from([
     ("Alumno", "Persona")
 ])
 
+def imprimir_reporte_ontologia(alumnos, bloques, carreras, relaciones_instancias):
+    print("=" * 60)
+    print(" " * 15 + "REPORTE DE DATOS DE LA ONTOLOGÍA")
+    print("=" * 60)
+
+    print("\n--- 1. INSTANCIAS DE ALUMNOS Y SUS DATOS ---")
+    for a in alumnos:
+        print(f"[-] ID: {a.get_id():<4} | Nombre: {a.get_nombre():<12} | No. Control: {a.get_no_control():<8} | Carrera Sugerida: {a.get_carrera_sugerida()}")
+
+    print("\n--- 2. INSTANCIAS DE BLOQUES/APTITUDES Y SUS DATOS ---")
+    for b in bloques:
+        print(f"[-] ID: {b.get_id():<4} | Nombre: {b.get_nombre():<25} | Puntaje: {b.get_puntaje()}")
+
+    print("\n--- 3. INSTANCIAS DE CARRERAS ---")
+    for c in carreras:
+        print(f"[-] ID: {c.get_id():<4} | Nombre: {c.get_nombre()}")
+
+    print("\n--- 4. RELACIONES ENTRE INSTANCIAS ---")
+    
+    dict_alumnos = {a.get_id(): a.get_nombre() for a in alumnos}
+    dict_bloques = {b.get_id(): b.get_nombre() for b in bloques}
+    dict_carreras = {c.get_id(): c.get_nombre() for c in carreras}
+
+    for origen, destino, relacion in relaciones_instancias:
+        if relacion == "tiene":
+            nombre_origen = dict_alumnos.get(origen, origen)
+            nombre_destino = dict_bloques.get(destino, destino)
+            print(f"[Alumno] {nombre_origen:<12} --( {relacion} )--> [Bloque] {nombre_destino}")
+            
+        elif relacion == "importante para":
+            nombre_origen = dict_bloques.get(origen, origen)
+            nombre_destino = dict_carreras.get(destino, destino)
+            print(f"[Bloque] {nombre_origen:<25} --( {relacion} )--> [Carrera] {nombre_destino}")
+
+    print("\n" + "=" * 60)
 
 pos = {}
 
@@ -122,26 +152,21 @@ def asignar_eje_x(nodos, start_x, end_x, y):
     for i, nodo in enumerate(nodos):
         pos[nodo] = (start_x + i * step, y)
 
-asignar_eje_x(inst_a, 0.5, 3.5, 3) # Alumnos a la izquierda
-asignar_eje_x(inst_b, 4, 6, 3)     # Bloques en el centro
-asignar_eje_x(inst_c, 6.5, 9.5, 3) # Carreras a la derecha
+asignar_eje_x(inst_a, 0.5, 3.5, 3) 
+asignar_eje_x(inst_b, 4, 6, 3)     
+asignar_eje_x(inst_c, 6.5, 9.5, 3) 
 
-atributos = [n for n, d in G.nodes(data=True) if d["tipo"] == "atributo"]
 for inst in instancias:
-    # Buscar atributos conectados desde esta instancia
     attrs = [v for u, v in G.edges() if u == inst and G.nodes[v]["tipo"] == "atributo"]
-    if not attrs:
-        continue
+    if not attrs: continue
     inst_x = pos[inst][0]
-    # Distribuir atributos como "raíces" colgando de la instancia
     spread = 1.0
     start_x = inst_x - spread / 2
     step_x = spread / (len(attrs) - 1) if len(attrs) > 1 else 0
     for i, attr in enumerate(attrs):
-        # Alternamos la Y ligeramente para que las cajas de texto no choquen entre sí
         pos[attr] = (start_x + i * step_x, 2 - (i % 2) * 0.4)
 
-
+imprimir_reporte_ontologia(alumnos, bloques, carreras, relaciones_instancias)
 
 colores = []
 tamanos = []
@@ -151,18 +176,15 @@ for n in G.nodes():
         colores.append("yellow")
         tamanos.append(2000)
     elif G.nodes[n]["tipo"] == "instancia":
-        colores.append("#0b3d91") 
+        colores.append("#0b3d91")  
         tamanos.append(900)
     else:
         colores.append("green")
         tamanos.append(300)
 
 plt.figure(figsize=(18, 12)) 
-
-# Dibujar grafo base
 nx.draw(G, pos, with_labels=True, node_color=colores, node_size=tamanos, edge_color="purple", font_size=7, font_color="black")
 
-# Extraer y dibujar las etiquetas de las aristas ("tiene", "importante para")
 edge_labels = nx.get_edge_attributes(G, 'label')
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='purple', font_size=8)
 

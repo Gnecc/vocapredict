@@ -14,7 +14,7 @@ class Persona(Thing):
     def get_nombre(self):
         return self._nombre
 
-
+# agregando comentario de prueba X
 class Alumno(Persona):
     def __init__(self, id, nombre, no_control, carrera_sugerida):
         super().__init__(id, nombre)

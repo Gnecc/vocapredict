@@ -5,7 +5,6 @@ class Thing:
     def get_id(self):
         return self._id
 
-
 class Persona(Thing):
     def __init__(self, id, nombre):
         super().__init__(id)
@@ -14,7 +13,6 @@ class Persona(Thing):
     def get_nombre(self):
         return self._nombre
 
-# agregando comentario de prueba X
 class Alumno(Persona):
     def __init__(self, id, nombre, no_control, carrera_sugerida):
         super().__init__(id, nombre)
@@ -27,19 +25,24 @@ class Alumno(Persona):
     def get_carrera_sugerida(self):
         return self._carrera_sugerida
 
-
+# --- CLASE MODIFICADA ---
 class BloqueAptitud(Thing):
-    def __init__(self, id, nombre, puntaje):
+    def __init__(self, id, nombre):
         super().__init__(id)
         self._nombre = nombre
-        self._puntaje = puntaje
+        # El puntaje se eliminó de aquí
 
     def get_nombre(self):
         return self._nombre
 
+# --- NUEVA CLASE INTERMEDIA (Asociación N-aria) ---
+class Evaluacion(Thing):
+    def __init__(self, id, puntaje):
+        super().__init__(id)
+        self._puntaje = puntaje
+
     def get_puntaje(self):
         return self._puntaje
-
 
 class Carrera(Thing):
     def __init__(self, id, nombre):

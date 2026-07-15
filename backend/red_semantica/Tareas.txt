@@ -1,7 +1,8 @@
-29/junio/2026 
-
 =Tareas=
+
+29/junio/2026 
 CUMPLIDO, YA REVISADO.
+
 "No se va a centrar en poblar el grafo, si no en 
 saber utiizar las implementaciones en python"
 
@@ -12,3 +13,8 @@ de asocioacion/usa.
 asocioacion.
 
 ------------------------------------------------------------------------------------------------------------
+15/junio/2026
+POR CUMPLIR, POR REVISAR
+
+1. Hacer un metodo de consulta que traiga todo lo relacionado
+con el alumno (nombre, puntuacion, etc...)

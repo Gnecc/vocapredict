@@ -1,6 +1,7 @@
 29/junio/2026 
 
 =Tareas=
+CUMPLIDO, YA REVISADO.
 "No se va a centrar en poblar el grafo, si no en 
 saber utiizar las implementaciones en python"
 
@@ -10,3 +11,4 @@ de asocioacion/usa.
 2. Corregir la grafica de a cuerdo a lo que indique la 
 asocioacion.
 
+------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import random 
+import time
 from clases import Alumno, BloqueAptitud, Carrera, Evaluacion
 
 def configurar_ontologia():
@@ -194,7 +195,109 @@ def visualizar_grafo(G):
     plt.title("Ontología Optimizada: Relaciones N-arias", fontsize=18)
     plt.show()
 
+#metodo para mostrar las opciones:
+def menu():
+    print("\n"*2,"\t= MENU DE OPCIONES =\n(1) Mostrar imprecion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Salir...")
+
+#Metodo para buscar alumno
+def buscar(no_control, G, alumnos):
+    #Buscar el ID del alumno usando su número de control
+    alumno_id = None
+    nombre_alumno = ""
+    for a in alumnos:
+        if a.get_no_control() == no_control:
+            alumno_id = a.get_id()
+            nombre_alumno = a.get_nombre()
+            break
+            
+    #Validar si el alumno existe
+    if not alumno_id:
+        print(f"\n[!] Error: No se encontró ningún alumno con el número de control '{no_control}'.")
+        return
+
+    print(f"\n[*] Generando grafo para el alumno: {nombre_alumno} ({alumno_id})...")
+
+    #Obtener todos los nodos relacionados (descendientes en el grafo dirigido)
+    # Esto traerá sus atributos, evaluaciones, bloques, carreras y clases de la ontología
+    nodos_relacionados = list(nx.descendants(G, alumno_id))
+    nodos_relacionados.append(alumno_id) # Agregamos también el nodo del alumno principal
+
+    #Crear un subgrafo solo con estos nodos
+    sub_G = G.subgraph(nodos_relacionados)
+
+    #Configurar la visualización del subgrafo
+    plt.figure(figsize=(14, 10))
+    
+    #Usamos un layout de resorte (spring_layout) que se adapta muy bien a subgrafos pequeños
+    pos = nx.spring_layout(sub_G, seed=42, k=0.5)
+
+    colores = []
+    tamanos = []
+    
+    #Asignar colores y tamaños dependiendo del tipo de nodo
+    for n in sub_G.nodes():
+        tipo = sub_G.nodes[n].get("tipo")
+        
+        if n == alumno_id:
+            colores.append("red") # Resaltamos al alumno buscado en ROJO
+            tamanos.append(1500)
+        elif tipo == "clase":
+            colores.append("yellow")
+            tamanos.append(1500)
+        elif tipo == "instancia":
+            if str(n).startswith('e'): 
+                colores.append("#8A2BE2") # Evaluaciones en morado
+            elif str(n).startswith('c'):
+                colores.append("#ff8c00") # Carreras en naranja
+            else: 
+                colores.append("#0b3d91") # Bloques en azul oscuro
+            tamanos.append(800)
+        else: # Atributos (tipo == "atributo")
+            colores.append("lightgreen")
+            tamanos.append(400)
+
+    #Dibujar los nodos y aristas
+    nx.draw(sub_G, pos, with_labels=True, node_color=colores, 
+            node_size=tamanos, edge_color="gray", font_size=8, font_weight="bold")
+
+    #Dibujar las etiquetas de las relaciones principales
+    edge_labels = nx.get_edge_attributes(sub_G, 'label')
+    edge_labels_filtradas = {k: v for k, v in edge_labels.items() if v} # Filtrar aristas sin label
+    nx.draw_networkx_edge_labels(sub_G, pos, edge_labels=edge_labels_filtradas, font_color='red', font_size=7)
+
+    plt.title(f"Grafo de Relaciones: {nombre_alumno} (NC: {no_control})", fontsize=16, fontweight='bold')
+    plt.show()    
+
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
-    imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
-    visualizar_grafo(G)
+    op = "0"
+    while op != "4":
+        menu()
+        op = input("\nusuario@> ")
+    
+        match op:
+            case "1":
+                print("*"*150,"\nIMPRECION DE TODA LA RED\n")
+                imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
+
+            case "2":
+                print("*"*150,"\nGRAFO COMPLETO\n")
+                visualizar_grafo(G)
+
+            case "3":
+                print("*"*150,"\nBUSQUEDA DE ALUMNO\n")
+                nc = input("\nIngresa el número de control del alumno a buscar (ej. 202301): ")
+                # Pasamos G y alumnos como parámetros
+                buscar(nc, G, alumnos)
+            case "4":
+                print("Saliendo del sistema...")
+                time.sleep(3.5)
+                print("Adios...")
+            case _:
+                print("Opcion no valida. Vuelve a intentarlo")
+                op = "0"    
+    
+    
+    
+
+

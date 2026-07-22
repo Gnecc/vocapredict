@@ -197,7 +197,7 @@ def visualizar_grafo(G):
 
 #metodo para mostrar las opciones:
 def menu():
-    print("\n"*2,"\t= MENU DE OPCIONES =\n(1) Mostrar imprecion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Salir...")
+    print("\n"*2,"\t= MENU DE OPCIONES =\n(1) Mostrar imprecion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Salir...")
 
 #Metodo para buscar alumno
 def buscar(no_control, G, alumnos):
@@ -268,10 +268,65 @@ def buscar(no_control, G, alumnos):
     plt.title(f"Grafo de Relaciones: {nombre_alumno} (NC: {no_control})", fontsize=16, fontweight='bold')
     plt.show()    
 
+def buscar_por_nombre(nombre_buscar, G, alumnos):
+    alumno_id = None
+    nombre_alumno = ""
+    no_control = ""
+    
+    # Buscamos coincidencias de texto ignorando mayúsculas/minúsculas
+    for a in alumnos:
+        if nombre_buscar.lower() in a.get_nombre().lower():
+            alumno_id = a.get_id()
+            nombre_alumno = a.get_nombre()
+            no_control = a.get_no_control()
+            break
+            
+    if not alumno_id:
+        print(f"\n[!] Error: No se encontró ningún alumno que coincida con '{nombre_buscar}'.")
+        return
+
+    print(f"\n[*] Generando grafo para el alumno: {nombre_alumno} ({alumno_id})...")
+
+    # --- Reutilizamos tu misma lógica de dibujado del subgrafo ---
+    nodos_relacionados = list(nx.descendants(G, alumno_id))
+    nodos_relacionados.append(alumno_id)
+
+    sub_G = G.subgraph(nodos_relacionados)
+    plt.figure(figsize=(14, 10))
+    pos = nx.spring_layout(sub_G, seed=42, k=0.5)
+
+    colores = []
+    tamanos = []
+    
+    for n in sub_G.nodes():
+        tipo = sub_G.nodes[n].get("tipo")
+        if n == alumno_id:
+            colores.append("red") 
+            tamanos.append(1500)
+        elif tipo == "clase":
+            colores.append("yellow")
+            tamanos.append(1500)
+        elif tipo == "instancia":
+            if str(n).startswith('e'): colores.append("#8A2BE2") 
+            elif str(n).startswith('c'): colores.append("#ff8c00") 
+            else: colores.append("#0b3d91") 
+            tamanos.append(800)
+        else: 
+            colores.append("lightgreen")
+            tamanos.append(400)
+
+    nx.draw(sub_G, pos, with_labels=True, node_color=colores, node_size=tamanos, edge_color="gray", font_size=8, font_weight="bold")
+    edge_labels = nx.get_edge_attributes(sub_G, 'label')
+    edge_labels_filtradas = {k: v for k, v in edge_labels.items() if v} 
+    nx.draw_networkx_edge_labels(sub_G, pos, edge_labels=edge_labels_filtradas, font_color='red', font_size=7)
+
+    plt.title(f"Grafo de Relaciones: {nombre_alumno} (NC: {no_control})", fontsize=16, fontweight='bold')
+    plt.show()
+
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
     op = "0"
-    while op != "4":
+    while op != "5":
         menu()
         op = input("\nusuario@> ")
     
@@ -289,13 +344,19 @@ if __name__ == "__main__":
                 nc = input("\nIngresa el número de control del alumno a buscar (ej. 202301): ")
                 # Pasamos G y alumnos como parámetros
                 buscar(nc, G, alumnos)
+                
             case "4":
+                print("*"*150,"\nBUSQUEDA DE ALUMNO POR NOMBRE\n")
+                nombre = input("\nIngresa el nombre del alumno a buscar (ej. Juan): ")
+                buscar_por_nombre(nombre, G, alumnos)
+                
+            case "5":
                 print("Saliendo del sistema...")
                 time.sleep(3.5)
                 print("Adios...")
             case _:
                 print("Opcion no valida. Vuelve a intentarlo")
-                op = "0"    
+                op = "0"
     
     
     

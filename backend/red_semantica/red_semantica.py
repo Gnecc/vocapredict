@@ -269,21 +269,31 @@ def buscar(no_control, G, alumnos):
     plt.show()    
 
 def buscar_por_nombre(nombre_buscar, G, alumnos):
-    alumno_id = None
-    nombre_alumno = ""
-    no_control = ""
+    # En lugar de guardar uno solo, creamos una lista para guardar todas las coincidencias
+    coincidencias = []
     
-    # Buscamos coincidencias de texto ignorando mayúsculas/minúsculas
     for a in alumnos:
         if nombre_buscar.lower() in a.get_nombre().lower():
-            alumno_id = a.get_id()
-            nombre_alumno = a.get_nombre()
-            no_control = a.get_no_control()
-            break
+            coincidencias.append(a)
             
-    if not alumno_id:
+    # Caso 1: No encontró a nadie
+    if len(coincidencias) == 0:
         print(f"\n[!] Error: No se encontró ningún alumno que coincida con '{nombre_buscar}'.")
         return
+        
+    # Caso 2: Encontró a más de un alumno (¡Tu caso de los dos Juanes!)
+    if len(coincidencias) > 1:
+        print(f"\n[!] Se encontraron {len(coincidencias)} alumnos con ese nombre. Por favor sé más específico:")
+        for alumno in coincidencias:
+            print(f"    - {alumno.get_nombre()} (No. Control: {alumno.get_no_control()})")
+        print("\n[*] Intenta buscar de nuevo escribiendo el apellido, o usa la opción 3 (Número de control).")
+        return
+
+    # Caso 3: Encontró exactamente a uno (Todo sale bien)
+    alumno_encontrado = coincidencias[0]
+    alumno_id = alumno_encontrado.get_id()
+    nombre_alumno = alumno_encontrado.get_nombre()
+    no_control = alumno_encontrado.get_no_control()
 
     print(f"\n[*] Generando grafo para el alumno: {nombre_alumno} ({alumno_id})...")
 

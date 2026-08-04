@@ -13,8 +13,17 @@ de asocioacion/usa.
 asocioacion.
 
 ------------------------------------------------------------------------------------------------------------
-15/junio/2026
-POR CUMPLIR, POR REVISAR
+15/julio/2026
+CUMPLIDO, YA REVISADO 
 
 1. Hacer un metodo de consulta que traiga todo lo relacionado
 con el alumno (nombre, puntuacion, etc...)
+
+------------------------------------------------------------------------------------------------------------
+30/julio/2026
+POR CUMPLIR, POR REVISAR
+
+1. Hacer el metodo de busqueda por nombres. Traer todos los alumnos que coincidan con el
+nombre ingresado. CUMPLIDO
+
+2. Hacer un metodo de imprecion ademas de pintar el grafo al encontrar un alumno.

@@ -213,6 +213,30 @@ def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
     # Crear un subgrafo solo con estos nodos
     sub_G = G.subgraph(nodos_relacionados)
 
+    print("\n" + "="*60)
+    print(f"  DATOS Y RELACIONES ENCONTRADOS PARA: {nombre_alumno}")
+    print("="*60)
+
+    print("\n[ ATRIBUTOS ]")
+    for u, v in sub_G.edges():
+        if u == alumno_id and sub_G.nodes[v].get("tipo") == "atributo":
+            clave = v.split('_')[0].capitalize()
+            valor = v.split(':')[1]
+            print(f"  * {clave:<10}: {valor}")
+
+    print("\n[ RELACIONES (Evaluaciones, Bloques, Carreras) ]")
+    for u, v, datos_arista in sub_G.edges(data=True):
+        if sub_G.nodes[v].get("tipo") != "atributo" and "label" in datos_arista:
+            # Buscar el nombre real o puntaje del nodo para mostrarlo en consola
+            info_nodo = v
+            for _, nodo_attr in sub_G.edges(v):
+                if sub_G.nodes[nodo_attr].get("tipo") == "atributo":
+                    info_nodo = nodo_attr.split(':')[1]
+                    break
+            
+            print(f"  -> {u:<4} --( {datos_arista['label']} )--> {info_nodo} ({v})")
+    print("="*60 + "\n")
+
     # Configurar la visualización del subgrafo
     plt.figure(figsize=(14, 10))
     pos = nx.spring_layout(sub_G, seed=42, k=0.5)
@@ -325,7 +349,7 @@ if __name__ == "__main__":
     
         match op:
             case "1":
-                print("*"*150,"\nIMPRECION DE TODA LA RED\n")
+                print("*"*150,"\nIMPRESION DE TODA LA RED\n")
                 imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
 
             case "2":

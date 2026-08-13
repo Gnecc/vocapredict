@@ -1,6 +1,6 @@
-// Inventario corto de Intereses de Karl Hereford (27 ítems).
+// Inventario de Intereses de Karl Hereford (90 ítems).
 // Cada ítem se califica en escala Likert 1..5 (a..e).
-// Mantiene 3 reactivos por cada una de las 9 áreas usadas por el backend.
+// Mantiene 10 reactivos por cada una de las 9 áreas usadas por el backend.
 
 const LIKERT_LABELS = {
     answer_a: "Me desagrada mucho",  // 1
@@ -125,18 +125,6 @@ export const HEREFORD_QUESTIONS = [
     "Observar a menudo como transportan las hormigas su carga" // 90
 ];
 
-const SHORT_FORM_QUESTION_IDS = new Set([
-    3, 32, 88,  // Cálculo
-    8, 53, 81,  // C. Físico
-    5, 51, 90,  // C. Biológico
-    1, 34, 79,  // Mecánico
-    19, 49, 71, // Servicio Social
-    9, 52, 83,  // Literario
-    2, 35, 75,  // Persuasivo
-    7, 44, 85,  // Artístico
-    4, 54, 89   // Musical
-]);
-
 // Determina la categoría de un reactivo según su número
 function categoriaDeReactivo(n) {
     for (const [cat, set] of Object.entries(CATEGORIAS)) {
@@ -168,8 +156,137 @@ function buildCorrectAnswersAllTrue() {
     };
 }
 
-// Export principal: versión corta de 27 reactivos balanceada por área.
-export const MOCK_QUESTIONS = HEREFORD_QUESTIONS.map((texto, idx) => {
+function buildOptions(options) {
+    return options.reduce((acc, option, index) => {
+        acc[`answer_${index}`] = option;
+        return acc;
+    }, {});
+}
+
+const FOOD_OPTIONS = ["Nunca", "1–2 porciones", "3–5 porciones", "6–10 porciones", "Más de 10"];
+
+export const SOCIOECONOMIC_QUESTIONS = [
+    {
+        id: "socio_birth_year",
+        question: "Año de nacimiento",
+        input: true,
+    },
+    {
+        id: "socio_current_grade",
+        question: "Grado que cursas actualmente:",
+        answers: buildOptions(["Secundaria.", "Preparatoria/Bachillerato.", "Universidad.", "No estoy estudiando actuamente."]),
+    },
+    {
+        id: "socio_family_income",
+        question: "¿Cuál es el ingreso familiar mensual?",
+        answers: buildOptions(["Menos de $5,000", "$5,001–10,000", "$10,001–20,000", "Más de $20,000"]),
+    },
+    {
+        id: "socio_personal_income",
+        question: "¿Cuál es el ingreso personal mensual?",
+        answers: buildOptions(["No tengo ingresos", "Menos de $3,000", "$3,001–6,000", "Más de $6,000"]),
+    },
+    {
+        id: "socio_head_education",
+        question: "Pensando en el jefe o jefa del hogar, ¿cuál fue el último grado de estudios que aprobó en la escuela?",
+        answers: buildOptions([
+            "Sin instrucción",
+            "Primaria incompleta",
+            "Primaria completa",
+            "Secundaria incompleta",
+            "Secundaria completa",
+            "Carrera comercial",
+            "Carrera técnica",
+            "Preparatoria incompleta",
+            "Preparatoria completa",
+            "Licenciatura incompleta",
+            "Licenciatura completa",
+            "Diplomado o maestría",
+            "Doctorado",
+        ]),
+        amaiKey: "education",
+    },
+    {
+        id: "socio_father_occupation",
+        question: "Ocupación actual del padre",
+        answers: buildOptions(["Empleado", "Trabajo informal/obrero", "Comerciante", "Desempleado", "Profesionista"]),
+    },
+    {
+        id: "socio_mother_occupation",
+        question: "Ocupación actual de la madre",
+        answers: buildOptions(["Empleada", "Trabajo informal/obrera", "Comerciante", "Desempleada", "Profesionista"]),
+    },
+    {
+        id: "socio_cars",
+        question: "¿Cuántos automóviles, camionetas cerradas, vans o pick-ups tiene este hogar?",
+        answers: buildOptions(["0", "1", "2", "3", "mas de 3"]),
+        amaiKey: "cars",
+    },
+    {
+        id: "socio_services",
+        question: "Seleccione los servicios y bienes con los que cuenta en su casa",
+        answers: buildOptions([
+            "Drenaje",
+            "Agua entubada",
+            "Alumbrado público",
+            "Calles pavimentadas",
+            "Recolección periódica de basura",
+            "Calentador de gas para agua",
+            "Un cuarto propio para dormir",
+            "Un lugar exclusivo para estudiar",
+            "Teléfono",
+            "Teléfono celular",
+            "Televisión",
+            "Televisión por cable o satélite",
+            "Calculadora",
+            "Computadora",
+            "Diccionario o enciclopedia",
+            "Suscripción a revista o periódico",
+        ]),
+        multiple: true,
+    },
+    {
+        id: "socio_internet",
+        question: "Sin tomar en cuenta la conexión móvil desde algún celular, ¿su hogar cuenta con internet?",
+        answers: buildOptions(["Si", "No"]),
+        amaiKey: "internet",
+    },
+    {
+        id: "socio_bedrooms",
+        question: "¿Cuántos cuartos tiene su casa que se utilizan para dormir?",
+        answers: buildOptions(["0", "1", "2", "3", "4", "5", "6 o más"]),
+        amaiKey: "bedrooms",
+    },
+    {
+        id: "socio_household_people",
+        question: "¿Cuántas personas viven en su casa, incluido usted?",
+        answers: buildOptions(["1", "2", "3", "4", "5", "6", "7 o más"]),
+    },
+    {
+        id: "socio_bathrooms",
+        question: "¿Cuántos baños completos tiene esta vivienda con excusado/WC y regadera?",
+        answers: buildOptions(["0", "1", "2", "3 o más"]),
+        amaiKey: "bathrooms",
+    },
+    {
+        id: "socio_workers",
+        question: "¿Cuántas personas de 14 años o más trabajan actualmente o trabajaron el mes pasado?",
+        answers: buildOptions(["0", "1", "2", "3", "4", "5", "6 o más"]),
+        amaiKey: "workers",
+    },
+    ...["Carne", "Huevos", "Leche", "Frutas y verduras", "Frijoles/arroz/lentejas", "Pan", "Cereales"].map(food => ({
+        id: `socio_food_${food.toLowerCase().replace(/[^a-záéíóúñ]+/gi, "_")}`,
+        question: `A la semana, ¿qué tanto consume los siguientes alimentos? [${food}]`,
+        answers: buildOptions(FOOD_OPTIONS),
+    })),
+].map(question => ({
+    ...question,
+    category: "Socioeconómico",
+    type: "socioeconomic",
+    tags: [{ name: question.multiple ? "Opción múltiple" : "Opción única" }],
+}));
+
+const HEREFORD_ITEMS = HEREFORD_QUESTIONS.map((texto, idx) => {
     const numero = idx + 1;
     return {
         id: numero,                     // usa el número de reactivo como ID
@@ -182,6 +299,9 @@ export const MOCK_QUESTIONS = HEREFORD_QUESTIONS.map((texto, idx) => {
         correct_answer: null,
         tags: [{ name: "Likert" }],
         category: categoriaDeReactivo(numero),
+        type: "hereford",
         difficulty: "Easy"
     };
-}).filter(question => SHORT_FORM_QUESTION_IDS.has(question.id));
+});
+
+export const MOCK_QUESTIONS = [...HEREFORD_ITEMS, ...SOCIOECONOMIC_QUESTIONS];

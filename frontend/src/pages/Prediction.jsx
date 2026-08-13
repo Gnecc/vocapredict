@@ -5,6 +5,7 @@ import {
     IonList, IonItem, IonLabel, IonBadge, IonButton, useIonRouter
 } from "@ionic/react";
 import styles from "./Prediction.module.scss";
+import { clearResponses } from "../storage";
 
 const STORAGE_KEY = "last_prediction";
 
@@ -25,6 +26,12 @@ export default function Prediction() {
         ? Object.entries(probabilities).sort((a, b) => b[1] - a[1])
         : [];
 
+    const goHome = () => {
+        clearResponses();
+        localStorage.removeItem(STORAGE_KEY);
+        router.push("/");
+    };
+
     return (
         <IonPage>
             <IonHeader>
@@ -33,14 +40,21 @@ export default function Prediction() {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent className="ion-padding">
+            <IonContent>
+                <div className="vp-page-narrow">
                 <IonCard className={styles.predictionCard}>
                     <IonCardHeader>
                         <IonCardTitle>
-                            {"Predicción."}
+                            Predicción del modelo
                         </IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
+                        {prediction && (
+                            <div className={styles.predictionHero}>
+                                <span>Resultado sugerido</span>
+                                <strong>{prediction}</strong>
+                            </div>
+                        )}
                         {probabilities ? (
                             <>
                                 <p>Probabilidades por clase:</p>
@@ -77,12 +91,13 @@ export default function Prediction() {
                             <IonButton expand="block" onClick={() => router.push("/results")}>
                                 Ver perfil / resultados
                             </IonButton>
-                            <IonButton expand="block" fill="outline" onClick={() => router.push("/")}>
+                            <IonButton expand="block" fill="outline" onClick={goHome}>
                                 Ir al inicio
                             </IonButton>
                         </div>
                     </IonCardContent>
                 </IonCard>
+                </div>
             </IonContent>
         </IonPage>
     );

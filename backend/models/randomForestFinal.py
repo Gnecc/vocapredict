@@ -10,9 +10,9 @@ from models.training_utils import (
 )
 
 
-def run(dataset_path: str | Path):
+def run(dataset_path: str | Path, augment_train: bool = False):
     path, dataframe, X_train, X_test, y_train, y_test, encoder, split_meta = (
-        prepare_supervised_training(dataset_path)
+        prepare_supervised_training(dataset_path, augment_train=augment_train)
     )
 
     classifier = RandomForestClassifier(
@@ -37,4 +37,4 @@ def run(dataset_path: str | Path):
 
 
 if __name__ == "__main__":
-    run("conjunto_de_datos_reetiquetados.xlsx")
+    run("data/conjunto_de_datos_aumentado_75_sintetico_amai.csv")

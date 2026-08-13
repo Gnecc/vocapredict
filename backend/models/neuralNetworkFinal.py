@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 
-DEFAULT_DATASET = Path("conjunto_de_datos_reetiquetados.xlsx")
+DEFAULT_DATASET = Path("data/conjunto_de_datos_aumentado_75_sintetico_amai.csv")
 ARTIFACTS_DIR = Path("artifacts")
 RANDOM_SEED = 20260520
 

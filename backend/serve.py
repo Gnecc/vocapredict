@@ -38,6 +38,14 @@ class Scores(BaseModel):
 @app.post("/predict")
 def predict(data: Scores):
     vals = np.array(data.scores, dtype=float).reshape(1, -1)
+    expected_features = int(getattr(clf, "n_features_in_", vals.shape[1]))
+    if vals.shape[1] != expected_features:
+        return {
+            "error": (
+                f"Se esperaban {expected_features} valores de entrada; "
+                f"se recibieron {vals.shape[1]}."
+            )
+        }
     pred_idx = clf.predict(vals)[0]
     pred_lbl = enc.inverse_transform([pred_idx])[0]
 

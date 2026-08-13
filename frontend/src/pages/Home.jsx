@@ -1,11 +1,19 @@
-import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow, useIonActionSheet } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow, useIonActionSheet, useIonRouter } from '@ionic/react';
 import styles from "./Home.module.scss";
 
 import { informationCircleOutline, playOutline } from "ionicons/icons";
+import { clearResponses } from "../storage";
 
 const Home = () => {
 
 	const [ show ] = useIonActionSheet();
+	const router = useIonRouter();
+
+	const startQuestionnaire = () => {
+		clearResponses();
+		localStorage.removeItem("last_prediction");
+		router.push(`/questions?session=${Date.now()}`, "forward", "push");
+	};
 
 	return (
 		<IonPage>
@@ -21,10 +29,16 @@ const Home = () => {
 						<IonCol size="12">
 						<IonCard className={styles.instructions}>
 							<IonCardContent>
-								<h1>Cuestionario vocacional</h1>
+								<p className={styles.eyebrow}>VocaPredict</p>
+								<h1>Cuestionario vocacional y socioeconómico</h1>
 								<p>
-									Responde las 27 actividades del inventario corto de intereses. Al finalizar,
-									VocaPredict enviará tus puntajes al modelo para estimar la carrera más afín.
+									Responde el inventario de intereses de Karl Hereford y el estudio socioeconómico.
+									Al finalizar, el modelo estimará la carrera más afín considerando tus intereses
+									y el valor AMAI normalizado.
+								</p>
+								<p className={styles.responseHint}>
+									Lee cada enunciado con calma y elige la opción que mejor represente qué tanto
+									te gusta o se acerca a tu percepción.
 								</p>
 								<ul>
 									<li>1. Me desagrada mucho</li>
@@ -43,7 +57,7 @@ const Home = () => {
 						</div>
 
 						<div className={styles.actions}>
-						<IonButton routerLink="/questions" color="primary" expand="block" className={styles.playButton}>
+						<IonButton onClick={startQuestionnaire} color="primary" expand="block" className={styles.playButton}>
 							<IonIcon icon={playOutline} />
 							Comenzar cuestionario
 						</IonButton>

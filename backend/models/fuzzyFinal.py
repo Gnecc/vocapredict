@@ -54,4 +54,4 @@ def run(dataset_path: str | Path):
 
 
 if __name__ == "__main__":
-    run("conjunto_de_datos_reetiquetados.xlsx")
+    run("data/conjunto_de_datos_aumentado_75_sintetico_amai.csv")

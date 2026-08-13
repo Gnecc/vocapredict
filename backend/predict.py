@@ -29,31 +29,32 @@ def load_artifacts():
 
     return clf, enc
 
-def parse_scores(scores_str: str) -> np.ndarray:
+def parse_scores(scores_str: str, expected_count: int) -> np.ndarray:
     try:
         vals = [float(x.strip()) for x in scores_str.split(",")]
     except ValueError:
-        print("Los puntajes deben ser números (usa comas). Ej: 4,3,5,2,4,3,2,4,3", flush=True)
+        print("Los puntajes deben ser números separados por comas.", flush=True)
         sys.exit(1)
-    if len(vals) != 9:
-        print(f"Debes pasar exactamente 9 valores. Recibí {len(vals)}.", flush=True)
+    if len(vals) != expected_count:
+        print(f"Debes pasar exactamente {expected_count} valores. Recibí {len(vals)}.", flush=True)
         sys.exit(1)
     return np.array(vals, dtype=float).reshape(1, -1)
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Clasificación con SVM entrenado (9 puntajes)."
+        description="Clasificación con SVM entrenado."
     )
     parser.add_argument(
         "--scores",
         required=True,
-        help='Nueve números separados por comas. Ej: "4,3,5,2,4,3,2,4,3"'
+        help='Valores separados por comas. Ej con AMAI: "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45"'
     )
     parser.add_argument("--topk", type=int, default=3)
     args = parser.parse_args()
 
-    X = parse_scores(args.scores)
     clf, enc = load_artifacts()
+    expected_count = int(getattr(clf, "n_features_in_", 10))
+    X = parse_scores(args.scores, expected_count)
 
     try:
         pred_idx = clf.predict(X)[0]

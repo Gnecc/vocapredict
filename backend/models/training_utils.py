@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 
-DEFAULT_DATASET = Path("conjunto_de_datos_reetiquetados.xlsx")
+DEFAULT_DATASET = Path("data/conjunto_de_datos_aumentado_75_sintetico_amai.csv")
 ARTIFACTS_DIR = Path("artifacts")
 
 
@@ -83,13 +83,29 @@ def augment_training_split(X_train, y_train, random_seed: int = 20260520):
     return augmented_X[order], augmented_y[order], metadata
 
 
-def prepare_supervised_training(dataset_path: str | Path = DEFAULT_DATASET):
+def prepare_supervised_training(
+    dataset_path: str | Path = DEFAULT_DATASET,
+    augment_train: bool = False,
+):
     path, dataframe, features, labels, encoder = load_labeled_dataset(dataset_path)
     X_train, X_test, y_train, y_test = split_labeled_dataset(features, labels)
-    X_augmented, y_augmented, metadata = augment_training_split(X_train, y_train)
+    if augment_train:
+        X_train, y_train, metadata = augment_training_split(X_train, y_train)
+    else:
+        metadata = {
+            "train_real_rows": int(len(y_train)),
+            "train_synthetic_rows": 0,
+            "train_augmented_rows": int(len(y_train)),
+            "train_synthetic_ratio": 0.0,
+            "train_target_per_class": None,
+        }
     metadata["test_real_rows"] = int(len(y_test))
-    metadata["evaluation_dataset"] = "real holdout split before augmentation"
-    return path, dataframe, X_augmented, X_test, y_augmented, y_test, encoder, metadata
+    metadata["evaluation_dataset"] = (
+        "holdout split from provided dataset; no extra training augmentation"
+        if not augment_train
+        else "holdout split before training-only augmentation"
+    )
+    return path, dataframe, X_train, X_test, y_train, y_test, encoder, metadata
 
 
 def classifier_report(model, X_test, y_test, encoder: LabelEncoder) -> dict:

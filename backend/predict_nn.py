@@ -8,18 +8,15 @@ import numpy as np
 
 MODEL_PATH = Path("artifacts/neural_network_model.npz")
 LABELS_PATH = Path("artifacts/neural_network_labels.json")
-EXPECTED_SCORE_COUNT = 9
-
-
-def parse_scores(raw_scores: str) -> np.ndarray:
+def parse_scores(raw_scores: str, expected_count: int) -> np.ndarray:
     try:
         scores = [float(value.strip()) for value in raw_scores.split(",")]
     except ValueError as error:
         raise ValueError("Los puntajes deben ser numeros separados por comas.") from error
 
-    if len(scores) != EXPECTED_SCORE_COUNT:
+    if len(scores) != expected_count:
         raise ValueError(
-            f"Se requieren {EXPECTED_SCORE_COUNT} puntajes; se recibieron {len(scores)}."
+            f"Se requieren {expected_count} puntajes; se recibieron {len(scores)}."
         )
 
     return np.array(scores, dtype=float).reshape(1, -1)
@@ -77,14 +74,14 @@ def main():
     parser.add_argument(
         "--scores",
         required=True,
-        help='Nueve puntajes separados por comas. Ej: "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68"',
+        help='Puntajes separados por comas. Ej con AMAI: "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45"',
     )
     parser.add_argument("--topk", type=int, default=3)
     args = parser.parse_args()
 
     try:
         model, labels = load_artifacts()
-        scores = parse_scores(args.scores)
+        scores = parse_scores(args.scores, int(model["mean"].shape[0]))
         print_prediction(model, labels, scores, args.topk)
     except (FileNotFoundError, ValueError) as error:
         print(f"Error: {error}", file=sys.stderr)

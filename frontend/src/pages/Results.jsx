@@ -6,6 +6,7 @@ import {
     IonCardContent, IonProgressBar, useIonRouter, IonToast, IonSpinner
 } from "@ionic/react";
 import { loadResponses, clearResponses } from "../storage";
+import { calculateAmai } from "../amai";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "https://macso-patient-dream-1724.fly.dev";
 const PREDICT_URL = `${API_BASE_URL.replace(/\/$/, "")}/predict`;
@@ -27,7 +28,7 @@ function toCSV(rows) {
 
 function aggregateByCategory(responses) {
     const map = new Map();
-    for (const r of responses) {
+    for (const r of responses.filter(response => response.type !== "socioeconomic")) {
         const key = r.category || "Desconocida";
         if (!map.has(key)) map.set(key, []);
         if (typeof r.value === "number" && r.value >= 1 && r.value <= 5) {
@@ -66,7 +67,7 @@ function getNormalizedScore(row) {
     return row.pctOfMax ?? 0;
 }
 
-function buildScoresPayload(aggregates) {
+function buildScoresPayload(aggregates, amai) {
     const byName = new Map();
     for (const row of aggregates) {
         const normalizedName = CATEGORY_ALIASES[row.category] || row.category;
@@ -75,6 +76,7 @@ function buildScoresPayload(aggregates) {
     const scores = CATEGORY_ORDER.map(cat =>
         Number((byName.get(cat) ?? 0).toFixed(2))
     );
+    scores.push(amai.normalized);
     return { scores };
 }
 
@@ -89,6 +91,7 @@ export default function Results() {
     }, []);
 
     const aggregates = useMemo(() => aggregateByCategory(responses), [responses]);
+    const amai = useMemo(() => calculateAmai(responses), [responses]);
 
     const handleClear = () => {
         clearResponses();
@@ -111,7 +114,12 @@ export default function Results() {
         try {
             setSending(true);
 
-            const payload = buildScoresPayload(aggregates);
+            if (!amai) {
+                setToast({ open: true, msg: "Faltan respuestas socioeconómicas para calcular AMAI." });
+                return;
+            }
+
+            const payload = buildScoresPayload(aggregates, amai);
 
             const res = await fetch(PREDICT_URL, {
                 method: "POST",
@@ -152,23 +160,46 @@ export default function Results() {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent className="ion-padding">
+            <IonContent>
+                <div className="vp-page-shell">
                 <IonCard>
                     <IonCardHeader>
-                        <IonCardTitle>Resumen general</IonCardTitle>
+                        <IonCardTitle className="vp-section-title">Resumen general</IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
                         <IonNote>
                             Respuestas registradas: <strong>{totalAnswered}</strong>
                         </IonNote>
                         <br/>
-                        <IonNote>
+                        <IonNote className="vp-muted">
                             Escala: 1 = “Me desagrada mucho”, 5 = “Me gusta mucho”.
                         </IonNote>
+                        <p className="vp-muted">
+                            Los valores resumen tus respuestas por área de interés. Un porcentaje mayor indica
+                            mayor afinidad relativa con esa dimensión dentro del cuestionario.
+                        </p>
                     </IonCardContent>
                 </IonCard>
 
-                <IonList>
+                {amai && (
+                    <IonCard>
+                        <IonCardHeader>
+                            <IonCardTitle>Nivel socioeconómico AMAI</IonCardTitle>
+                        </IonCardHeader>
+                        <IonCardContent>
+                            <IonNote>
+                                Nivel: <strong>{amai.level}</strong> &nbsp;|&nbsp; Valor normalizado:{" "}
+                                <strong>{amai.normalized.toFixed(6)}</strong>
+                            </IonNote>
+                            <p className="vp-muted">
+                                AMAI resume información del hogar en una escala de 0 a 1; valores más altos
+                                representan mejores condiciones socioeconómicas estimadas por la regla AMAI.
+                            </p>
+                        </IonCardContent>
+                    </IonCard>
+                )}
+
+                <IonList className="vp-card-grid">
                     {aggregates.map((row) => (
                         <IonItem key={row.category} lines="full" className="ion-text-wrap">
                             <IonLabel>
@@ -199,7 +230,7 @@ export default function Results() {
                     </IonCard>
                 )}
 
-                <div className="ion-padding">
+                <div className="vp-actions">
                     <IonButton
                         expand="block"
                         fill="solid"
@@ -210,7 +241,7 @@ export default function Results() {
                     </IonButton>
                 </div>
 
-                <div className="ion-padding">
+                <div className="vp-actions">
                     <IonButton expand="block" fill="outline" onClick={handleExportCSV} disabled={!responses.length}>
                         Exportar respuestas CSV
                     </IonButton>
@@ -226,6 +257,7 @@ export default function Results() {
                     position="bottom"
                     onDidDismiss={() => setToast({open: false, msg: ""})}
                 />
+                </div>
             </IonContent>
         </IonPage>
     );

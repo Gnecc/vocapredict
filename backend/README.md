@@ -1,9 +1,9 @@
 # VocaPredict
 
 VocaPredict es un proyecto de clasificacion vocacional basado en puntajes de
-intereses. El flujo principal del repositorio entrena un clasificador SVM con
-un conjunto de datos normalizado, guarda los artefactos del modelo y los usa
-para predecir una carrera desde:
+intereses y un indicador socioeconomico AMAI normalizado. El flujo principal
+del repositorio entrena un clasificador SVM con un conjunto de datos aumentado,
+guarda los artefactos del modelo y los usa para predecir una carrera desde:
 
 - una interfaz de linea de comandos;
 - una API HTTP construida con FastAPI;
@@ -12,9 +12,10 @@ para predecir una carrera desde:
 ## Flujo principal
 
 1. `train.py` selecciona un modulo de entrenamiento desde `models/factory.py`.
-2. `models/svmFinal.py` lee por defecto `conjunto_de_datos_reetiquetados.xlsx`,
-   separa un holdout real y aumenta solo el fold de entrenamiento.
-3. `predict.py` carga esos artefactos para predecir una entrada de 9 puntajes.
+2. `models/svmFinal.py` lee por defecto
+   `data/conjunto_de_datos_aumentado_75_sintetico_amai.csv` y separa un
+   holdout estratificado para evaluacion.
+3. `predict.py` carga esos artefactos para predecir una entrada de 10 valores.
 4. `serve.py` expone la misma prediccion mediante `POST /predict`.
 
 Los artefactos SVM ya estan incluidos en el repositorio, por lo que la
@@ -31,7 +32,8 @@ dataset, etiquetas o configuracion de modelo nuevos.
 .
 |-- data/alumnos.csv                         # Dataset CSV de referencia
 |-- conjunto_de_datos_normalizados.xlsx      # Dataset original de referencia
-|-- conjunto_de_datos_reetiquetados.xlsx     # Dataset real usado por entrenamiento
+|-- data/conjunto_de_datos_aumentado_75_sintetico_amai.csv
+|                                             # Dataset aumentado usado por entrenamiento
 |-- models/                                  # Scripts de modelos y factory
 |-- train.py                                 # Entrada para entrenamiento
 |-- predict.py                               # Prediccion desde consola
@@ -45,7 +47,7 @@ dataset, etiquetas o configuracion de modelo nuevos.
 
 ## Datos de entrada
 
-Cada prediccion recibe 9 valores numericos normalizados en el mismo orden que
+Cada prediccion recibe 10 valores numericos normalizados en el mismo orden que
 las variables del dataset:
 
 1. `calculo`
@@ -57,6 +59,7 @@ las variables del dataset:
 7. `Persuasivo`
 8. `Artistico`
 9. `Musical`
+10. `valor_amai_normalizado`
 
 La ultima columna del dataset corresponde a la etiqueta de carrera
 (`Etiqueta` en `data/alumnos.csv` y `CARRERA_ACTUAL` en algunos scripts
@@ -82,6 +85,8 @@ esa area en una escala normalizada.
 
 La reetiqueta asigna la carrera cuyo perfil queda mas cerca de los 9 puntajes
 del usuario. En esta version todas las areas participan con el mismo peso.
+El valor AMAI se agrega despues como una variable adicional para el
+entrenamiento predictivo.
 
 ## Requisitos
 
@@ -100,10 +105,11 @@ python -m pip install -r requirements.txt
 
 ```bash
 python3 -u predict.py \
-  --scores "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68"
+  --scores "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45"
 ```
 
-`predict.py` valida que se reciban exactamente 9 valores y muestra:
+`predict.py` valida que se reciban los valores esperados por el modelo cargado
+y muestra:
 
 - la clase predicha;
 - el indice codificado de la clase;
@@ -114,7 +120,7 @@ El numero de probabilidades impresas se puede ajustar con `--topk`:
 
 ```bash
 python3 -u predict.py \
-  --scores "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68" \
+  --scores "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45" \
   --topk 4
 ```
 
@@ -125,12 +131,15 @@ python3 train.py --model svm
 ```
 
 El entrenamiento supervisado de `svm`, `knn` y `rf` usa por defecto el dataset
-real reetiquetado, genera datos sinteticos solo para el fold de entrenamiento y
-evalua contra un holdout real. Para usar otro dataset:
+aumentado con la variable `valor_amai_normalizado` y evalua contra un holdout
+estratificado. Para usar otro dataset:
 
 ```bash
 python3 train.py --model rf --dataset ruta/al/dataset.xlsx
 ```
+
+Si se quiere aplicar aumento sintetico adicional solo al split de
+entrenamiento, se puede usar `--augment-train`.
 
 El entrenamiento SVM vuelve a escribir:
 
@@ -164,7 +173,7 @@ Ejemplo de request:
 ```bash
 curl -X POST http://localhost:8080/predict \
   -H "Content-Type: application/json" \
-  -d '{"scores":[0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68]}'
+  -d '{"scores":[0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45]}'
 ```
 
 Ejemplo de respuesta:
@@ -215,5 +224,5 @@ El flujo integrado para prediccion de la API sigue siendo el de `svm`. `knn` y
 - `serve.py` no reentrena el modelo: solo carga artefactos existentes.
 - Para servir la API basta con que existan `svm_model.joblib` y
   `label_encoder.joblib`.
-- El orden de los 9 puntajes es parte del contrato de entrada del modelo.
+- El orden de los 10 valores es parte del contrato de entrada del modelo.
 - `requirements.txt` cubre el servicio y los flujos de entrenamiento actuales.

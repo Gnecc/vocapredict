@@ -369,7 +369,7 @@ if __name__ == "__main__":
                 
             case "5":
                 print("Saliendo del sistema...")
-                time.sleep(3.5)
+                time.sleep(2.5)
                 print("Adios...")
             case _:
                 print("Opcion no valida. Vuelve a intentarlo")

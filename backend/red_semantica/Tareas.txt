@@ -27,3 +27,11 @@ POR CUMPLIR, POR REVISAR
 nombre ingresado. CUMPLIDO
 
 2. Hacer un metodo de imprecion ademas de pintar el grafo al encontrar un alumno.
+
+------------------------------------------------------------------------------------------------------------
+30/octubre/2026
+POR CUMPLIR, POR REVISAR
+
+1. Corregir el nombre de los resultados de los bloques (quitar parentesis)-> pasarlo a data propiety.
+2. Implementar los 3 tipos de consultas (enlace, consulta y por nodo que lleva); ajustar las relaciones para
+ese tipo de consultas.

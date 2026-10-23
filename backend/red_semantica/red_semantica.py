@@ -69,13 +69,13 @@ def configurar_ontologia():
             id_eval_contador += 1
 
     # --- 6. AGREGAR NODOS Y ATRIBUTOS AL GRAFO ---
-    def agregar_nodos_y_atributos(entidades, nombre_clase, atributos_func):
+    def agregar_nodos_y_atributos(entidades, nombre_clase, atributos_func, tipo_nodo="instancia"):
         for entidad in entidades:
             entidad_id = entidad.get_id()
             attrs = atributos_func(entidad)
             
             # Guardamos tipo y dataproperties directamente en el diccionario del nodo
-            G.add_node(entidad_id, tipo="instancia", **attrs)
+            G.add_node(entidad_id, tipo=tipo_nodo, **attrs)
             G.add_edge(entidad_id, nombre_clase)
             
             # Creamos además nodos explícitos de atributos para visualización en grafo
@@ -104,7 +104,9 @@ def configurar_ontologia():
     agregar_nodos_y_atributos(alumnos, "Alumno", extraer_datos_alumno)
     agregar_nodos_y_atributos(bloques, "Bloque/Aptitud", lambda b: {"nombre": b.get_nombre()})
     agregar_nodos_y_atributos(carreras, "Carrera", lambda c: {"nombre": c.get_nombre()})
-    agregar_nodos_y_atributos(evaluaciones, "Evaluacion", lambda e: {"puntaje": e.get_puntaje()})
+    
+    # MODIFICACIÓN APLICADA: Las evaluaciones ahora son del tipo "puntero"
+    agregar_nodos_y_atributos(evaluaciones, "Evaluacion", lambda e: {"puntaje": e.get_puntaje()}, tipo_nodo="puntero")
 
     for origen, destino, etiqueta in relaciones_instancias:
         G.add_edge(origen, destino, label=etiqueta)
@@ -155,7 +157,8 @@ def visualizar_grafo(G):
         "Alumno": (2, 6)
     }
 
-    instancias = [n for n, d in G.nodes(data=True) if d.get("tipo") == "instancia"]
+    # MODIFICACIÓN APLICADA: Incluir también los nodos "puntero" para darles coordenadas
+    instancias = [n for n, d in G.nodes(data=True) if d.get("tipo") in ["instancia", "puntero"]]
     inst_a = sorted([n for n in instancias if n.startswith("a")])
     inst_e = sorted([n for n in instancias if n.startswith("e")], key=lambda x: int(x[1:]))
     inst_b = sorted([n for n in instancias if n.startswith("b")], key=lambda x: int(x[1:]))
@@ -192,10 +195,12 @@ def visualizar_grafo(G):
         if tipo == "clase":
             colores.append("yellow")
             tamanos.append(2000)
+        elif tipo == "puntero":      # MODIFICACIÓN APLICADA: Punteros moraditos
+            colores.append("#8A2BE2") 
+            tamanos.append(700)
         elif tipo == "instancia":
-            if str(n).startswith('e'): colores.append("#8A2BE2") 
-            else: colores.append("#0b3d91") 
-            tamanos.append(700 if str(n).startswith('e') else 1000)
+            colores.append("#0b3d91") 
+            tamanos.append(1000)
         else:
             colores.append("green")
             tamanos.append(200)
@@ -283,10 +288,11 @@ def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
         elif tipo == "clase":
             colores.append("yellow")
             tamanos.append(1400)
+        elif tipo == "puntero":            # MODIFICACIÓN APLICADA: Evaluaciones como punteros en moradito
+            colores.append("#8A2BE2")  
+            tamanos.append(800)
         elif tipo == "instancia":
-            if str(n).startswith('e'):
-                colores.append("#8A2BE2")  # Evaluaciones en morado
-            elif str(n).startswith('c'):
+            if str(n).startswith('c'):
                 colores.append("#ff8c00")  # Carreras en naranja
             elif str(n).startswith('b'):
                 colores.append("#0b3d91")  # Bloques en azul oscuro
@@ -367,7 +373,7 @@ def buscar_por_nombre(nombre_buscar, G, alumnos):
     )
 
 if __name__ == "__main__":
-    G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
+    G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia() # (Asegúrate de que tus variables inicien correctamente según como estaba tu archivo)
     op = "0"
     while op != "5":
         menu()
@@ -394,7 +400,7 @@ if __name__ == "__main__":
                 
             case "5":
                 print("Saliendo del sistema...")
-                time.sleep(2.5)
+                time.sleep(2.5) # Recuerda tener import time al inicio
                 print("Adios...")
             case _:
                 print("Opcion no valida. Vuelve a intentarlo")

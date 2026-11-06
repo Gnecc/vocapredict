@@ -5,6 +5,12 @@ import time
 from clases import Alumno, BloqueAptitud, Carrera, Evaluacion
 
 
+def formato_relacion(etiqueta, props=None):
+    """Devuelve 'evaluado : 63' (etiqueta + data properties de la relación, sin paréntesis)."""
+    valores = ", ".join(str(v) for v in (props or {}).values())
+    return f"{etiqueta} : {valores}" if valores else etiqueta
+
+
 def configurar_ontologia():
     G = nx.DiGraph()
 
@@ -44,13 +50,21 @@ def configurar_ontologia():
     ]
 
     bloques = []
+    # Cada relación es una tupla: (origen, destino, etiqueta, data_properties_de_la_relacion)
     relaciones_instancias = []
 
     for i, (nombre_apt, carrera_vinculada) in enumerate(aptitudes_base, 1):
         id_bloque = f"b{i}"
         nuevo_bloque = BloqueAptitud(id_bloque, nombre_apt)
         bloques.append(nuevo_bloque)
-        relaciones_instancias.append((id_bloque, carrera_vinculada.get_id(), "importante para"))
+        relaciones_instancias.append((id_bloque, carrera_vinculada.get_id(), "importante para", {}))
+
+    # Relación Alumno -> Carrera (carrera sugerida), enlazada por siglas "(ICO)", "(LIA)"...
+    carrera_por_sigla = {c.get_nombre().split("(")[-1].rstrip(")"): c for c in carreras}
+    for alumno in alumnos:
+        carrera = carrera_por_sigla.get(alumno.get_carrera_sugerida())
+        if carrera:
+            relaciones_instancias.append((alumno.get_id(), carrera.get_id(), "carrera sugerida", {}))
 
     # --- 5. GENERACIÓN DINÁMICA DE EVALUACIONES ---
     evaluaciones = []
@@ -64,9 +78,9 @@ def configurar_ontologia():
             nueva_eval = Evaluacion(id_eval, puntaje_simulado)
             evaluaciones.append(nueva_eval)
 
-            # La evaluación ya no es un nodo: es una flecha Alumno -> Bloque con etiqueta
+            # Flecha Alumno -> Bloque; el puntaje es data property de la relación
             relaciones_instancias.append(
-                (alumno.get_id(), bloque.get_id(), f"evaluado ({puntaje_simulado})")
+                (alumno.get_id(), bloque.get_id(), "evaluado", {"puntaje": puntaje_simulado})
             )
 
             id_eval_contador += 1
@@ -109,8 +123,9 @@ def configurar_ontologia():
     agregar_nodos_y_atributos(carreras, "Carrera", lambda c: {"nombre": c.get_nombre()})
     # Las evaluaciones ya no se agregan como nodos (ahora son flechas etiquetadas)
 
-    for origen, destino, etiqueta in relaciones_instancias:
-        G.add_edge(origen, destino, label=etiqueta)
+    # Las data properties de la relación (ej. puntaje) quedan como atributos de la arista
+    for origen, destino, etiqueta, props in relaciones_instancias:
+        G.add_edge(origen, destino, label=etiqueta, **props)
 
     return G, alumnos, bloques, carreras, evaluaciones, relaciones_instancias
 
@@ -141,10 +156,10 @@ def imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relacio
         **{e.get_id(): f"Eval({e.get_puntaje()})" for e in evaluaciones}
     }
 
-    for origen, destino, relacion in relaciones_instancias[:15]:
+    for origen, destino, relacion, props in relaciones_instancias[:25]:
         nombre_origen = dict_nombres.get(origen, origen)
         nombre_destino = dict_nombres.get(destino, destino)
-        print(f"{nombre_origen:<20} --( {relacion} )--> {nombre_destino}")
+        print(f"{nombre_origen:<20} -- {formato_relacion(relacion, props)} --> {nombre_destino}")
 
     print("\n" + "=" * 60)
 
@@ -219,7 +234,8 @@ def visualizar_grafo(G):
                            width=1.2, arrows=True, arrowstyle="-|>", arrowsize=18,
                            node_size=tamanos)
 
-    edge_labels = {(u, v): d["label"] for u, v, d in G.edges(data=True) if d.get("label")}
+    edge_labels = {(u, v): formato_relacion(d["label"], {k: val for k, val in d.items() if k != "label"})
+                   for u, v, d in G.edges(data=True) if d.get("label")}
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels,
                                  font_color="#8A2BE2", font_size=6, label_pos=0.35)
 
@@ -229,7 +245,7 @@ def visualizar_grafo(G):
 
 
 def menu():
-    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Salir...")
+    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) Salir...")
 
 
 # --- FUNCIÓN MEJORADA: CONSULTA DE VECINOS, DATAPROPERTIES Y DIBUJO DE SUBGRAFO ---
@@ -266,12 +282,15 @@ def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
     for vecino in vecinos_directos:
         tipo_vecino = G.nodes[vecino].get("tipo", "Desconocido")
 
-        # Determinar dirección de la arista
-        relacion = ""
+        # Determinar dirección de la arista y data properties de la relación (ej. puntaje)
         if G.has_edge(alumno_id, vecino):
-            relacion = f"--( {G.edges[alumno_id, vecino].get('label', 'conectado a')} )-->"
+            datos_arista = G.edges[alumno_id, vecino]
+            props_relacion = {k: v for k, v in datos_arista.items() if k != "label"}
+            relacion = f"-- {formato_relacion(datos_arista.get('label', 'conectado a'), props_relacion)} -->"
         else:
-            relacion = f"<--( {G.edges[vecino, alumno_id].get('label', 'conectado por')} )--"
+            datos_arista = G.edges[vecino, alumno_id]
+            props_relacion = {k: v for k, v in datos_arista.items() if k != "label"}
+            relacion = f"<-- {formato_relacion(datos_arista.get('label', 'conectado por'), props_relacion)} --"
 
         # Recopilar los atributos del vecino
         props_vecino = []
@@ -318,8 +337,10 @@ def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
             node_size=tamanos, edge_color="gray", font_size=8, font_weight="bold",
             arrows=True, arrowsize=20)
 
-    edge_labels = nx.get_edge_attributes(sub_G, 'label')
-    edge_labels_filtradas = {k: v for k, v in edge_labels.items() if v}
+    edge_labels_filtradas = {
+        (u, v): formato_relacion(d["label"], {k: val for k, val in d.items() if k != "label"})
+        for u, v, d in sub_G.edges(data=True) if d.get("label")
+    }
     nx.draw_networkx_edge_labels(sub_G, pos, edge_labels=edge_labels_filtradas,
                                  font_color='#8A2BE2', font_size=8)
 
@@ -388,10 +409,65 @@ def buscar_por_nombre(nombre_buscar, G, alumnos):
     )
 
 
+# --- CONSULTAS SOBRE EL GRAFO ---
+def nombre_nodo(G, n):
+    d = G.nodes[n]
+    if "apellidos" in d:
+        return f"{d.get('nombre')} {d.get('apellidos')}".strip()
+    return d.get("nombre", n)
+
+
+def props_de_arista(d):
+    return {k: val for k, val in d.items() if k != "label"}
+
+
+def consulta_por_enlace(G, etiqueta):
+    """Tipo 1: lista todos los enlaces de un tipo de relación."""
+    resultados = [(u, v, d) for u, v, d in G.edges(data=True)
+                  if d.get("label", "").lower() == etiqueta.lower()]
+    if not resultados:
+        print(f"\n[!] No existen enlaces con la relación '{etiqueta}'.")
+        return
+    print(f"\n--- ENLACES '{etiqueta}' ({len(resultados)}) ---")
+    for u, v, d in resultados:
+        print(f"[{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+
+def consulta_por_propiedad(G, minimo, maximo):
+    """Tipo 2: filtra enlaces 'evaluado' por la data property puntaje."""
+    resultados = [(u, v, d) for u, v, d in G.edges(data=True)
+                  if "puntaje" in d and minimo <= d["puntaje"] <= maximo]
+    resultados.sort(key=lambda x: x[2]["puntaje"], reverse=True)
+    if not resultados:
+        print(f"\n[!] No hay evaluaciones con puntaje entre {minimo} y {maximo}.")
+        return
+    print(f"\n--- EVALUACIONES CON PUNTAJE ENTRE {minimo} Y {maximo} ({len(resultados)}) ---")
+    for u, v, d in resultados:
+        print(f"[{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+
+def consulta_por_nodo(G, nodo_id):
+    """Tipo 3: a qué nodos lleva un nodo y qué nodos llegan a él."""
+    if nodo_id not in G or G.nodes[nodo_id].get("tipo") != "instancia":
+        print(f"\n[!] El nodo '{nodo_id}' no existe o no es una instancia.")
+        return
+    print(f"\n--- NODO [{nodo_id}] {nombre_nodo(G, nodo_id)} ---")
+
+    print("  Lleva a:")
+    for _, v, d in G.out_edges(nodo_id, data=True):
+        if d.get("label"):
+            print(f"    -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+    print("  Llegan a él:")
+    for u, _, d in G.in_edges(nodo_id, data=True):
+        if d.get("label"):
+            print(f"    [{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} -->")
+
+
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
     op = "0"
-    while op != "5":
+    while op != "8":
         menu()
         op = input("\nusuario@> ")
 
@@ -415,6 +491,23 @@ if __name__ == "__main__":
                 buscar_por_nombre(nombre, G, alumnos)
 
             case "5":
+                print("*" * 150, "\nCONSULTA POR ENLACE\n")
+                consulta_por_enlace(G, input("Relación (evaluado / importante para / carrera sugerida): ").strip())
+
+            case "6":
+                print("*" * 150, "\nCONSULTA POR DATA PROPERTY (PUNTAJE)\n")
+                try:
+                    minimo = int(input("Puntaje mínimo: "))
+                    maximo = int(input("Puntaje máximo: "))
+                    consulta_por_propiedad(G, minimo, maximo)
+                except ValueError:
+                    print("[!] Ingresa números enteros.")
+
+            case "7":
+                print("*" * 150, "\nCONSULTA POR NODO AL QUE LLEVA\n")
+                consulta_por_nodo(G, input("ID del nodo (ej. a1, b3, c1): ").strip())
+
+            case "8":
                 print("Saliendo del sistema...")
                 time.sleep(2.5)
                 print("Adios...")

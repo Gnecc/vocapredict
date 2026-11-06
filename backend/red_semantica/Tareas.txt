@@ -30,8 +30,14 @@ nombre ingresado. CUMPLIDO
 
 ------------------------------------------------------------------------------------------------------------
 30/octubre/2026
-POR CUMPLIR, POR REVISAR
+CUMPLIDO, REVISADO
 
 1. Corregir el nombre de los resultados de los bloques (quitar parentesis)-> pasarlo a data propiety.
 2. Implementar los 3 tipos de consultas (enlace, consulta y por nodo que lleva); ajustar las relaciones para
 ese tipo de consultas.
+
+------------------------------------------------------------------------------------------------------------
+06/noviembre/2026
+POR CUMPLIR, POR REVISAR
+
+1. HACER UNA DEMO QUE CONSULTE POR NIVEL SOCIOECONOMICO

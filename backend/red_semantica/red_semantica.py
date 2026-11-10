@@ -4,6 +4,11 @@ import random
 import time
 from clases import Alumno, BloqueAptitud, Carrera, Evaluacion
 
+# Niveles socioeconómicos según el puntaje del bloque "Situacion socioeconomica"
+NOMBRE_BLOQUE_SOCIO = "Situacion socioeconomica"
+NIVELES_SOCIO = [("Bajo", 60, 73), ("Medio", 74, 87), ("Alto", 88, 100)]
+COLORES_NIVEL = {"Bajo": "#d9534f", "Medio": "#f0ad4e", "Alto": "#5cb85c"}
+
 
 def formato_relacion(etiqueta, props=None):
     """Devuelve 'evaluado : 63' (etiqueta + data properties de la relación, sin paréntesis)."""
@@ -245,7 +250,7 @@ def visualizar_grafo(G):
 
 
 def menu():
-    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) Salir...")
+    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Salir...")
 
 
 # --- FUNCIÓN MEJORADA: CONSULTA DE VECINOS, DATAPROPERTIES Y DIBUJO DE SUBGRAFO ---
@@ -464,10 +469,98 @@ def consulta_por_nodo(G, nodo_id):
             print(f"    [{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} -->")
 
 
+# --- DEMO: CONSULTA POR NIVEL SOCIOECONÓMICO ---
+def clasificar_nivel_socio(puntaje):
+    """Convierte un puntaje en nivel socioeconómico (Bajo / Medio / Alto)."""
+    for nombre, minimo, maximo in NIVELES_SOCIO:
+        if minimo <= puntaje <= maximo:
+            return nombre
+    return "Sin clasificar"
+
+
+def obtener_niveles_socio(G):
+    """Devuelve [(alumno_id, puntaje, nivel)] leyendo las flechas 'evaluado'
+    que llegan al bloque 'Situacion socioeconomica'."""
+    bloque_id = next((n for n, d in G.nodes(data=True)
+                      if d.get("tipo") == "instancia" and d.get("nombre") == NOMBRE_BLOQUE_SOCIO), None)
+    if bloque_id is None:
+        return []
+
+    resultados = []
+    for u, _, d in G.in_edges(bloque_id, data=True):
+        if d.get("label") == "evaluado" and "puntaje" in d:
+            resultados.append((u, d["puntaje"], clasificar_nivel_socio(d["puntaje"])))
+    resultados.sort(key=lambda x: x[1], reverse=True)
+    return resultados
+
+
+def consulta_por_nivel_socioeconomico(G, nivel):
+    """Lista los alumnos que pertenecen a un nivel socioeconómico dado."""
+    datos = [r for r in obtener_niveles_socio(G) if r[2].lower() == nivel.lower()]
+    rango = next((f"{mn}-{mx}" for nom, mn, mx in NIVELES_SOCIO if nom.lower() == nivel.lower()), "?")
+
+    print(f"\n--- NIVEL SOCIOECONÓMICO {nivel.upper()} (puntaje {rango}) | {len(datos)} alumno(s) ---")
+    if not datos:
+        print("  (ningún alumno en este nivel)")
+        return datos
+
+    for alumno_id, puntaje, _ in datos:
+        carrera = G.nodes[alumno_id].get("carrera_sugerida", "Nulo")
+        nc = G.nodes[alumno_id].get("no_control", "Nulo")
+        print(f"  [{alumno_id}] {nombre_nodo(G, alumno_id):<14} | NC: {nc} | "
+              f"Puntaje: {puntaje:<3} | Carrera sugerida: {carrera}")
+    return datos
+
+
+def demo_nivel_socioeconomico(G):
+    """Demo completa: resumen, detalle por nivel y gráfica de barras."""
+    datos = obtener_niveles_socio(G)
+    if not datos:
+        print(f"\n[!] No se encontró el bloque '{NOMBRE_BLOQUE_SOCIO}' en el grafo.")
+        return
+
+    print("\n" + "=" * 65)
+    print(" DEMO: CONSULTA POR NIVEL SOCIOECONÓMICO")
+    print(f" Bloque consultado: {NOMBRE_BLOQUE_SOCIO}")
+    print("=" * 65)
+
+    # 1. Resumen: cuántos alumnos hay en cada nivel
+    print("\nCriterio de clasificación:")
+    for nombre, mn, mx in NIVELES_SOCIO:
+        total = sum(1 for r in datos if r[2] == nombre)
+        print(f"  • {nombre:<6} ({mn}-{mx}) -> {total} alumno(s)")
+
+    # 2. Detalle por nivel (de Alto a Bajo)
+    for nombre, _, _ in reversed(NIVELES_SOCIO):
+        consulta_por_nivel_socioeconomico(G, nombre)
+
+    # 3. Gráfica de barras con colores por nivel
+    etiquetas = [f"{a}\n{nombre_nodo(G, a)}" for a, _, _ in datos]
+    puntajes = [p for _, p, _ in datos]
+    colores = [COLORES_NIVEL[n] for _, _, n in datos]
+
+    plt.figure(figsize=(10, 6))
+    barras = plt.bar(etiquetas, puntajes, color=colores, edgecolor="black")
+    for barra, p in zip(barras, puntajes):
+        plt.text(barra.get_x() + barra.get_width() / 2, p + 0.8, str(p), ha="center", fontweight="bold")
+
+    # Líneas de corte entre niveles
+    plt.axhline(NIVELES_SOCIO[1][1] - 0.5, color="gray", linestyle="--", linewidth=1)
+    plt.axhline(NIVELES_SOCIO[2][1] - 0.5, color="gray", linestyle="--", linewidth=1)
+
+    leyenda = [plt.Rectangle((0, 0), 1, 1, color=c) for c in COLORES_NIVEL.values()]
+    plt.legend(leyenda, [f"{n} ({mn}-{mx})" for n, mn, mx in NIVELES_SOCIO], title="Nivel")
+    plt.ylim(0, 110)
+    plt.ylabel("Puntaje")
+    plt.title("Nivel socioeconómico por alumno", fontsize=14, fontweight="bold")
+    plt.tight_layout()
+    plt.show()
+
+
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
     op = "0"
-    while op != "8":
+    while op != "9":
         menu()
         op = input("\nusuario@> ")
 
@@ -508,6 +601,10 @@ if __name__ == "__main__":
                 consulta_por_nodo(G, input("ID del nodo (ej. a1, b3, c1): ").strip())
 
             case "8":
+                print("*" * 150, "\nDEMO: CONSULTA POR NIVEL SOCIOECONÓMICO\n")
+                demo_nivel_socioeconomico(G)
+
+            case "9":
                 print("Saliendo del sistema...")
                 time.sleep(2.5)
                 print("Adios...")

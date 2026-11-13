@@ -1,8 +1,20 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import random 
+import random
 import time
 from clases import Alumno, BloqueAptitud, Carrera, Evaluacion
+
+# Niveles socioeconómicos según el puntaje del bloque "Situacion socioeconomica"
+NOMBRE_BLOQUE_SOCIO = "Situacion socioeconomica"
+NIVELES_SOCIO = [("Bajo", 60, 73), ("Medio", 74, 87), ("Alto", 88, 100)]
+COLORES_NIVEL = {"Bajo": "#d9534f", "Medio": "#f0ad4e", "Alto": "#5cb85c"}
+
+
+def formato_relacion(etiqueta, props=None):
+    """Devuelve 'evaluado : 63' (etiqueta + data properties de la relación, sin paréntesis)."""
+    valores = ", ".join(str(v) for v in (props or {}).values())
+    return f"{etiqueta} : {valores}" if valores else etiqueta
+
 
 def configurar_ontologia():
     G = nx.DiGraph()
@@ -10,12 +22,12 @@ def configurar_ontologia():
     # --- 1. CLASES BASE ---
     clases = ["Thing", "Persona", "Alumno", "Evaluacion", "Bloque/Aptitud", "Carrera"]
     G.add_nodes_from(clases, tipo="clase")
-    
+
     G.add_edges_from([
         ("Persona", "Thing"),
         ("Carrera", "Thing"),
         ("Bloque/Aptitud", "Thing"),
-        ("Evaluacion", "Thing"), # Conectamos la nueva clase a Thing
+        ("Evaluacion", "Thing"),
         ("Alumno", "Persona")
     ])
 
@@ -30,12 +42,11 @@ def configurar_ontologia():
     a1 = Alumno("a1", "Juan Perez", "202301", "ICO")
     a2 = Alumno("a2", "Maria Lopez", "202302", "ISC")
     a3 = Alumno("a3", "Carlos Ruiz", "202303", "LIA")
-    # --- Dos entidades completas adicionales con el MISMO nombre (para probar la búsqueda por nombre) ---
     a4 = Alumno("a4", "Juan Perez", "202304", "LIA")
     a5 = Alumno("a5", "Juan Perez", "202305", "ISC")
     alumnos = [a1, a2, a3, a4, a5]
 
-    # --- 4. INSTANCIAS DE BLOQUES/APTITUDES (AHORA SON 10 FIJOS) ---
+    # --- 4. INSTANCIAS DE BLOQUES/APTITUDES ---
     aptitudes_base = [
         ("Calculo", c1), ("C. Fisico", c1), ("C. Biologico", c2),
         ("Mecanico", c3), ("Servicio social", c4), ("Literario", c4),
@@ -44,58 +55,87 @@ def configurar_ontologia():
     ]
 
     bloques = []
+    # Cada relación es una tupla: (origen, destino, etiqueta, data_properties_de_la_relacion)
     relaciones_instancias = []
 
     for i, (nombre_apt, carrera_vinculada) in enumerate(aptitudes_base, 1):
         id_bloque = f"b{i}"
         nuevo_bloque = BloqueAptitud(id_bloque, nombre_apt)
         bloques.append(nuevo_bloque)
-        
-        # Esta relación hacia la carrera se crea UNA SOLA VEZ por bloque
-        relaciones_instancias.append((id_bloque, carrera_vinculada.get_id(), "importante para"))
+        relaciones_instancias.append((id_bloque, carrera_vinculada.get_id(), "importante para", {}))
 
-    # --- 5. GENERACIÓN DINÁMICA DE EVALUACIONES (La solución) ---
+    # Relación Alumno -> Carrera (carrera sugerida), enlazada por siglas "(ICO)", "(LIA)"...
+    carrera_por_sigla = {c.get_nombre().split("(")[-1].rstrip(")"): c for c in carreras}
+    for alumno in alumnos:
+        carrera = carrera_por_sigla.get(alumno.get_carrera_sugerida())
+        if carrera:
+            relaciones_instancias.append((alumno.get_id(), carrera.get_id(), "carrera sugerida", {}))
+
+    # --- 5. GENERACIÓN DINÁMICA DE EVALUACIONES ---
     evaluaciones = []
     id_eval_contador = 1
 
     for alumno in alumnos:
         for bloque in bloques:
             id_eval = f"e{id_eval_contador}"
-            puntaje_simulado = random.randint(60, 100) 
-            
+            puntaje_simulado = random.randint(60, 100)
+
             nueva_eval = Evaluacion(id_eval, puntaje_simulado)
             evaluaciones.append(nueva_eval)
-            
-            # El alumno TIENE una evaluación
-            relaciones_instancias.append((alumno.get_id(), id_eval, "tiene"))
-            # La evaluación PERTENECE A un bloque global
-            relaciones_instancias.append((id_eval, bloque.get_id(), "pertenece a"))
-            
+
+            # Flecha Alumno -> Bloque; el puntaje es data property de la relación
+            relaciones_instancias.append(
+                (alumno.get_id(), bloque.get_id(), "evaluado", {"puntaje": puntaje_simulado})
+            )
+
             id_eval_contador += 1
 
     # --- 6. AGREGAR NODOS Y ATRIBUTOS AL GRAFO ---
-    def agregar_nodos_y_atributos(entidades, nombre_clase, atributos_func):
+    def agregar_nodos_y_atributos(entidades, nombre_clase, atributos_func, tipo_nodo="instancia"):
         for entidad in entidades:
-            G.add_node(entidad.get_id(), tipo="instancia")
-            G.add_edge(entidad.get_id(), nombre_clase)
-            
-            for clave, valor in atributos_func(entidad).items():
-                nodo_attr = f"{clave}_{entidad.get_id()}:{valor}"
-                G.add_node(nodo_attr, tipo="atributo")
-                G.add_edge(entidad.get_id(), nodo_attr)
+            entidad_id = entidad.get_id()
+            attrs = atributos_func(entidad)
 
-    agregar_nodos_y_atributos(alumnos, "Alumno", lambda a: {"nombre": a.get_nombre(), "nc": a.get_no_control(), "cs": a.get_carrera_sugerida()})
+            # Guardamos tipo y dataproperties directamente en el diccionario del nodo
+            G.add_node(entidad_id, tipo=tipo_nodo, **attrs)
+            G.add_edge(entidad_id, nombre_clase)
+
+            # Creamos además nodos explícitos de atributos para visualización en grafo
+            for clave, valor in attrs.items():
+                nodo_attr = f"{clave}_{entidad_id}:{valor}"
+                G.add_node(nodo_attr, tipo="atributo", clave=clave, valor=valor)
+                G.add_edge(entidad_id, nodo_attr)
+
+    # Función auxiliar para separar nombre completo en Nombre y Apellidos
+    def extraer_datos_alumno(al):
+        partes = al.get_nombre().strip().split(" ", 1)
+        primer_nombre = partes[0] if partes else "Nulo"
+        apellidos = partes[1] if len(partes) > 1 else "Nulo"
+
+        # Obtener universidad si la clase la implementa, de lo contrario marcar 'Nulo'
+        universidad = getattr(al, 'get_universidad', lambda: None)() or "Nulo"
+
+        return {
+            "nombre": primer_nombre,
+            "apellidos": apellidos,
+            "universidad": universidad,
+            "no_control": al.get_no_control(),
+            "carrera_sugerida": al.get_carrera_sugerida()
+        }
+
+    agregar_nodos_y_atributos(alumnos, "Alumno", extraer_datos_alumno)
     agregar_nodos_y_atributos(bloques, "Bloque/Aptitud", lambda b: {"nombre": b.get_nombre()})
     agregar_nodos_y_atributos(carreras, "Carrera", lambda c: {"nombre": c.get_nombre()})
-    # Agregamos los nodos de evaluaciones y su atributo de puntaje
-    agregar_nodos_y_atributos(evaluaciones, "Evaluacion", lambda e: {"puntaje": e.get_puntaje()})
+    # Las evaluaciones ya no se agregan como nodos (ahora son flechas etiquetadas)
 
-    for origen, destino, etiqueta in relaciones_instancias:
-        G.add_edge(origen, destino, label=etiqueta)
+    # Las data properties de la relación (ej. puntaje) quedan como atributos de la arista
+    for origen, destino, etiqueta, props in relaciones_instancias:
+        G.add_edge(origen, destino, label=etiqueta, **props)
 
     return G, alumnos, bloques, carreras, evaluaciones, relaciones_instancias
 
-# --- 7. MÉTODO DE IMPRESIÓN ---
+
+# --- 7. MÉTODO DE IMPRESIÓN ONTOLOGÍA COMPLETA ---
 def imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones_instancias):
     print("=" * 60)
     print(" " * 15 + "REPORTE DE DATOS DE LA ONTOLOGÍA")
@@ -103,13 +143,13 @@ def imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relacio
 
     print("\n--- 1. INSTANCIAS DE ALUMNOS ---")
     for a in alumnos:
-        print(f"[-] ID: {a.get_id():<4} | Nombre: {a.get_nombre()}")
+        print(f"[-] ID: {a.get_id():<4} | Nombre: {a.get_nombre()} | No. Control: {a.get_no_control()}")
 
     print("\n--- 2. INSTANCIAS DE BLOQUES FIJOS (Total: 10) ---")
     for b in bloques:
         print(f"[-] ID: {b.get_id():<4} | Nombre: {b.get_nombre()}")
 
-    print("\n--- 3. EVALUACIONES DINÁMICAS (Muestra de 10 de 30) ---")
+    print("\n--- 3. EVALUACIONES DINÁMICAS (Muestra de 10 de 50) ---")
     for e in evaluaciones[:10]:
         print(f"[-] ID: {e.get_id():<4} | Puntaje: {e.get_puntaje()}")
 
@@ -121,16 +161,16 @@ def imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relacio
         **{e.get_id(): f"Eval({e.get_puntaje()})" for e in evaluaciones}
     }
 
-    for origen, destino, relacion in relaciones_instancias[:15]: 
+    for origen, destino, relacion, props in relaciones_instancias[:25]:
         nombre_origen = dict_nombres.get(origen, origen)
         nombre_destino = dict_nombres.get(destino, destino)
-        print(f"{nombre_origen:<20} --( {relacion} )--> {nombre_destino}")
+        print(f"{nombre_origen:<20} -- {formato_relacion(relacion, props)} --> {nombre_destino}")
 
     print("\n" + "=" * 60)
 
-# --- 8. DIBUJADO DEL GRAFO ---
+
+# --- 8. DIBUJADO DEL GRAFO COMPLETO ---
 def visualizar_grafo(G):
-    # Reestructuramos la posición para acomodar la capa intermedia
     pos = {
         "Thing": (5, 8),
         "Persona": (2, 7),
@@ -140,14 +180,14 @@ def visualizar_grafo(G):
         "Alumno": (2, 6)
     }
 
-    instancias = [n for n, d in G.nodes(data=True) if d["tipo"] == "instancia"]
+    instancias = [n for n, d in G.nodes(data=True) if d.get("tipo") == "instancia"]
     inst_a = sorted([n for n in instancias if n.startswith("a")])
-    inst_e = sorted([n for n in instancias if n.startswith("e")], key=lambda x: int(x[1:]))
     inst_b = sorted([n for n in instancias if n.startswith("b")], key=lambda x: int(x[1:]))
     inst_c = sorted([n for n in instancias if n.startswith("c")])
 
     def asignar_eje_x(nodos, start_x, end_x, y):
-        if not nodos: return
+        if not nodos:
+            return
         if len(nodos) == 1:
             pos[nodos[0]] = ((start_x + end_x) / 2, y)
             return
@@ -155,16 +195,14 @@ def visualizar_grafo(G):
         for i, nodo in enumerate(nodos):
             pos[nodo] = (start_x + i * step, y)
 
-    # Distribuimos las instancias en diferentes alturas
-    asignar_eje_x(inst_a, 1.0, 3.0, 4) 
-    asignar_eje_x(inst_e, 0.5, 9.5, 3) # Capa intermedia de evaluaciones (30 nodos)
-    asignar_eje_x(inst_b, 1.5, 8.5, 2) # Capa de 10 bloques globales
-    asignar_eje_x(inst_c, 3.0, 7.0, 1) # Carreras en la base
+    asignar_eje_x(inst_a, 1.0, 5.0, 4)
+    asignar_eje_x(inst_b, 0.5, 9.5, 2)
+    asignar_eje_x(inst_c, 3.0, 7.0, 0)
 
-    # Atributos
     for inst in instancias:
         attrs = [v for u, v in G.edges() if u == inst and G.nodes[v].get("tipo") == "atributo"]
-        if not attrs: continue
+        if not attrs:
+            continue
         inst_x = pos[inst][0]
         spread = 0.6
         start_x = inst_x - spread / 2
@@ -172,74 +210,109 @@ def visualizar_grafo(G):
         for i, attr in enumerate(attrs):
             pos[attr] = (start_x + i * step_x, pos[inst][1] - 0.4 - (i % 2) * 0.2)
 
-    colores = []
-    tamanos = []
-    for n in G.nodes():
-        if G.nodes[n].get("tipo") == "clase":
+    nodos = list(G.nodes())
+    colores, tamanos = [], []
+    for n in nodos:
+        tipo = G.nodes[n].get("tipo")
+        if tipo == "clase":
             colores.append("yellow")
             tamanos.append(2000)
-        elif G.nodes[n].get("tipo") == "instancia":
-            # Diferenciamos un poco los colores de las instancias
-            if str(n).startswith('e'): colores.append("#8A2BE2") # Evaluaciones en morado
-            else: colores.append("#0b3d91") # Resto azul
-            tamanos.append(700 if str(n).startswith('e') else 1000)
+        elif tipo == "instancia":
+            colores.append("#0b3d91")
+            tamanos.append(1000)
         else:
             colores.append("green")
             tamanos.append(200)
 
-    plt.figure(figsize=(22, 16)) 
-    nx.draw(G, pos, with_labels=True, node_color=colores, node_size=tamanos, edge_color="gray", font_size=6, font_color="black")
+    # Separar flechas de relación (con etiqueta) de las demás aristas
+    aristas_relacion = [(u, v) for u, v, d in G.edges(data=True) if d.get("label")]
+    aristas_otras = [e for e in G.edges() if e not in aristas_relacion]
 
-    edge_labels = nx.get_edge_attributes(G, 'label')
-    # Solo dibujamos etiquetas de relaciones principales para no ensuciar la red
-    edge_labels_filtradas = {k: v for k, v in edge_labels.items() if v in ["tiene", "pertenece a", "importante para"]}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels_filtradas, font_color='purple', font_size=7)
+    plt.figure(figsize=(22, 16))
+    nx.draw_networkx_nodes(G, pos, nodelist=nodos, node_color=colores, node_size=tamanos)
+    nx.draw_networkx_labels(G, pos, font_size=6, font_color="black")
 
-    plt.title("Ontología Optimizada: Relaciones N-arias", fontsize=18)
+    nx.draw_networkx_edges(G, pos, edgelist=aristas_otras, edge_color="gray",
+                           arrows=True, arrowsize=10, node_size=tamanos)
+    # Punteros (flechas moradas) con su etiqueta de relación
+    nx.draw_networkx_edges(G, pos, edgelist=aristas_relacion, edge_color="#8A2BE2",
+                           width=1.2, arrows=True, arrowstyle="-|>", arrowsize=18,
+                           node_size=tamanos)
+
+    edge_labels = {(u, v): formato_relacion(d["label"], {k: val for k, val in d.items() if k != "label"})
+                   for u, v, d in G.edges(data=True) if d.get("label")}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels,
+                                 font_color="#8A2BE2", font_size=6, label_pos=0.35)
+
+    plt.title("Ontología Optimizada: Relaciones N-arias (punteros)", fontsize=18)
+    plt.axis("off")
     plt.show()
 
-#metodo para mostrar las opciones:
+
 def menu():
-    print("\n"*2,"\t= MENU DE OPCIONES =\n(1) Mostrar imprecion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Salir...")
+    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Salir...")
 
-# --- Función auxiliar reutilizable: dibuja el subgrafo de un alumno ya identificado ---
+
+# --- FUNCIÓN MEJORADA: CONSULTA DE VECINOS, DATAPROPERTIES Y DIBUJO DE SUBGRAFO ---
 def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
-    print(f"\n[*] Generando grafo para el alumno: {nombre_alumno} ({alumno_id})...")
+    print(f"\n[*] Generando consulta y subgrafo para el alumno ID: {alumno_id}...")
 
-    # Obtener todos los nodos relacionados (descendientes en el grafo dirigido)
-    nodos_relacionados = list(nx.descendants(G, alumno_id))
-    nodos_relacionados.append(alumno_id) # Agregamos también el nodo del alumno principal
+    # 1. Obtener los vecinos más cercanos (predecesores y sucesores directos)
+    vecinos_directos = set(nx.all_neighbors(G, alumno_id))
 
-    # Crear un subgrafo solo con estos nodos
-    sub_G = G.subgraph(nodos_relacionados)
+    # 2. Definir el conjunto de nodos del subgrafo: Alumno + Sus Atributos + Vecinos Directos + Atributos de Vecinos
+    nodos_subgrafo = set([alumno_id] + list(vecinos_directos))
+    for v in list(vecinos_directos):
+        # Añadimos los atributos de los vecinos para mostrar su información completa
+        nodos_subgrafo.update(G.successors(v))
 
-    print("\n" + "="*60)
-    print(f"  DATOS Y RELACIONES ENCONTRADOS PARA: {nombre_alumno}")
-    print("="*60)
+    sub_G = G.subgraph(nodos_subgrafo)
 
-    print("\n[ ATRIBUTOS ]")
-    for u, v in sub_G.edges():
-        if u == alumno_id and sub_G.nodes[v].get("tipo") == "atributo":
-            clave = v.split('_')[0].capitalize()
-            valor = v.split(':')[1]
-            print(f"  * {clave:<10}: {valor}")
+    # 3. IMPRESIÓN DE DATAPROPERTIES EN CONSOLA
+    print("\n" + "=" * 65)
+    print(f" DATAPROPERTIES DEL ALUMNO CONSULTADO ({alumno_id})")
+    print("=" * 65)
 
-    print("\n[ RELACIONES (Evaluaciones, Bloques, Carreras) ]")
-    for u, v, datos_arista in sub_G.edges(data=True):
-        if sub_G.nodes[v].get("tipo") != "atributo" and "label" in datos_arista:
-            # Buscar el nombre real o puntaje del nodo para mostrarlo en consola
-            info_nodo = v
-            for _, nodo_attr in sub_G.edges(v):
-                if sub_G.nodes[nodo_attr].get("tipo") == "atributo":
-                    info_nodo = nodo_attr.split(':')[1]
-                    break
-            
-            print(f"  -> {u:<4} --( {datos_arista['label']} )--> {info_nodo} ({v})")
-    print("="*60 + "\n")
+    datos_nodo = G.nodes[alumno_id]
+    print(f"  • Nombre           : {datos_nodo.get('nombre', 'Nulo')}")
+    print(f"  • Apellidos        : {datos_nodo.get('apellidos', 'Nulo')}")
+    print(f"  • Universidad      : {datos_nodo.get('universidad', 'Nulo')}")
+    print(f"  • No. Control (ID) : {datos_nodo.get('no_control', no_control)}")
+    print(f"  • Carrera Sugerida : {datos_nodo.get('carrera_sugerida', 'Nulo')}")
 
-    # Configurar la visualización del subgrafo
+    print("\n" + "-" * 65)
+    print(" DATAPROPERTIES DE LOS VECINOS MÁS CERCANOS")
+    print("-" * 65)
+
+    for vecino in vecinos_directos:
+        tipo_vecino = G.nodes[vecino].get("tipo", "Desconocido")
+
+        # Determinar dirección de la arista y data properties de la relación (ej. puntaje)
+        if G.has_edge(alumno_id, vecino):
+            datos_arista = G.edges[alumno_id, vecino]
+            props_relacion = {k: v for k, v in datos_arista.items() if k != "label"}
+            relacion = f"-- {formato_relacion(datos_arista.get('label', 'conectado a'), props_relacion)} -->"
+        else:
+            datos_arista = G.edges[vecino, alumno_id]
+            props_relacion = {k: v for k, v in datos_arista.items() if k != "label"}
+            relacion = f"<-- {formato_relacion(datos_arista.get('label', 'conectado por'), props_relacion)} --"
+
+        # Recopilar los atributos del vecino
+        props_vecino = []
+        for _, attr_node in G.out_edges(vecino):
+            if G.nodes[attr_node].get("tipo") == "atributo":
+                c = G.nodes[attr_node].get("clave", "")
+                val = G.nodes[attr_node].get("valor", "")
+                props_vecino.append(f"{c}: {val}")
+
+        info_props = ", ".join(props_vecino) if props_vecino else "Sin data properties extras"
+        print(f"  • [{vecino}] {relacion} {tipo_vecino.upper()} | Properties: {info_props}")
+
+    print("=" * 65 + "\n")
+
+    # 4. DIBUJAR EL GRAFO TRAS COMPLETAR LA BÚSQUEDA
     plt.figure(figsize=(14, 10))
-    pos = nx.spring_layout(sub_G, seed=42, k=0.5)
+    pos = nx.spring_layout(sub_G, seed=42, k=0.6)
 
     colores = []
     tamanos = []
@@ -248,36 +321,40 @@ def graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G):
         tipo = sub_G.nodes[n].get("tipo")
 
         if n == alumno_id:
-            colores.append("red") # Resaltamos al alumno buscado en ROJO
-            tamanos.append(1500)
+            colores.append("red")          # Resaltamos al alumno buscado en ROJO
+            tamanos.append(1600)
         elif tipo == "clase":
             colores.append("yellow")
-            tamanos.append(1500)
+            tamanos.append(1400)
         elif tipo == "instancia":
-            if str(n).startswith('e'):
-                colores.append("#8A2BE2") # Evaluaciones en morado
-            elif str(n).startswith('c'):
-                colores.append("#ff8c00") # Carreras en naranja
+            if str(n).startswith('c'):
+                colores.append("#ff8c00")  # Carreras en naranja
+            elif str(n).startswith('b'):
+                colores.append("#0b3d91")  # Bloques en azul oscuro
             else:
-                colores.append("#0b3d91") # Bloques en azul oscuro
+                colores.append("cyan")
             tamanos.append(800)
-        else: # Atributos (tipo == "atributo")
+        else:  # Atributos (tipo == "atributo")
             colores.append("lightgreen")
             tamanos.append(400)
 
     nx.draw(sub_G, pos, with_labels=True, node_color=colores,
-            node_size=tamanos, edge_color="gray", font_size=8, font_weight="bold")
+            node_size=tamanos, edge_color="gray", font_size=8, font_weight="bold",
+            arrows=True, arrowsize=20)
 
-    edge_labels = nx.get_edge_attributes(sub_G, 'label')
-    edge_labels_filtradas = {k: v for k, v in edge_labels.items() if v}
-    nx.draw_networkx_edge_labels(sub_G, pos, edge_labels=edge_labels_filtradas, font_color='red', font_size=7)
+    edge_labels_filtradas = {
+        (u, v): formato_relacion(d["label"], {k: val for k, val in d.items() if k != "label"})
+        for u, v, d in sub_G.edges(data=True) if d.get("label")
+    }
+    nx.draw_networkx_edge_labels(sub_G, pos, edge_labels=edge_labels_filtradas,
+                                 font_color='#8A2BE2', font_size=8)
 
-    plt.title(f"Grafo de Relaciones: {nombre_alumno} (NC: {no_control})", fontsize=16, fontweight='bold')
+    plt.title(f"Grafo de Vecinos Directos: {nombre_alumno} (NC: {no_control})", fontsize=15, fontweight='bold')
     plt.show()
 
-#Metodo para buscar alumno
+
+# --- MÉTODOS DE BÚSQUEDA ---
 def buscar(no_control, G, alumnos):
-    #Buscar el ID del alumno usando su número de control
     alumno_id = None
     nombre_alumno = ""
     for a in alumnos:
@@ -285,28 +362,25 @@ def buscar(no_control, G, alumnos):
             alumno_id = a.get_id()
             nombre_alumno = a.get_nombre()
             break
-            
-    #Validar si el alumno existe
+
     if not alumno_id:
         print(f"\n[!] Error: No se encontró ningún alumno con el número de control '{no_control}'.")
         return
 
     graficar_subgrafo_alumno(alumno_id, nombre_alumno, no_control, G)
 
+
 def buscar_por_nombre(nombre_buscar, G, alumnos):
-    # Lista para guardar TODAS las coincidencias (puede haber alumnos con el mismo nombre)
     coincidencias = []
 
     for a in alumnos:
         if nombre_buscar.lower() in a.get_nombre().lower():
             coincidencias.append(a)
 
-    # Caso 1: No encontró a nadie
     if len(coincidencias) == 0:
         print(f"\n[!] Error: No se encontró ningún alumno que coincida con '{nombre_buscar}'.")
         return
 
-    # Caso 2: Encontró exactamente uno -> se grafica directo
     if len(coincidencias) == 1:
         alumno_encontrado = coincidencias[0]
         graficar_subgrafo_alumno(
@@ -317,7 +391,6 @@ def buscar_por_nombre(nombre_buscar, G, alumnos):
         )
         return
 
-    # Caso 3: Encontró a más de un alumno -> se listan en consola y se pide elegir uno
     print(f"\n[!] Se encontraron {len(coincidencias)} alumnos con ese nombre:")
     for indice, alumno in enumerate(coincidencias, start=1):
         print(f"    ({indice}) {alumno.get_nombre()} | No. Control: {alumno.get_no_control()} | Carrera: {alumno.get_carrera_sugerida()}")
@@ -340,36 +413,200 @@ def buscar_por_nombre(nombre_buscar, G, alumnos):
         G
     )
 
+
+# --- CONSULTAS SOBRE EL GRAFO ---
+def nombre_nodo(G, n):
+    d = G.nodes[n]
+    if "apellidos" in d:
+        return f"{d.get('nombre')} {d.get('apellidos')}".strip()
+    return d.get("nombre", n)
+
+
+def props_de_arista(d):
+    return {k: val for k, val in d.items() if k != "label"}
+
+
+def consulta_por_enlace(G, etiqueta):
+    """Tipo 1: lista todos los enlaces de un tipo de relación."""
+    resultados = [(u, v, d) for u, v, d in G.edges(data=True)
+                  if d.get("label", "").lower() == etiqueta.lower()]
+    if not resultados:
+        print(f"\n[!] No existen enlaces con la relación '{etiqueta}'.")
+        return
+    print(f"\n--- ENLACES '{etiqueta}' ({len(resultados)}) ---")
+    for u, v, d in resultados:
+        print(f"[{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+
+def consulta_por_propiedad(G, minimo, maximo):
+    """Tipo 2: filtra enlaces 'evaluado' por la data property puntaje."""
+    resultados = [(u, v, d) for u, v, d in G.edges(data=True)
+                  if "puntaje" in d and minimo <= d["puntaje"] <= maximo]
+    resultados.sort(key=lambda x: x[2]["puntaje"], reverse=True)
+    if not resultados:
+        print(f"\n[!] No hay evaluaciones con puntaje entre {minimo} y {maximo}.")
+        return
+    print(f"\n--- EVALUACIONES CON PUNTAJE ENTRE {minimo} Y {maximo} ({len(resultados)}) ---")
+    for u, v, d in resultados:
+        print(f"[{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+
+def consulta_por_nodo(G, nodo_id):
+    """Tipo 3: a qué nodos lleva un nodo y qué nodos llegan a él."""
+    if nodo_id not in G or G.nodes[nodo_id].get("tipo") != "instancia":
+        print(f"\n[!] El nodo '{nodo_id}' no existe o no es una instancia.")
+        return
+    print(f"\n--- NODO [{nodo_id}] {nombre_nodo(G, nodo_id)} ---")
+
+    print("  Lleva a:")
+    for _, v, d in G.out_edges(nodo_id, data=True):
+        if d.get("label"):
+            print(f"    -- {formato_relacion(d['label'], props_de_arista(d))} --> [{v}] {nombre_nodo(G, v)}")
+
+    print("  Llegan a él:")
+    for u, _, d in G.in_edges(nodo_id, data=True):
+        if d.get("label"):
+            print(f"    [{u}] {nombre_nodo(G, u)} -- {formato_relacion(d['label'], props_de_arista(d))} -->")
+
+
+# --- DEMO: CONSULTA POR NIVEL SOCIOECONÓMICO ---
+def clasificar_nivel_socio(puntaje):
+    """Convierte un puntaje en nivel socioeconómico (Bajo / Medio / Alto)."""
+    for nombre, minimo, maximo in NIVELES_SOCIO:
+        if minimo <= puntaje <= maximo:
+            return nombre
+    return "Sin clasificar"
+
+
+def obtener_niveles_socio(G):
+    """Devuelve [(alumno_id, puntaje, nivel)] leyendo las flechas 'evaluado'
+    que llegan al bloque 'Situacion socioeconomica'."""
+    bloque_id = next((n for n, d in G.nodes(data=True)
+                      if d.get("tipo") == "instancia" and d.get("nombre") == NOMBRE_BLOQUE_SOCIO), None)
+    if bloque_id is None:
+        return []
+
+    resultados = []
+    for u, _, d in G.in_edges(bloque_id, data=True):
+        if d.get("label") == "evaluado" and "puntaje" in d:
+            resultados.append((u, d["puntaje"], clasificar_nivel_socio(d["puntaje"])))
+    resultados.sort(key=lambda x: x[1], reverse=True)
+    return resultados
+
+
+def consulta_por_nivel_socioeconomico(G, nivel):
+    """Lista los alumnos que pertenecen a un nivel socioeconómico dado."""
+    datos = [r for r in obtener_niveles_socio(G) if r[2].lower() == nivel.lower()]
+    rango = next((f"{mn}-{mx}" for nom, mn, mx in NIVELES_SOCIO if nom.lower() == nivel.lower()), "?")
+
+    print(f"\n--- NIVEL SOCIOECONÓMICO {nivel.upper()} (puntaje {rango}) | {len(datos)} alumno(s) ---")
+    if not datos:
+        print("  (ningún alumno en este nivel)")
+        return datos
+
+    for alumno_id, puntaje, _ in datos:
+        carrera = G.nodes[alumno_id].get("carrera_sugerida", "Nulo")
+        nc = G.nodes[alumno_id].get("no_control", "Nulo")
+        print(f"  [{alumno_id}] {nombre_nodo(G, alumno_id):<14} | NC: {nc} | "
+              f"Puntaje: {puntaje:<3} | Carrera sugerida: {carrera}")
+    return datos
+
+
+def demo_nivel_socioeconomico(G):
+    """Demo completa: resumen, detalle por nivel y gráfica de barras."""
+    datos = obtener_niveles_socio(G)
+    if not datos:
+        print(f"\n[!] No se encontró el bloque '{NOMBRE_BLOQUE_SOCIO}' en el grafo.")
+        return
+
+    print("\n" + "=" * 65)
+    print(" DEMO: CONSULTA POR NIVEL SOCIOECONÓMICO")
+    print(f" Bloque consultado: {NOMBRE_BLOQUE_SOCIO}")
+    print("=" * 65)
+
+    # 1. Resumen: cuántos alumnos hay en cada nivel
+    print("\nCriterio de clasificación:")
+    for nombre, mn, mx in NIVELES_SOCIO:
+        total = sum(1 for r in datos if r[2] == nombre)
+        print(f"  • {nombre:<6} ({mn}-{mx}) -> {total} alumno(s)")
+
+    # 2. Detalle por nivel (de Alto a Bajo)
+    for nombre, _, _ in reversed(NIVELES_SOCIO):
+        consulta_por_nivel_socioeconomico(G, nombre)
+
+    # 3. Gráfica de barras con colores por nivel
+    etiquetas = [f"{a}\n{nombre_nodo(G, a)}" for a, _, _ in datos]
+    puntajes = [p for _, p, _ in datos]
+    colores = [COLORES_NIVEL[n] for _, _, n in datos]
+
+    plt.figure(figsize=(10, 6))
+    barras = plt.bar(etiquetas, puntajes, color=colores, edgecolor="black")
+    for barra, p in zip(barras, puntajes):
+        plt.text(barra.get_x() + barra.get_width() / 2, p + 0.8, str(p), ha="center", fontweight="bold")
+
+    # Líneas de corte entre niveles
+    plt.axhline(NIVELES_SOCIO[1][1] - 0.5, color="gray", linestyle="--", linewidth=1)
+    plt.axhline(NIVELES_SOCIO[2][1] - 0.5, color="gray", linestyle="--", linewidth=1)
+
+    leyenda = [plt.Rectangle((0, 0), 1, 1, color=c) for c in COLORES_NIVEL.values()]
+    plt.legend(leyenda, [f"{n} ({mn}-{mx})" for n, mn, mx in NIVELES_SOCIO], title="Nivel")
+    plt.ylim(0, 110)
+    plt.ylabel("Puntaje")
+    plt.title("Nivel socioeconómico por alumno", fontsize=14, fontweight="bold")
+    plt.tight_layout()
+    plt.show()
+
+
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
     op = "0"
-    while op != "5":
+    while op != "9":
         menu()
         op = input("\nusuario@> ")
-    
+
         match op:
             case "1":
-                print("*"*150,"\nIMPRESION DE TODA LA RED\n")
+                print("*" * 150, "\nIMPRESION DE TODA LA RED\n")
                 imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
 
             case "2":
-                print("*"*150,"\nGRAFO COMPLETO\n")
+                print("*" * 150, "\nGRAFO COMPLETO\n")
                 visualizar_grafo(G)
 
             case "3":
-                print("*"*150,"\nBUSQUEDA DE ALUMNO POR NUMERO DE CNTROL\n")
+                print("*" * 150, "\nBUSQUEDA DE ALUMNO POR NUMERO DE CONTROL\n")
                 nc = input("\nIngresa el número de control del alumno a buscar (ej. 202301): ")
-                # Pasamos G y alumnos como parámetros
                 buscar(nc, G, alumnos)
-                
+
             case "4":
-                print("*"*150,"\nBUSQUEDA DE ALUMNO POR NOMBRE\n")
+                print("*" * 150, "\nBUSQUEDA DE ALUMNO POR NOMBRE\n")
                 nombre = input("\nIngresa el nombre del alumno a buscar (ej. Juan): ")
                 buscar_por_nombre(nombre, G, alumnos)
-                
+
             case "5":
+                print("*" * 150, "\nCONSULTA POR ENLACE\n")
+                consulta_por_enlace(G, input("Relación (evaluado / importante para / carrera sugerida): ").strip())
+
+            case "6":
+                print("*" * 150, "\nCONSULTA POR DATA PROPERTY (PUNTAJE)\n")
+                try:
+                    minimo = int(input("Puntaje mínimo: "))
+                    maximo = int(input("Puntaje máximo: "))
+                    consulta_por_propiedad(G, minimo, maximo)
+                except ValueError:
+                    print("[!] Ingresa números enteros.")
+
+            case "7":
+                print("*" * 150, "\nCONSULTA POR NODO AL QUE LLEVA\n")
+                consulta_por_nodo(G, input("ID del nodo (ej. a1, b3, c1): ").strip())
+
+            case "8":
+                print("*" * 150, "\nDEMO: CONSULTA POR NIVEL SOCIOECONÓMICO\n")
+                demo_nivel_socioeconomico(G)
+
+            case "9":
                 print("Saliendo del sistema...")
-                time.sleep(3.5)
+                time.sleep(2.5)
                 print("Adios...")
             case _:
                 print("Opcion no valida. Vuelve a intentarlo")

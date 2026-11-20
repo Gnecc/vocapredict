@@ -167,6 +167,21 @@ def inferir_perfil(rdf, fila):
     return resultados
 
 
+def imprimir_inferencia_perfil(rdf, fila):
+    """Presenta la procedencia y la evidencia de un perfil del CSV."""
+    resultados = inferir_perfil(rdf, fila)
+    perfil = VOC[f"perfil/{fila:05d}"]
+    origen = rdf.value(perfil, VOC.origenRegistro)
+    etiqueta = rdf.value(perfil, VOC.etiquetaDelDataset)
+    codigo = rdf.value(etiqueta, VOC.codigo)
+    print(f"Afinidades demostrativas del perfil {fila} "
+          f"(origen: {origen}; etiqueta generada: {codigo}):")
+    for carrera, evidencias in resultados:
+        print(f"  {carrera}: " + ", ".join(f"{nombre}={puntaje}" for nombre, puntaje in evidencias))
+    if not resultados:
+        print("  Ninguna con el umbral 0.85.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Convierte perfiles CSV a OWL/RDF XML.")
     parser.add_argument("--csv", type=Path, default=CSV_PREDETERMINADO)
@@ -184,17 +199,7 @@ def main():
 
     if args.perfil is not None:
         cargado = Graph().parse(args.salida, format="xml")
-        resultados = inferir_perfil(cargado, args.perfil)
-        perfil = VOC[f"perfil/{args.perfil:05d}"]
-        origen = cargado.value(perfil, VOC.origenRegistro)
-        etiqueta = cargado.value(perfil, VOC.etiquetaDelDataset)
-        codigo = cargado.value(etiqueta, VOC.codigo)
-        print(f"Afinidades demostrativas del perfil {args.perfil} "
-              f"(origen: {origen}; etiqueta generada: {codigo}):")
-        for carrera, evidencias in resultados:
-            print(f"  {carrera}: " + ", ".join(f"{nombre}={puntaje}" for nombre, puntaje in evidencias))
-        if not resultados:
-            print("  Ninguna con el umbral 0.85.")
+        imprimir_inferencia_perfil(cargado, args.perfil)
 
 
 if __name__ == "__main__":

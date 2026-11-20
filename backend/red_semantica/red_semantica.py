@@ -239,7 +239,7 @@ def visualizar_grafo(G):
 
 
 def menu():
-    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Inferir afinidades con RDF/OWL-RL\n(10) Salir...")
+    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Inferir afinidades de los alumnos de ejemplo\n(10) Inferir afinidades de un perfil del CSV\n(11) Salir...")
 
 
 # --- FUNCIÓN MEJORADA: CONSULTA DE VECINOS, DATAPROPERTIES Y DIBUJO DE SUBGRAFO ---
@@ -548,8 +548,9 @@ def demo_nivel_socioeconomico(G):
 
 if __name__ == "__main__":
     G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
+    rdf_perfiles = None
     op = "0"
-    while op != "10":
+    while op != "11":
         menu()
         op = input("\nusuario@> ")
 
@@ -598,6 +599,23 @@ if __name__ == "__main__":
                 imprimir_afinidades(G)
 
             case "10":
+                fila_texto = input("Número de fila del CSV (o 'c' para cancelar): ").strip()
+                if fila_texto.lower() == "c":
+                    continue
+                if not fila_texto.isdecimal() or int(fila_texto) < 1:
+                    print("[!] Ingresa un número de fila positivo.")
+                    continue
+                from poblar_ontologia import cargar_csv_como_rdf, imprimir_inferencia_perfil
+                try:
+                    if rdf_perfiles is None:
+                        print("Cargando perfiles del CSV y comprobando su procedencia...")
+                        rdf_perfiles, origenes = cargar_csv_como_rdf()
+                        print(f"Cargados {sum(origenes.values())} perfiles.")
+                    imprimir_inferencia_perfil(rdf_perfiles, int(fila_texto))
+                except (OSError, ValueError) as error:
+                    print(f"[!] No se pudo consultar el perfil: {error}")
+
+            case "11":
                 print("Saliendo del sistema...")
                 time.sleep(2.5)
                 print("Adios...")

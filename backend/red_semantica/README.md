@@ -14,7 +14,8 @@ python -m pip install -r requirements.txt
 python red_semantica.py
 ```
 
-La opción **9** del menú ejecuta la inferencia. También puede usarse directamente:
+La opción **9** del menú ejecuta la inferencia sobre los cinco alumnos de
+ejemplo. También puede usarse directamente:
 
 ```bash
 python inferencia.py
@@ -58,6 +59,10 @@ Desde la raíz del proyecto:
 ```bash
 backend/.venv/bin/python backend/red_semantica/poblar_ontologia.py --perfil 3
 ```
+
+En el menú principal, la opción **10** pide un número de fila del CSV e infiere
+las afinidades de ese perfil. El CSV se carga y verifica una sola vez durante
+la sesión; la opción **11** sale del menú.
 
 El comando genera `backend/artifacts/perfiles_vocacionales.owl` en **RDF/XML**,
 que puede abrirse como ontología OWL. También vuelve a leer ese archivo y, con

@@ -41,3 +41,32 @@ se generan como datos de ejemplo; no se ha validado que una afinidad inferida
 prediga satisfacción o éxito profesional. El bloque de situación socioeconómica
 no cuenta como aptitud para esta inferencia. La inferencia no está conectada a
 la API de predicción ni al frontend.
+
+## Poblar desde el CSV existente
+
+El conjunto `backend/data/conjunto_de_datos_aumentado_75_sintetico_amai.csv`
+contiene **1,400 perfiles**: 350 originales y 1,050 sintéticos. Sus nueve
+columnas de intereses corresponden a los bloques `b1`–`b9`, pero sus puntajes
+están normalizados entre 0 y 1. No contiene nombres ni números de control; por
+eso el importador crea instancias `PerfilVocacional`, no `Alumno`. La columna
+`CARRERA_ACTUAL` se conserva como `etiquetaDelDataset` porque procede del
+reetiquetado histórico, no de una carrera declarada o recomendación validada.
+El valor AMAI se guarda como dato aparte y no participa en la regla de aptitud.
+
+Desde la raíz del proyecto:
+
+```bash
+backend/.venv/bin/python backend/red_semantica/poblar_ontologia.py --perfil 3
+```
+
+El comando genera `backend/artifacts/perfiles_vocacionales.owl` en **RDF/XML**,
+que puede abrirse como ontología OWL. También vuelve a leer ese archivo y, con
+`--perfil`, ejecuta OWL-RL sobre un perfil a la vez. Esto evita expandir toda
+la ontología de 1,400 perfiles al consultar un solo registro. La relación
+`destacaEn` usa **0.85** como umbral demostrativo para los puntajes normalizados.
+
+La procedencia de cada fila está en `procedencia_perfiles.csv`: indica si es
+original o sintética, su fila fuente y una firma SHA-256 de las columnas del
+CSV. El importador verifica esa firma y rechaza archivos desalineados. Las
+relaciones bloque–carrera siguen siendo las del ejemplo original y requieren
+revisión antes de interpretarse como recomendaciones reales.

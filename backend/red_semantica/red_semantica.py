@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 import time
 from clases import Alumno, BloqueAptitud, Carrera, Evaluacion
+from catalogo import BLOQUES, CARRERAS
 
 # Niveles socioeconómicos según el puntaje del bloque "Situacion socioeconomica"
 NOMBRE_BLOQUE_SOCIO = "Situacion socioeconomica"
@@ -32,11 +33,7 @@ def configurar_ontologia():
     ])
 
     # --- 2. INSTANCIAS DE CARRERAS ---
-    c1 = Carrera("c1", "Ingenieria en Computacion (ICO)")
-    c2 = Carrera("c2", "Licenciatura en Informatica Administrativa (LIA)")
-    c3 = Carrera("c3", "Ingenieria en Sistemas Inteligentes (ISC)")
-    c4 = Carrera("c4", "Licenciatura en Lenguas (LLE)")
-    carreras = [c1, c2, c3, c4]
+    carreras = [Carrera(carrera_id, nombre) for carrera_id, nombre, _ in CARRERAS]
 
     # --- 3. INSTANCIAS DE ALUMNOS ---
     a1 = Alumno("a1", "Juan Perez", "202301", "ICO")
@@ -47,22 +44,14 @@ def configurar_ontologia():
     alumnos = [a1, a2, a3, a4, a5]
 
     # --- 4. INSTANCIAS DE BLOQUES/APTITUDES ---
-    aptitudes_base = [
-        ("Calculo", c1), ("C. Fisico", c1), ("C. Biologico", c2),
-        ("Mecanico", c3), ("Servicio social", c4), ("Literario", c4),
-        ("Persuasivo", c2), ("Artistico", c4), ("Musical", c4),
-        ("Situacion socioeconomica", c1)
-    ]
-
     bloques = []
     # Cada relación es una tupla: (origen, destino, etiqueta, data_properties_de_la_relacion)
     relaciones_instancias = []
 
-    for i, (nombre_apt, carrera_vinculada) in enumerate(aptitudes_base, 1):
-        id_bloque = f"b{i}"
+    for id_bloque, nombre_apt, carrera_id in BLOQUES:
         nuevo_bloque = BloqueAptitud(id_bloque, nombre_apt)
         bloques.append(nuevo_bloque)
-        relaciones_instancias.append((id_bloque, carrera_vinculada.get_id(), "importante para", {}))
+        relaciones_instancias.append((id_bloque, carrera_id, "importante para", {}))
 
     # Relación Alumno -> Carrera (carrera sugerida), enlazada por siglas "(ICO)", "(LIA)"...
     carrera_por_sigla = {c.get_nombre().split("(")[-1].rstrip(")"): c for c in carreras}

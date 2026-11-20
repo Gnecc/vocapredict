@@ -76,11 +76,16 @@ def construir_rdf(grafo, umbral=UMBRAL_DEMO):
                 ):
                     rdf.add((sujeto, VOC.destacaEn, objeto))
 
+    agregar_regla_afinidad(rdf)
+    return rdf
+
+
+def agregar_regla_afinidad(rdf):
+    """Declara la regla OWL compartida por los ejemplos y perfiles importados."""
     cadena = BNode()
     Collection(rdf, cadena, [VOC.destacaEn, VOC.importantePara])
     rdf.add((VOC.afinidadCon, RDF.type, OWL.ObjectProperty))
     rdf.add((VOC.afinidadCon, OWL.propertyChainAxiom, cadena))
-    return rdf
 
 
 def inferir_afinidades(grafo, umbral=UMBRAL_DEMO):

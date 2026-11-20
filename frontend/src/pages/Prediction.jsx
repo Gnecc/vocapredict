@@ -2,13 +2,12 @@ import React from "react";
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-    IonList, IonItem, IonLabel, IonBadge, IonButton, useIonRouter
+    IonList, IonItem, IonLabel, IonButton, useIonRouter
 } from "@ionic/react";
 import styles from "./Prediction.module.scss";
 import { clearResponses } from "../storage";
 
-const STORAGE_KEY = "last_prediction";
-
+const STORAGE_KEY = "last_prediction_riasec_v1";
 function loadLastPrediction() {
     try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? null;
@@ -20,11 +19,9 @@ function loadLastPrediction() {
 export default function Prediction() {
     const router = useIonRouter();
     const nav = router.routeInfo?.state ?? {};
-    const prediction = nav?.prediction ?? loadLastPrediction()?.prediction ?? null;
-    const probabilities = nav?.probabilities ?? loadLastPrediction()?.probabilities ?? null;
-    const sortedProbabilities = probabilities
-        ? Object.entries(probabilities).sort((a, b) => b[1] - a[1])
-        : [];
+    const result = nav?.recommendations ? nav : loadLastPrediction() ?? {};
+    const recommendations = result.recommendations ?? [];
+    const suggestedCareer = recommendations[0];
 
     const goHome = () => {
         clearResponses();
@@ -36,7 +33,7 @@ export default function Prediction() {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Predicción del modelo</IonTitle>
+                    <IonTitle>Carreras sugeridas</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -45,37 +42,28 @@ export default function Prediction() {
                 <IonCard className={styles.predictionCard}>
                     <IonCardHeader>
                         <IonCardTitle>
-                            Predicción del modelo
+                            Carreras sugeridas según tus intereses
                         </IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
-                        {prediction && (
+                        {suggestedCareer && (
                             <div className={styles.predictionHero}>
-                                <span>Resultado sugerido</span>
-                                <strong>{prediction}</strong>
+                                <span>Primera opción para explorar</span>
+                                <strong>{suggestedCareer.career_name}</strong>
                             </div>
                         )}
-                        {probabilities ? (
+                        {recommendations.length ? (
                             <>
-                                <p>Probabilidades por clase:</p>
+                                <p>El modelo relaciona tus respuestas con carreras que otras personas declararon estudiar. No predice satisfacción ni éxito profesional.</p>
                                 <IonList className={styles.probabilityList}>
-                                    {sortedProbabilities.map(([label, p]) => {
-                                        const percent = Math.max(0, Math.min(100, p * 100));
-
+                                    {recommendations.slice(0, 3).map((recommendation, index) => {
                                         return (
-                                            <IonItem key={label} lines="none" className={styles.probabilityItem}>
+                                            <IonItem key={recommendation.career_code} lines="none" className={styles.probabilityItem}>
                                                 <IonLabel className={styles.probabilityContent}>
                                                     <div className={styles.probabilityHeader}>
-                                                        <span className={styles.probabilityLabel}>{label}</span>
-                                                        <IonBadge className={styles.probabilityBadge}>
-                                                            {percent.toFixed(1)}%
-                                                        </IonBadge>
-                                                    </div>
-                                                    <div className={styles.probabilityTrack}>
-                                                        <div
-                                                            className={styles.probabilityBar}
-                                                            style={{ width: `${percent}%` }}
-                                                        />
+                                                        <span className={styles.probabilityLabel}>
+                                                            <strong>{index + 1}. {recommendation.career_name}</strong>
+                                                        </span>
                                                     </div>
                                                 </IonLabel>
                                             </IonItem>
@@ -84,7 +72,7 @@ export default function Prediction() {
                                 </IonList>
                             </>
                         ) : (
-                            <p>El servicio no devolvió probabilidades. Solo se muestra la clase predicha.</p>
+                            <p>No hay sugerencias guardadas. Completa el cuestionario y analiza tu perfil.</p>
                         )}
 
                         <div className={styles.predictionActions}>

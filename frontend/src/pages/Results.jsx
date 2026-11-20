@@ -3,12 +3,12 @@ import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonList, IonItem, IonLabel, IonNote, IonBadge,
     IonButton, IonCard, IonCardHeader, IonCardTitle,
-    IonCardContent, IonProgressBar, useIonRouter, IonToast, IonSpinner
+    IonCardContent, IonProgressBar, useIonRouter, useIonViewWillEnter, IonToast, IonSpinner
 } from "@ionic/react";
 import { loadResponses, clearResponses } from "../storage";
-import { calculateAmai } from "../amai";
+import { RIASEC_AREAS, RIASEC_QUESTIONS } from "../questions/riasec";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "https://macso-patient-dream-1724.fly.dev";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
 const PREDICT_URL = `${API_BASE_URL.replace(/\/$/, "")}/predict`;
 
 function toCSV(rows) {
@@ -26,58 +26,20 @@ function toCSV(rows) {
     return lines.join("\n");
 }
 
+const AREA_LABELS = { R: "Realista", I: "Investigador", A: "Artístico", S: "Social", E: "Emprendedor", C: "Convencional" };
+
 function aggregateByCategory(responses) {
-    const map = new Map();
-    for (const r of responses.filter(response => response.type !== "socioeconomic")) {
-        const key = r.category || "Desconocida";
-        if (!map.has(key)) map.set(key, []);
-        if (typeof r.value === "number" && r.value >= 1 && r.value <= 5) {
-            map.get(key).push(r.value);
-        }
-    }
-    const out = [];
-    for (const [category, values] of map.entries()) {
+    const validIds = new Set(RIASEC_QUESTIONS.map(question => question.id));
+    const byId = new Map(responses.filter(response =>
+        response.type === "riasec" && validIds.has(response.questionId) &&
+        Number.isInteger(response.value) && response.value >= 1 && response.value <= 5
+    ).map(response => [response.questionId, response.value]));
+    return RIASEC_AREAS.map(category => {
+        const values = Array.from({ length: 8 }, (_, index) => byId.get(`${category}${index + 1}`)).filter(value => value != null);
         const count = values.length;
         const sum = values.reduce((a, b) => a + b, 0);
-        const avg = count ? sum / count : 0;
-        const pctOfMax = count ? sum / (count * 5) : 0; // 0..1
-        out.push({ category, count, sum, avg, pctOfMax });
-    }
-    out.sort((a, b) => b.avg - a.avg || b.pctOfMax - a.pctOfMax);
-    return out;
-}
-
-const CATEGORY_ORDER = [
-    "Cálculo",
-    "C. Físico",
-    "C. Biológico",
-    "Mecánico",
-    "S. Social",
-    "Literario",
-    "Persuasivo",
-    "Artístico",
-    "Musical",
-];
-
-const CATEGORY_ALIASES = {
-    "Servicio Social": "S. Social",
-};
-
-function getNormalizedScore(row) {
-    return row.pctOfMax ?? 0;
-}
-
-function buildScoresPayload(aggregates, amai) {
-    const byName = new Map();
-    for (const row of aggregates) {
-        const normalizedName = CATEGORY_ALIASES[row.category] || row.category;
-        byName.set(normalizedName, getNormalizedScore(row));
-    }
-    const scores = CATEGORY_ORDER.map(cat =>
-        Number((byName.get(cat) ?? 0).toFixed(2))
-    );
-    scores.push(amai.normalized);
-    return { scores };
+        return { category, count, sum, avg: count ? sum / count : 0, pctOfMax: count ? sum / (count * 5) : 0 };
+    });
 }
 
 export default function Results() {
@@ -86,12 +48,11 @@ export default function Results() {
     const [sending, setSending] = useState(false);
     const [toast, setToast] = useState({ open: false, msg: "" });
 
-    useEffect(() => {
-        setResponses(loadResponses());
-    }, []);
+    useEffect(() => { setResponses(loadResponses()); }, []);
+    useIonViewWillEnter(() => { setResponses(loadResponses()); });
 
     const aggregates = useMemo(() => aggregateByCategory(responses), [responses]);
-    const amai = useMemo(() => calculateAmai(responses), [responses]);
+    const complete = aggregates.every(area => area.count === 8);
 
     const handleClear = () => {
         clearResponses();
@@ -114,12 +75,12 @@ export default function Results() {
         try {
             setSending(true);
 
-            if (!amai) {
-                setToast({ open: true, msg: "Faltan respuestas socioeconómicas para calcular AMAI." });
+            if (!complete) {
+                setToast({ open: true, msg: "Responde las 48 actividades antes de analizar tus intereses." });
                 return;
             }
 
-            const payload = buildScoresPayload(aggregates, amai);
+            const payload = { scores: aggregates.map(area => Number(area.pctOfMax.toFixed(6))) };
 
             const res = await fetch(PREDICT_URL, {
                 method: "POST",
@@ -128,22 +89,31 @@ export default function Results() {
             });
 
             const data = await res.json().catch(() => ({}));
+            if (!res.ok || !Array.isArray(data.recommendations) || !data.recommendations.length) {
+                throw new Error(data.detail || "El servicio no devolvió carreras sugeridas.");
+            }
 
-            localStorage.setItem("last_prediction", JSON.stringify({
+            localStorage.setItem("last_prediction_riasec_v1", JSON.stringify({
                 prediction: data?.prediction ?? null,
-                probabilities: data?.probabilities ?? null
+                probabilities: data?.probabilities ?? null,
+                recommendations: data.recommendations,
+                career_labels: data.career_labels ?? null,
+                model_basis: data.model_basis ?? null,
             }));
 
             router.push("/prediction", {
                 state: {
                     prediction: data?.prediction ?? null,
-                    probabilities: data?.probabilities ?? null
+                    probabilities: data?.probabilities ?? null,
+                    recommendations: data.recommendations,
+                    career_labels: data.career_labels ?? null,
+                    model_basis: data.model_basis ?? null,
                 }
             });
 
         } catch (err) {
             console.error("Error /predict:", err);
-            setToast({ open: true, msg: "Error al analizar datos." });
+            setToast({ open: true, msg: err.message || "Error al analizar datos." });
         } finally {
             setSending(false);
         }
@@ -175,36 +145,18 @@ export default function Results() {
                             Escala: 1 = “Me desagrada mucho”, 5 = “Me gusta mucho”.
                         </IonNote>
                         <p className="vp-muted">
-                            Los valores resumen tus respuestas por área de interés. Un porcentaje mayor indica
-                            mayor afinidad relativa con esa dimensión dentro del cuestionario.
+                            Los valores resumen tus respuestas en las seis áreas RIASEC. Son intereses expresados,
+                            no medidas de habilidad ni equivalencias con el cuestionario Hereford.
                         </p>
                     </IonCardContent>
                 </IonCard>
-
-                {amai && (
-                    <IonCard>
-                        <IonCardHeader>
-                            <IonCardTitle>Nivel socioeconómico AMAI</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent>
-                            <IonNote>
-                                Nivel: <strong>{amai.level}</strong> &nbsp;|&nbsp; Valor normalizado:{" "}
-                                <strong>{amai.normalized.toFixed(6)}</strong>
-                            </IonNote>
-                            <p className="vp-muted">
-                                AMAI resume información del hogar en una escala de 0 a 1; valores más altos
-                                representan mejores condiciones socioeconómicas estimadas por la regla AMAI.
-                            </p>
-                        </IonCardContent>
-                    </IonCard>
-                )}
 
                 <IonList className="vp-card-grid">
                     {aggregates.map((row) => (
                         <IonItem key={row.category} lines="full" className="ion-text-wrap">
                             <IonLabel>
                                 <h2 style={{marginBottom: 6}}>
-                                    {row.category}{" "}
+                                    {AREA_LABELS[row.category]} ({row.category}){" "}
                                     <IonBadge color="primary" style={{verticalAlign: "middle"}}>
                                         n={row.count}
                                     </IonBadge>
@@ -222,7 +174,7 @@ export default function Results() {
                     ))}
                 </IonList>
 
-                {!aggregates.length && (
+                {!responses.length && (
                     <IonCard>
                         <IonCardContent>
                             <p>No hay respuestas guardadas. Realiza el cuestionario primero.</p>
@@ -235,7 +187,7 @@ export default function Results() {
                         expand="block"
                         fill="solid"
                         onClick={handleAnalyze}
-                        disabled={sending}
+                        disabled={sending || !complete}
                     >
                         {sending ? <IonSpinner name="dots"/> : 'Analizar datos'}
                     </IonButton>

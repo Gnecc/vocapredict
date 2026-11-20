@@ -1,6 +1,6 @@
 # VocaPredict Frontend
 
-Frontend web para responder el cuestionario vocacional corto y enviar los puntajes al backend de prediccion.
+Frontend web para responder 48 actividades RIASEC y enviar seis puntajes al backend de recomendaciones.
 
 ## Requisitos
 
@@ -21,7 +21,7 @@ Crea `frontend/.env.local` cuando quieras apuntar a un backend local:
 REACT_APP_API_URL=http://localhost:8080
 ```
 
-Si no se define, la app usa el backend desplegado configurado en el codigo.
+En desarrollo, si no se define, la app usa `http://localhost:8080`. La compilación Docker requiere `REACT_APP_API_URL`; `fly.toml` indica el backend de Fly. Despliega el backend RIASEC actualizado antes de publicar este frontend.
 
 ## Desarrollo
 
@@ -48,6 +48,6 @@ npm run build
 ## Flujo de la app
 
 - `/home`: instrucciones e inicio del cuestionario.
-- `/questions`: cuestionario de intereses de 27 reactivos.
-- `/results`: resumen de puntajes y envio al backend.
-- `/prediction`: prediccion y probabilidades devueltas por el modelo.
+- `/questions`: 48 actividades RIASEC calificadas de 1 a 5.
+- `/results`: seis puntajes normalizados y envío al backend.
+- `/prediction`: tres carreras sugeridas para explorar.

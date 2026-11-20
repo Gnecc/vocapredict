@@ -16,11 +16,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el código y los artefactos del modelo
+# Copia el servicio y el artefacto RIASEC ya entrenado
 COPY serve.py .
-COPY svm_model.joblib label_encoder.joblib ./
-# (Si tu serve.py lee el .xlsx por alguna razón en runtime, cópialo también)
-# COPY conjunto_de_datos_normalizados.xlsx ./
+COPY riasec_model.joblib ./
 
 EXPOSE 8080
 

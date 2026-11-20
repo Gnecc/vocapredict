@@ -2,7 +2,8 @@ import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonIco
 import styles from "./Home.module.scss";
 
 import { informationCircleOutline, playOutline } from "ionicons/icons";
-import { clearResponses } from "../storage";
+import { clearResponses, loadResponses } from "../storage";
+import { RIASEC_QUESTIONS } from "../questions/riasec";
 
 const Home = () => {
 
@@ -10,9 +11,15 @@ const Home = () => {
 	const router = useIonRouter();
 
 	const startQuestionnaire = () => {
-		clearResponses();
-		localStorage.removeItem("last_prediction");
-		router.push(`/questions?session=${Date.now()}`, "forward", "push");
+		const responses = loadResponses();
+		const shouldResume = responses.length > 0 && responses.length < RIASEC_QUESTIONS.length;
+
+		if (!shouldResume) {
+			clearResponses();
+		}
+
+		localStorage.removeItem("last_prediction_riasec_v1");
+		router.push(`/questions?session=${Date.now()}${shouldResume ? "&resume=1" : ""}`, "forward", "push");
 	};
 
 	return (
@@ -30,15 +37,14 @@ const Home = () => {
 						<IonCard className={styles.instructions}>
 							<IonCardContent>
 								<p className={styles.eyebrow}>VocaPredict</p>
-								<h1>Cuestionario vocacional y socioeconómico</h1>
+								<h1>Cuestionario de intereses RIASEC</h1>
 								<p>
-									Responde el inventario de intereses de Karl Hereford y el estudio socioeconómico.
-									Al finalizar, el modelo estimará la carrera más afín considerando tus intereses
-									y el valor AMAI normalizado.
+									Califica qué tanto te gustaría realizar cada una de las 48 actividades.
+									Al finalizar verás tres carreras sugeridas a partir de tus intereses.
 								</p>
 								<p className={styles.responseHint}>
 									Lee cada enunciado con calma y elige la opción que mejor represente qué tanto
-									te gusta o se acerca a tu percepción.
+									te gustaría realizar la actividad.
 								</p>
 								<ul>
 									<li>1. Me desagrada mucho</li>

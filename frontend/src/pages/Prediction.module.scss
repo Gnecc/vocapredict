@@ -31,6 +31,15 @@
         line-height: 1;
         letter-spacing: -0.06em;
     }
+
+    small {
+        display: block;
+        max-width: 100%;
+        font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+        font-weight: 700;
+        line-height: 1.25;
+        opacity: 0.9;
+    }
 }
 
 .probabilityItem {
@@ -57,9 +66,24 @@
 }
 
 .probabilityLabel {
+    display: grid;
+    gap: 0.2rem;
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--vp-ink);
+
+    strong {
+        font-size: 1.05rem;
+        line-height: 1;
+    }
+
+    small {
+        max-width: 14rem;
+        color: var(--vp-muted);
+        font-size: 0.78rem;
+        font-weight: 650;
+        line-height: 1.2;
+    }
 }
 
 .probabilityBadge {

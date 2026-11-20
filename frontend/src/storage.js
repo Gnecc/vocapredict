@@ -1,4 +1,5 @@
-const KEY = 'quiz_responses';
+// Keep the previous Hereford responses untouched when switching instruments.
+const KEY = 'quiz_responses_riasec_v1';
 
 export function loadResponses() {
     try {

@@ -1,13 +1,16 @@
 import csv
+import io
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 from rdflib import Graph
 from rdflib.namespace import OWL, RDF
 
 from inferencia import VOC
-from poblar_ontologia import CSV_PREDETERMINADO, cargar_csv_como_rdf, inferir_perfil
+from poblar_ontologia import (CSV_PREDETERMINADO, cargar_csv_como_rdf,
+                             imprimir_inferencia_perfil, inferir_perfil)
 
 
 class PoblacionTest(unittest.TestCase):
@@ -52,6 +55,15 @@ class PoblacionTest(unittest.TestCase):
                 escritor.writerows(filas)
             with self.assertRaisesRegex(ValueError, "Fila 1: la procedencia no coincide"):
                 cargar_csv_como_rdf(csv_alterado)
+
+    def test_perfil_sin_afinidad_explica_el_umbral_y_muestra_puntajes(self):
+        salida = io.StringIO()
+        with redirect_stdout(salida):
+            imprimir_inferencia_perfil(self.rdf, 7)
+        texto = salida.getvalue()
+        self.assertIn("ninguna aptitud alcanza 0.85", texto)
+        self.assertIn("Calculo=0.800279", texto)
+        self.assertIn("Mecanico=0.793147", texto)
 
 
 if __name__ == "__main__":

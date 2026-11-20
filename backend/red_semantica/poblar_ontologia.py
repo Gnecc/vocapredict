@@ -179,7 +179,18 @@ def imprimir_inferencia_perfil(rdf, fila):
     for carrera, evidencias in resultados:
         print(f"  {carrera}: " + ", ".join(f"{nombre}={puntaje}" for nombre, puntaje in evidencias))
     if not resultados:
-        print("  Ninguna con el umbral 0.85.")
+        if not list(rdf.objects(perfil, VOC.destacaEn)):
+            print("  No se infirió ninguna afinidad: ninguna aptitud alcanza 0.85.")
+        else:
+            print("  No se infirió ninguna afinidad: las aptitudes destacadas no tienen carrera vinculada.")
+        puntajes = []
+        for evaluacion in rdf.objects(perfil, VOC.tieneEvaluacion):
+            bloque = rdf.value(evaluacion, VOC.bloque)
+            puntaje = rdf.value(evaluacion, VOC.puntajeNormalizado)
+            puntajes.append((Decimal(str(puntaje)), str(rdf.value(bloque, VOC.nombre))))
+        destacados = sorted(puntajes, key=lambda item: (-item[0], item[1]))[:3]
+        print("  Puntajes más altos: " + ", ".join(
+            f"{nombre}={puntaje}" for puntaje, nombre in destacados))
 
 
 def main():

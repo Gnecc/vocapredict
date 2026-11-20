@@ -7,16 +7,18 @@ CARRERAS = (
     ("c4", "Licenciatura en Lenguas (LLE)", "LLE"),
 )
 
-# Las relaciones bloque -> carrera siguen siendo las de la demostración original.
+# Vínculos provisionales: áreas con valor >= 0.70 en los perfiles objetivo de
+# backend/scripts/relabel_dataset.py. Son rasgos de plantillas históricas, no
+# requisitos académicos de las carreras ni relaciones validadas por orientadores.
 BLOQUES = (
-    ("b1", "Calculo", "c1"),
-    ("b2", "C. Fisico", "c1"),
-    ("b3", "C. Biologico", "c2"),
-    ("b4", "Mecanico", "c3"),
-    ("b5", "Servicio social", "c4"),
-    ("b6", "Literario", "c4"),
-    ("b7", "Persuasivo", "c2"),
-    ("b8", "Artistico", "c4"),
-    ("b9", "Musical", "c4"),
-    ("b10", "Situacion socioeconomica", "c1"),
+    ("b1", "Calculo", ("c1", "c3")),
+    ("b2", "C. Fisico", ("c1", "c3")),
+    ("b3", "C. Biologico", ()),
+    ("b4", "Mecanico", ("c1", "c3")),
+    ("b5", "Servicio social", ("c2", "c4")),
+    ("b6", "Literario", ("c4",)),
+    ("b7", "Persuasivo", ("c2", "c4")),
+    ("b8", "Artistico", ()),
+    ("b9", "Musical", ()),
+    ("b10", "Situacion socioeconomica", ()),
 )

@@ -13,6 +13,8 @@ from rdflib import Graph, Literal
 from rdflib.namespace import OWL, RDF, RDFS, XSD
 
 from catalogo import BLOQUES, CARRERAS
+from criterio import (AgenteIntereses, AgenteRevision, AgenteVinculos,
+                      MINIMO_INTERES, VERSION_CRITERIO)
 from inferencia import VOC, agregar_regla_afinidad
 
 
@@ -20,7 +22,6 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 CSV_PREDETERMINADO = DATA_DIR / "conjunto_de_datos_aumentado_75_sintetico_amai.csv"
 PROCEDENCIA_PREDETERMINADA = Path(__file__).resolve().parent / "procedencia_perfiles.csv"
 SALIDA_PREDETERMINADA = Path(__file__).resolve().parent.parent / "artifacts" / "perfiles_vocacionales.owl"
-UMBRAL_NORMALIZADO_DEMO = Decimal("0.85")
 
 # Las nueve columnas de interés corresponden a b1-b9. AMAI se conserva aparte.
 COLUMNAS_APTITUD = (
@@ -53,17 +54,20 @@ def _esquema(rdf):
     rdf.add((VOC.ontologia, RDF.type, OWL.Ontology))
     for clase in (VOC.PerfilVocacional, VOC.BloqueAptitud, VOC.Carrera, VOC.Evaluacion):
         rdf.add((clase, RDF.type, OWL.Class))
-    for propiedad in (VOC.tieneEvaluacion, VOC.bloque, VOC.importantePara,
-                      VOC.destacaEn, VOC.etiquetaDelDataset):
+    for propiedad in (VOC.tieneEvaluacion, VOC.bloque, VOC.areaPerfilReferencia,
+                      VOC.interesPrincipal, VOC.etiquetaDelDataset):
         rdf.add((propiedad, RDF.type, OWL.ObjectProperty))
     for propiedad in (VOC.nombre, VOC.codigo, VOC.puntajeNormalizado,
                       VOC.valorAMAINormalizado, VOC.origenRegistro,
-                      VOC.filaCSV, VOC.filaFuente):
+                      VOC.filaCSV, VOC.filaFuente, VOC.versionCriterio):
         rdf.add((propiedad, RDF.type, OWL.DatatypeProperty))
+    rdf.add((VOC.ontologia, VOC.versionCriterio, Literal(VERSION_CRITERIO)))
     rdf.add((VOC.PerfilVocacional, RDFS.comment, Literal(
         "Registro de intereses; puede ser original o sintético. No identifica a un alumno.")))
     rdf.add((VOC.etiquetaDelDataset, RDFS.comment, Literal(
         "Etiqueta generada por el proceso histórico de reetiquetado; no es una carrera declarada.")))
+    rdf.add((VOC.areaPerfilReferencia, RDFS.comment, Literal(
+        "Vínculos provisionales derivados de perfiles objetivo históricos; no validados por orientadores.")))
     agregar_regla_afinidad(rdf)
 
     for carrera_id, nombre, codigo in CARRERAS:
@@ -71,11 +75,12 @@ def _esquema(rdf):
         rdf.add((carrera, RDF.type, VOC.Carrera))
         rdf.add((carrera, VOC.nombre, Literal(nombre)))
         rdf.add((carrera, VOC.codigo, Literal(codigo)))
-    for bloque_id, nombre, carrera_id in BLOQUES[:9]:
+    for bloque_id, nombre, _ in BLOQUES[:9]:
         bloque = VOC[bloque_id]
         rdf.add((bloque, RDF.type, VOC.BloqueAptitud))
         rdf.add((bloque, VOC.nombre, Literal(nombre)))
-        rdf.add((bloque, VOC.importantePara, VOC[carrera_id]))
+    for bloque_id, carrera_id in AgenteVinculos().relaciones():
+        rdf.add((VOC[bloque_id], VOC.areaPerfilReferencia, VOC[carrera_id]))
 
 
 def cargar_csv_como_rdf(csv_path=CSV_PREDETERMINADO,
@@ -122,15 +127,17 @@ def cargar_csv_como_rdf(csv_path=CSV_PREDETERMINADO,
                                      "valor_amai_normalizado", fila)
             rdf.add((perfil, VOC.valorAMAINormalizado, Literal(amai)))
 
+            puntajes = {}
             for columna, bloque_id in COLUMNAS_APTITUD:
                 puntaje = _decimal_en_rango(registro[columna], columna, fila)
+                puntajes[bloque_id] = puntaje
                 evaluacion = VOC[f"evaluacion/{fila:05d}/{bloque_id}"]
                 rdf.add((evaluacion, RDF.type, VOC.Evaluacion))
                 rdf.add((perfil, VOC.tieneEvaluacion, evaluacion))
                 rdf.add((evaluacion, VOC.bloque, VOC[bloque_id]))
                 rdf.add((evaluacion, VOC.puntajeNormalizado, Literal(puntaje)))
-                if puntaje >= UMBRAL_NORMALIZADO_DEMO:
-                    rdf.add((perfil, VOC.destacaEn, VOC[bloque_id]))
+            for bloque_id in AgenteIntereses().seleccionar(puntajes):
+                rdf.add((perfil, VOC.interesPrincipal, VOC[bloque_id]))
             origenes[origen] += 1
 
     return rdf, dict(origenes)
@@ -144,9 +151,9 @@ def inferir_perfil(rdf, fila):
 
     reducido = Graph()
     agregar_regla_afinidad(reducido)
-    for triple in rdf.triples((None, VOC.importantePara, None)):
+    for triple in rdf.triples((None, VOC.areaPerfilReferencia, None)):
         reducido.add(triple)
-    for triple in rdf.triples((perfil, VOC.destacaEn, None)):
+    for triple in rdf.triples((perfil, VOC.interesPrincipal, None)):
         reducido.add(triple)
     DeductiveClosure(OWLRL_Semantics).expand(reducido)
 
@@ -156,15 +163,15 @@ def inferir_perfil(rdf, fila):
         puntajes[bloque] = rdf.value(evaluacion, VOC.puntajeNormalizado)
 
     resultados = []
-    for carrera in sorted(reducido.objects(perfil, VOC.afinidadCon), key=str):
+    for carrera in sorted(reducido.objects(perfil, VOC.conexionExploratoria), key=str):
         evidencias = sorted(
             ((str(rdf.value(bloque, VOC.nombre)), str(puntajes[bloque]))
-             for bloque in rdf.objects(perfil, VOC.destacaEn)
-             if (bloque, VOC.importantePara, carrera) in reducido),
+             for bloque in rdf.objects(perfil, VOC.interesPrincipal)
+             if (bloque, VOC.areaPerfilReferencia, carrera) in reducido),
             key=lambda item: item[0],
         )
         resultados.append((str(rdf.value(carrera, VOC.nombre)), evidencias))
-    return resultados
+    return sorted(resultados, key=lambda item: (-len(item[1]), item[0]))
 
 
 def imprimir_inferencia_perfil(rdf, fila):
@@ -174,15 +181,17 @@ def imprimir_inferencia_perfil(rdf, fila):
     origen = rdf.value(perfil, VOC.origenRegistro)
     etiqueta = rdf.value(perfil, VOC.etiquetaDelDataset)
     codigo = rdf.value(etiqueta, VOC.codigo)
-    print(f"Afinidades demostrativas del perfil {fila} "
+    print(f"Conexiones exploratorias del perfil {fila} "
           f"(origen: {origen}; etiqueta generada: {codigo}):")
     for carrera, evidencias in resultados:
-        print(f"  {carrera}: " + ", ".join(f"{nombre}={puntaje}" for nombre, puntaje in evidencias))
+        nivel = AgenteRevision().nivel(len(evidencias))
+        print(f"  {carrera} ({nivel}): " + ", ".join(
+            f"{nombre}={puntaje}" for nombre, puntaje in evidencias))
     if not resultados:
-        if not list(rdf.objects(perfil, VOC.destacaEn)):
-            print("  No se infirió ninguna afinidad: ninguna aptitud alcanza 0.85.")
+        if not list(rdf.objects(perfil, VOC.interesPrincipal)):
+            print(f"  Sin conexión: ningún interés principal alcanza {MINIMO_INTERES}.")
         else:
-            print("  No se infirió ninguna afinidad: las aptitudes destacadas no tienen carrera vinculada.")
+            print("  Sin conexión: los intereses principales no tienen carrera de referencia vinculada.")
         puntajes = []
         for evaluacion in rdf.objects(perfil, VOC.tieneEvaluacion):
             bloque = rdf.value(evaluacion, VOC.bloque)

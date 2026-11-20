@@ -1,4 +1,4 @@
-"""Inferencia demostrativa de afinidades a partir del grafo NetworkX existente."""
+"""Conexiones exploratorias OWL-RL a partir del grafo de demostración."""
 
 from dataclasses import dataclass
 
@@ -7,10 +7,12 @@ from rdflib import BNode, Graph, Literal, Namespace
 from rdflib.collection import Collection
 from rdflib.namespace import OWL, RDF
 
+from criterio import AgenteIntereses, AgenteRevision
+
 
 VOC = Namespace("urn:vocapredict:")
 BLOQUE_SOCIOECONOMICO = "Situacion socioeconomica"
-UMBRAL_DEMO = 85
+UMBRAL_DEMO = 70
 
 
 @dataclass(frozen=True)
@@ -27,11 +29,7 @@ class Afinidad:
 
 
 def construir_rdf(grafo, umbral=UMBRAL_DEMO):
-    """Convierte hechos a RDF y declara la cadena de propiedades OWL.
-
-    El umbral solo genera `destacaEn`; OWL-RL deduce `afinidadCon` mediante
-    `destacaEn` + `importantePara`. No usa `carrera sugerida`.
-    """
+    """Convierte intereses y vínculos de referencia a hechos RDF."""
     if not isinstance(umbral, int) or not 0 <= umbral <= 100:
         raise ValueError("El umbral debe ser un entero entre 0 y 100.")
 
@@ -52,13 +50,14 @@ def construir_rdf(grafo, umbral=UMBRAL_DEMO):
         if "nombre" in datos:
             rdf.add((recurso, VOC.nombre, Literal(datos["nombre"])))
 
+    puntajes_por_alumno = {}
     for origen, destino, datos in grafo.edges(data=True):
         etiqueta = datos.get("label")
-        if etiqueta not in {"importante para", "carrera sugerida", "evaluado"}:
+        if etiqueta not in {"perfil de referencia", "carrera sugerida", "evaluado"}:
             continue
         sujeto, objeto = VOC[str(origen)], VOC[str(destino)]
-        if etiqueta == "importante para":
-            rdf.add((sujeto, VOC.importantePara, objeto))
+        if etiqueta == "perfil de referencia":
+            rdf.add((sujeto, VOC.areaPerfilReferencia, objeto))
         elif etiqueta == "carrera sugerida":
             rdf.add((sujeto, VOC.carreraSugeridaPrevia, objeto))
         elif etiqueta == "evaluado":
@@ -69,12 +68,14 @@ def construir_rdf(grafo, umbral=UMBRAL_DEMO):
             puntaje = datos.get("puntaje")
             if puntaje is not None:
                 rdf.add((evaluacion, VOC.puntaje, Literal(puntaje)))
-                if (
-                    isinstance(puntaje, (int, float))
-                    and puntaje >= umbral
-                    and grafo.nodes[destino].get("nombre") != BLOQUE_SOCIOECONOMICO
-                ):
-                    rdf.add((sujeto, VOC.destacaEn, objeto))
+                if isinstance(puntaje, (int, float)) and destino != "b10" and \
+                        grafo.nodes[destino].get("nombre") != BLOQUE_SOCIOECONOMICO:
+                    puntajes_por_alumno.setdefault(origen, {})[destino] = puntaje / 100
+
+    selector = AgenteIntereses()
+    for alumno, puntajes in puntajes_por_alumno.items():
+        for bloque in selector.seleccionar(puntajes, minimo=umbral / 100):
+            rdf.add((VOC[str(alumno)], VOC.interesPrincipal, VOC[str(bloque)]))
 
     agregar_regla_afinidad(rdf)
     return rdf
@@ -83,9 +84,9 @@ def construir_rdf(grafo, umbral=UMBRAL_DEMO):
 def agregar_regla_afinidad(rdf):
     """Declara la regla OWL compartida por los ejemplos y perfiles importados."""
     cadena = BNode()
-    Collection(rdf, cadena, [VOC.destacaEn, VOC.importantePara])
-    rdf.add((VOC.afinidadCon, RDF.type, OWL.ObjectProperty))
-    rdf.add((VOC.afinidadCon, OWL.propertyChainAxiom, cadena))
+    Collection(rdf, cadena, [VOC.interesPrincipal, VOC.areaPerfilReferencia])
+    rdf.add((VOC.conexionExploratoria, RDF.type, OWL.ObjectProperty))
+    rdf.add((VOC.conexionExploratoria, OWL.propertyChainAxiom, cadena))
 
 
 def inferir_afinidades(grafo, umbral=UMBRAL_DEMO):
@@ -95,10 +96,10 @@ def inferir_afinidades(grafo, umbral=UMBRAL_DEMO):
     resultados = []
 
     for alumno in sorted(rdf.subjects(RDF.type, VOC.Alumno), key=str):
-        for carrera in sorted(rdf.objects(alumno, VOC.afinidadCon), key=str):
+        for carrera in sorted(rdf.objects(alumno, VOC.conexionExploratoria), key=str):
             evidencias = []
-            for bloque in rdf.objects(alumno, VOC.destacaEn):
-                if (bloque, VOC.importantePara, carrera) not in rdf:
+            for bloque in rdf.objects(alumno, VOC.interesPrincipal):
+                if (bloque, VOC.areaPerfilReferencia, carrera) not in rdf:
                     continue
                 bloque_id = str(bloque).removeprefix(str(VOC))
                 alumno_id = str(alumno).removeprefix(str(VOC))
@@ -111,23 +112,24 @@ def inferir_afinidades(grafo, umbral=UMBRAL_DEMO):
                 carrera_id=str(carrera).removeprefix(str(VOC)),
                 evidencias=tuple(sorted(evidencias, key=lambda e: e.bloque)),
             ))
-    return resultados
+    return sorted(resultados, key=lambda resultado: (
+        resultado.alumno_id, -len(resultado.evidencias), resultado.carrera_id))
 
 
 def imprimir_afinidades(grafo, umbral=UMBRAL_DEMO):
     """Muestra las relaciones inferidas y el camino que justifica cada una."""
-    print(f"\nAfinidades de demostración (umbral de aptitud: {umbral})")
+    print(f"\nConexiones exploratorias (interés mínimo: {umbral}/100; dos áreas principales)")
     resultados = inferir_afinidades(grafo, umbral)
     if not resultados:
-        print("No se infirieron afinidades con este umbral.")
+        print("No hay conexión sustentada por los intereses principales.")
     for resultado in resultados:
         alumno = grafo.nodes[resultado.alumno_id]
         carrera = grafo.nodes[resultado.carrera_id]
         nombre = f"{alumno.get('nombre', '')} {alumno.get('apellidos', '')}".strip()
-        print(f"\n{nombre} (NC: {alumno.get('no_control', resultado.alumno_id)}) -> {carrera['nombre']}")
+        nivel = AgenteRevision().nivel(len(resultado.evidencias))
+        print(f"\n{nombre} (NC: {alumno.get('no_control', resultado.alumno_id)}) -> {carrera['nombre']} ({nivel})")
         for evidencia in resultado.evidencias:
-            print(f"  {nombre} destaca en {evidencia.bloque} ({evidencia.puntaje}); "
-                  f"{evidencia.bloque} es importante para esta carrera.")
+            print(f"  {evidencia.bloque}={evidencia.puntaje}/100; aparece en el perfil de referencia.")
     print("\nSon relaciones para explorar, no recomendaciones validadas.")
 
 

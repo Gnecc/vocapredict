@@ -48,10 +48,11 @@ def configurar_ontologia():
     # Cada relación es una tupla: (origen, destino, etiqueta, data_properties_de_la_relacion)
     relaciones_instancias = []
 
-    for id_bloque, nombre_apt, carrera_id in BLOQUES:
+    for id_bloque, nombre_apt, carreras_ids in BLOQUES:
         nuevo_bloque = BloqueAptitud(id_bloque, nombre_apt)
         bloques.append(nuevo_bloque)
-        relaciones_instancias.append((id_bloque, carrera_id, "importante para", {}))
+        for carrera_id in carreras_ids:
+            relaciones_instancias.append((id_bloque, carrera_id, "perfil de referencia", {}))
 
     # Relación Alumno -> Carrera (carrera sugerida), enlazada por siglas "(ICO)", "(LIA)"...
     carrera_por_sigla = {c.get_nombre().split("(")[-1].rstrip(")"): c for c in carreras}
@@ -239,7 +240,7 @@ def visualizar_grafo(G):
 
 
 def menu():
-    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Inferir afinidades de los alumnos de ejemplo\n(10) Inferir afinidades de un perfil del CSV\n(11) Salir...")
+    print("\n" * 2, "\t= MENU DE OPCIONES =\n(1) Mostrar impresion de todos los alumnos con relaciones, bloques y carreras\n(2) Mostrar Grafo completo\n(3) Buscar alumno por No de control\n(4) Buscar alumno por Nombre\n(5) Consulta por enlace (relación)\n(6) Consulta por data property (puntaje)\n(7) Consulta por nodo al que lleva\n(8) DEMO: Consulta por nivel socioeconómico\n(9) Explorar conexiones de los alumnos de ejemplo\n(10) Explorar conexiones de un perfil del CSV\n(11) Salir...")
 
 
 # --- FUNCIÓN MEJORADA: CONSULTA DE VECINOS, DATAPROPERTIES Y DIBUJO DE SUBGRAFO ---
@@ -575,7 +576,7 @@ if __name__ == "__main__":
 
             case "5":
                 print("*" * 150, "\nCONSULTA POR ENLACE\n")
-                consulta_por_enlace(G, input("Relación (evaluado / importante para / carrera sugerida): ").strip())
+                consulta_por_enlace(G, input("Relación (evaluado / perfil de referencia / carrera sugerida): ").strip())
 
             case "6":
                 print("*" * 150, "\nCONSULTA POR DATA PROPERTY (PUNTAJE)\n")

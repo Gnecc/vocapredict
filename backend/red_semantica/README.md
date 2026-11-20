@@ -1,77 +1,76 @@
-# Red semántica e inferencia demostrativa
+# Red semántica e inferencia exploratoria
 
-Este módulo representa alumnos, bloques de aptitud y carreras con NetworkX.
-Permite buscar alumnos, consultar relaciones y puntajes, y visualizar el grafo.
-La inferencia usa [RDFLib](https://github.com/RDFLib/rdflib) y
-[OWL-RL](https://github.com/RDFLib/OWL-RL), ambos proyectos de código abierto.
+Este módulo conserva el grafo NetworkX de cinco alumnos de ejemplo y permite
+consultar los 1,400 perfiles del CSV con RDFLib y OWL-RL. Los perfiles CSV
+contienen **intereses** normalizados, no mediciones de habilidad ni diagnósticos
+vocacionales. Hay 350 registros originales y 1,050 sintéticos.
 
-## Ejecutar
+## Criterio y roles
 
-Desde `backend/red_semantica/`:
+Tres roles de software cooperan de forma determinista en `criterio.py`:
 
-```bash
-python -m pip install -r requirements.txt
-python red_semantica.py
-```
+1. **Análisis de intereses** (`AgenteIntereses`): toma las dos áreas con mayor
+   puntaje, incluidas las empatadas en el segundo lugar, siempre que alcancen
+   0.70. La situación socioeconómica queda fuera de esta selección.
+2. **Vínculos con carreras** (`AgenteVinculos`): aporta relaciones de varios a
+   varios entre áreas y carreras. Se derivaron de los perfiles objetivo de
+   `backend/scripts/relabel_dataset.py`: se incluyó cada área con valor de
+   referencia de al menos 0.70. Son relaciones provisionales.
+3. **Revisión de evidencia** (`AgenteRevision`): marca una sola área de apoyo
+   como *pista inicial* y dos o más como *convergencia de intereses*. Si ninguna
+   área principal está vinculada, el sistema se abstiene de mostrar carrera.
 
-La opción **9** del menú ejecuta la inferencia sobre los cinco alumnos de
-ejemplo. También puede usarse directamente:
+Una combinación puede conectar con varias carreras. Se muestran todas,
+ordenadas por número de áreas de apoyo; el orden no es una probabilidad ni una
+recomendación. En este conjunto, 84 perfiles conectan con cuatro carreras y
+289 quedan sin conexión. La cobertura no mide acierto, porque las etiquetas
+del CSV también se generaron a partir de plantillas.
 
-```bash
-python inferencia.py
-```
-
-## Regla de inferencia
-
-`inferencia.py` convierte las instancias y relaciones a un grafo RDF. Cada
-evaluación se representa con alumno, bloque y puntaje. Si una aptitud tiene un
-puntaje de al menos **85**, se declara `alumno destacaEn bloque`. OWL-RL aplica
-la cadena de propiedades:
+La regla OWL-RL se declara en `inferencia.py`:
 
 ```text
-destacaEn + importantePara -> afinidadCon
+interesPrincipal + areaPerfilReferencia -> conexionExploratoria
 ```
 
-Por ejemplo, si un alumno destaca en Cálculo y Cálculo es importante para
-Ingeniería en Computación, se infiere una afinidad con esa carrera. La salida
-muestra el puntaje y la aptitud que justifican cada relación. La carrera
-sugerida previamente en el ejemplo **no interviene** en la regla.
+Python selecciona las áreas por puntaje; OWL-RL deduce la conexión mediante
+la cadena de propiedades. Cada resultado presenta las áreas y puntajes que
+permiten reconstruir la deducción. La versión `intereses-referencia-v1` queda
+registrada en el archivo OWL.
 
-El umbral de 85 es solo para la demostración. Los cinco alumnos y sus puntajes
-se generan como datos de ejemplo; no se ha validado que una afinidad inferida
-prediga satisfacción o éxito profesional. El bloque de situación socioeconómica
-no cuenta como aptitud para esta inferencia. La inferencia no está conectada a
-la API de predicción ni al frontend.
+Los roles son componentes de software. La interpretación profesional de estas
+relaciones, su pertinencia curricular y su validez para orientación vocacional
+requieren revisión por personas especialistas. El sistema no predice éxito,
+empleabilidad ni satisfacción. La etiqueta `CARRERA_ACTUAL` del CSV se generó
+con plantillas históricas y no interviene en la regla; AMAI tampoco interviene.
 
-## Poblar desde el CSV existente
-
-El conjunto `backend/data/conjunto_de_datos_aumentado_75_sintetico_amai.csv`
-contiene **1,400 perfiles**: 350 originales y 1,050 sintéticos. Sus nueve
-columnas de intereses corresponden a los bloques `b1`–`b9`, pero sus puntajes
-están normalizados entre 0 y 1. No contiene nombres ni números de control; por
-eso el importador crea instancias `PerfilVocacional`, no `Alumno`. La columna
-`CARRERA_ACTUAL` se conserva como `etiquetaDelDataset` porque procede del
-reetiquetado histórico, no de una carrera declarada o recomendación validada.
-El valor AMAI se guarda como dato aparte y no participa en la regla de aptitud.
+## Ejecutar
 
 Desde la raíz del proyecto:
 
 ```bash
-backend/.venv/bin/python backend/red_semantica/poblar_ontologia.py --perfil 3
+backend/.venv/bin/python backend/red_semantica/red_semantica.py
 ```
 
-En el menú principal, la opción **10** pide un número de fila del CSV e infiere
-las afinidades de ese perfil. El CSV se carga y verifica una sola vez durante
-la sesión; la opción **11** sale del menú.
+La opción **9** explora los cinco alumnos de ejemplo, cuyos puntajes son
+aleatorios. La opción **10** pide una fila del CSV. Por ejemplo, el perfil 7
+muestra ICO e ISC con Cálculo y Mecánico como dos áreas de apoyo.
 
-El comando genera `backend/artifacts/perfiles_vocacionales.owl` en **RDF/XML**,
-que puede abrirse como ontología OWL. También vuelve a leer ese archivo y, con
-`--perfil`, ejecuta OWL-RL sobre un perfil a la vez. Esto evita expandir toda
-la ontología de 1,400 perfiles al consultar un solo registro. La relación
-`destacaEn` usa **0.85** como umbral demostrativo para los puntajes normalizados.
+Para generar la ontología de los 1,400 perfiles y consultar una fila:
 
-La procedencia de cada fila está en `procedencia_perfiles.csv`: indica si es
-original o sintética, su fila fuente y una firma SHA-256 de las columnas del
-CSV. El importador verifica esa firma y rechaza archivos desalineados. Las
-relaciones bloque–carrera siguen siendo las del ejemplo original y requieren
-revisión antes de interpretarse como recomendaciones reales.
+```bash
+backend/.venv/bin/python backend/red_semantica/poblar_ontologia.py --perfil 7
+```
+
+El comando crea `backend/artifacts/perfiles_vocacionales.owl` en RDF/XML y
+vuelve a abrirlo para ejecutar OWL-RL sobre el perfil solicitado. El CSV se
+verifica contra `procedencia_perfiles.csv`, que contiene origen, fila fuente y
+firma SHA-256. Cada perfil conserva sus nueve evaluaciones, su origen y su
+etiqueta generada. La expansión OWL-RL se hace sobre un perfil por consulta.
+Si cambia el criterio o el catálogo, hay que volver a ejecutar el importador:
+las áreas principales quedan materializadas en el archivo OWL.
+
+## Verificar
+
+```bash
+backend/.venv/bin/python -m unittest discover -s backend/red_semantica -p 'test_*.py'
+```

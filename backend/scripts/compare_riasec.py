@@ -53,16 +53,9 @@ def percent(value):
     return f"{value:.1%}"
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--baseline", type=Path, required=True)
-    parser.add_argument("--dataset", type=Path, default=DATASET)
-    parser.add_argument("--report", type=Path, default=BACKEND_DIR / "docs/comparacion_riasec_40_47.md")
-    parser.add_argument("--artifacts", type=Path, default=BACKEND_DIR / "artifacts")
-    args = parser.parse_args()
-
-    base = load_profiles(args.baseline)
-    expanded = load_profiles(args.dataset)
+def comparison_split(baseline_path, dataset_path):
+    base = load_profiles(baseline_path)
+    expanded = load_profiles(dataset_path)
     codes = set(base["career_code"])
     expanded_codes = set(expanded["career_code"])
     if len(codes) != 40 or len(expanded_codes) != 47 or not codes < expanded_codes:
@@ -80,6 +73,21 @@ def main():
     expanded_train = pd.concat([base_train, new_train, corrections])
     if set(expanded_train.index) & (set(shared_test.index) | set(new_test.index)):
         raise ValueError("Se solapan entrenamiento y prueba.")
+    return base_train, expanded_train, shared_test, new_test
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--baseline", type=Path, required=True)
+    parser.add_argument("--dataset", type=Path, default=DATASET)
+    parser.add_argument("--report", type=Path, default=BACKEND_DIR / "docs/comparacion_riasec_40_47.md")
+    parser.add_argument("--artifacts", type=Path, default=BACKEND_DIR / "artifacts")
+    args = parser.parse_args()
+
+    base_train, expanded_train, shared_test, new_test = comparison_split(args.baseline, args.dataset)
+    expanded = pd.concat([expanded_train, shared_test, new_test])
+    codes = set(base_train["career_code"])
+    expanded_codes = set(expanded["career_code"])
     model40, model47 = train(base_train), train(expanded_train)
 
     hits40 = results(model40, shared_test, base_train)

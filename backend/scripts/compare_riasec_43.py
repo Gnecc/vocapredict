@@ -13,19 +13,26 @@ from scripts.compare_riasec import comparison_split, percent, results, train
 ADDITIONAL_CODES = {"COM", "CIN", "TEA"}
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--baseline", type=Path, required=True)
-    parser.add_argument("--dataset", type=Path, default=DATASET)
-    args = parser.parse_args()
-
-    train40, train47, shared_test, test_new47 = comparison_split(args.baseline, args.dataset)
+def comparison_split_43(baseline_path, dataset_path):
+    train40, train47, shared_test, test_new47 = comparison_split(baseline_path, dataset_path)
     additional_train = train47.loc[train47["career_code"].isin(ADDITIONAL_CODES)]
     additional_test = test_new47.loc[test_new47["career_code"].isin(ADDITIONAL_CODES)]
     train43 = pd.concat([train40, additional_train], verify_integrity=True)
     test43 = pd.concat([shared_test, additional_test], verify_integrity=True)
     if set(train43.index) & set(test43.index) or train43["career_code"].nunique() != 43:
         raise ValueError("La comparación requiere 43 clases sin solapamiento entre entrenamiento y prueba.")
+    return train40, train43, shared_test, additional_test
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--baseline", type=Path, required=True)
+    parser.add_argument("--dataset", type=Path, default=DATASET)
+    args = parser.parse_args()
+
+    train40, train43, shared_test, additional_test = comparison_split_43(args.baseline, args.dataset)
+    additional_train = train43.loc[train43["career_code"].isin(ADDITIONAL_CODES)]
+    test43 = pd.concat([shared_test, additional_test], verify_integrity=True)
 
     model40 = train(train40)
     model43 = train(train43)

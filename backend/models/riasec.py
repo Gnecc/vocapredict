@@ -23,14 +23,15 @@ CLASS_WEIGHT_POWER = 0.6
 SPLIT_SEED = 20261015
 
 
-def fit_classifier(scores, labels):
+def fit_classifier(scores, labels, class_weight_multiplier=None):
     labels = pd.Series(labels, dtype=str)
     counts = labels.value_counts()
     inverse_frequency = len(labels) / (len(counts) * labels.map(counts).to_numpy())
+    weights = inverse_frequency ** CLASS_WEIGHT_POWER
+    if class_weight_multiplier:
+        weights *= labels.map(class_weight_multiplier).fillna(1.0).to_numpy(dtype=float)
     model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500))
-    model.fit(scores, labels.to_numpy(), logisticregression__sample_weight=(
-        inverse_frequency ** CLASS_WEIGHT_POWER
-    ))
+    model.fit(scores, labels.to_numpy(), logisticregression__sample_weight=weights)
     return model
 
 

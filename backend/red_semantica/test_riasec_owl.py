@@ -44,6 +44,21 @@ class OntologiaRiasecTest(unittest.TestCase):
         self.assertNotIn((self.estudiante, VOC.conexionExploratoria, nodo), grafo)
         self.assertEqual(inferir(self.catalogo, [".8"] * 6)[1], [])
 
+    def test_cpe_experimental_cambia_evidencia_segun_el_codigo(self):
+        valores = [".8", ".95", ".9", ".3", ".4", ".2"]
+        opcion_cpe = VOC["opcion/CPE"]
+        consulta = (self.estudiante, VOC.conexionExploratoria, opcion_cpe)
+        self.assertNotIn(consulta, inferir(self.catalogo, valores)[0])
+        self.assertNotIn(consulta, inferir(self.catalogo, valores, "AES")[0])
+        grafo, resultados = inferir(self.catalogo, valores, "AEI")
+        self.assertIn(consulta, grafo)
+        evidencia = next(e for o, e in resultados if o["id"] == "CPE")
+        self.assertEqual([letra for letra, _ in evidencia], ["A", "I"])
+        perfil = grafo.value(opcion_cpe, VOC.perfilExperimental)
+        self.assertEqual(str(grafo.value(perfil, VOC.estado)), "experimental")
+        self.assertEqual(str(grafo.value(perfil, DCTERMS.source)),
+                         self.catalogo["revision_fes_aragon"]["plan"])
+
     def test_rechaza_puntajes_invalidos(self):
         for valores in ([0.5] * 5, [1.01] * 6, ["NaN"] * 6, ["x"] * 6):
             with self.subTest(valores=valores), self.assertRaises(ValueError):

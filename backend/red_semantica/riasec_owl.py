@@ -17,13 +17,16 @@ NOMBRES = dict(zip(AREAS, (
     "Realista", "Investigador", "Artístico", "Social", "Emprendedor", "Convencional",
 )))
 CATALOGO = Path(__file__).with_name("catalogo_riasec.json")
+CPE_EXPERIMENTOS = ("AES", "AEI", "AIS", "IES")
 
 
 def cargar_catalogo():
     return json.loads(CATALOGO.read_text(encoding="utf-8"))
 
 
-def crear_grafo(catalogo):
+def crear_grafo(catalogo, cpe_experimental=None):
+    if cpe_experimental is not None and cpe_experimental not in CPE_EXPERIMENTOS:
+        raise ValueError("Código experimental desconocido para Comunicación y Periodismo.")
     grafo = Graph()
     grafo.bind("voc", VOC)
     grafo.add((VOC.ontologia, RDF.type, OWL.Ontology))
@@ -72,6 +75,22 @@ def crear_grafo(catalogo):
         grafo.add((nota, VOC.area, VOC[f"area/{letra}"]))
         grafo.add((nota, RDFS.comment, Literal(evidencia, lang="es")))
         grafo.add((nota, DCTERMS.source, URIRef(revision["plan"])))
+    if cpe_experimental:
+        nodo = VOC[f"opcion/{revision['opcion']}"]
+        experimento = VOC[f"referencia/experimento-CPE-{cpe_experimental}"]
+        fuente_experimento = fuente if cpe_experimental == "AES" else URIRef(revision["plan"])
+        agregar_referencia(grafo, experimento, {
+            "programa": revision["programa"], "codigo": cpe_experimental,
+        }, fuente_experimento, "experimental")
+        if cpe_experimental != "AES":
+            grafo.add((experimento, RDFS.comment, Literal(
+                "Variante experimental propuesta por VocaPredict a partir del plan de estudios.",
+                lang="es",
+            )))
+        grafo.add((experimento, DCTERMS.isVersionOf, perfil))
+        grafo.add((nodo, VOC.perfilExperimental, experimento))
+        for letra in cpe_experimental:
+            grafo.add((VOC[f"area/{letra}"], VOC.respaldaOpcion, nodo))
     return grafo
 
 
@@ -96,14 +115,18 @@ def validar_puntajes(valores):
     return dict(zip(AREAS, puntajes))
 
 
-def inferir(catalogo, valores):
+def intereses_destacados(puntajes):
+    """Excluye empates con el cuarto lugar de las seis áreas."""
+    corte = sorted(puntajes.values(), reverse=True)[3]
+    return {letra for letra, puntaje in puntajes.items() if puntaje > corte}
+
+
+def inferir(catalogo, valores, cpe_experimental=None):
     puntajes = validar_puntajes(valores)
-    grafo = crear_grafo(catalogo)
+    destacados = intereses_destacados(puntajes)
+    grafo = crear_grafo(catalogo, cpe_experimental)
     estudiante = VOC["estudiante/consulta"]
     grafo.add((estudiante, RDF.type, VOC.PerfilEstudiante))
-    # Include only areas that clearly outrank the fourth place. A tie at
-    # the boundary provides insufficient evidence to pick between areas.
-    corte = sorted(puntajes.values(), reverse=True)[3]
     for letra, puntaje in puntajes.items():
         area = VOC[f"area/{letra}"]
         evaluacion = VOC[f"evaluacion/consulta/{letra}"]
@@ -111,7 +134,7 @@ def inferir(catalogo, valores):
         grafo.add((estudiante, VOC.tieneEvaluacion, evaluacion))
         grafo.add((evaluacion, VOC.area, area))
         grafo.add((evaluacion, VOC.puntaje, Literal(puntaje)))
-        if puntaje > corte:
+        if letra in destacados:
             grafo.add((estudiante, VOC.interesDestacado, area))
     DeductiveClosure(OWLRL_Semantics).expand(grafo)
 
@@ -120,8 +143,13 @@ def inferir(catalogo, valores):
         nodo = VOC[f"opcion/{opcion['id']}"]
         if (estudiante, VOC.opcionCandidata, nodo) not in grafo:
             continue
+        if opcion["id"] == catalogo["revision_fes_aragon"]["opcion"]:
+            fuente = (catalogo["fuente_referencias"] if cpe_experimental == "AES"
+                      else catalogo["revision_fes_aragon"]["plan"])
+            opcion = {**opcion, "referencia": {"codigo": cpe_experimental},
+                      "experimental": True, "fuente": fuente}
         codigo = opcion["referencia"]["codigo"]
-        evidencia = [(letra, puntajes[letra]) for letra in codigo if puntajes[letra] > corte]
+        evidencia = [(letra, puntajes[letra]) for letra in codigo if letra in destacados]
         if len(evidencia) >= 2:
             grafo.add((estudiante, VOC.conexionExploratoria, nodo))
             resultados.append((opcion, evidencia))
@@ -134,8 +162,11 @@ def imprimir_inferencia(resultados, fuente):
     if not resultados:
         print("  Evidencia insuficiente para establecer una conexión.")
     for opcion, evidencia in resultados:
-        print(f"  {opcion['nombre']} ({opcion['referencia']['codigo']})")
+        estado = " · experimental" if opcion.get("experimental") else ""
+        print(f"  {opcion['nombre']} ({opcion['referencia']['codigo']}{estado})")
         print("    " + ", ".join(f"{NOMBRES[letra]} {puntaje}" for letra, puntaje in evidencia))
+        if opcion.get("experimental"):
+            print("    Referencia del experimento: " + opcion["fuente"])
     if resultados:
         print("  Fuente de los perfiles provisionales: " + fuente)
 
@@ -144,21 +175,26 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--puntajes", nargs=6, metavar="VALOR", help="En orden R I A S E C.")
     parser.add_argument("--catalogo", action="store_true", help="Lista las opciones y sus perfiles.")
+    parser.add_argument("--cpe-experimental", choices=CPE_EXPERIMENTOS,
+                        help="Prueba un código de Comunicación y Periodismo.")
     parser.add_argument("--salida", type=Path, help="Exporta el grafo a OWL en formato RDF/XML.")
     args = parser.parse_args()
     catalogo = cargar_catalogo()
     if args.catalogo:
         for opcion in catalogo["opciones"]:
-            codigo = opcion.get("referencia", {}).get("codigo", "en revisión" if opcion["id"] == "CPE" else "pendiente")
+            if opcion["id"] == "CPE":
+                codigo = f"{args.cpe_experimental} · experimental" if args.cpe_experimental else "en revisión"
+            else:
+                codigo = opcion.get("referencia", {}).get("codigo", "pendiente")
             print(f"{opcion['id']} · {opcion['nombre']} · {codigo}")
     if args.puntajes:
         try:
-            grafo, resultados = inferir(catalogo, args.puntajes)
+            grafo, resultados = inferir(catalogo, args.puntajes, args.cpe_experimental)
         except ValueError as error:
             parser.error(str(error))
         imprimir_inferencia(resultados, catalogo["fuente_referencias"])
     elif args.salida:
-        grafo = crear_grafo(catalogo)
+        grafo = crear_grafo(catalogo, args.cpe_experimental)
     elif not args.catalogo:
         parser.print_help()
     if args.salida:

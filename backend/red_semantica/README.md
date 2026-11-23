@@ -29,8 +29,15 @@ aporta evidencia de expresión y producción de medios, persuasión y relaciones
 públicas, e interacción con personas y públicos. Las materias de métodos de
 investigación y reportaje también respaldan el interés investigador. El plan
 permite una correspondencia parcial, sin establecer el orden AES. El programa,
-el código y la revisión son consultables en el OWL. El vínculo queda pendiente
-para inferencia automática.
+el código y la revisión son consultables en el OWL. La consulta habitual usa
+los 13 perfiles iniciales. Para habilitar Comunicación y Periodismo en una
+consulta experimental, usa `--cpe-experimental` con `AES` o una variante
+que incluya Investigación. La [comparación](../docs/comunicacion_periodismo_owl.md)
+seleccionó `AEI` entre las variantes.
+
+```bash
+backend/.venv/bin/python backend/red_semantica/riasec_owl.py --cpe-experimental AEI --puntajes 0.8 0.95 0.9 0.3 0.4 0.2
+```
 
 ### Ejecutar desde la raíz
 

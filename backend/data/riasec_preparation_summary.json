@@ -12,37 +12,43 @@
     "source_rows": 145828,
     "invalid_interest_rows": 10064,
     "invalid_age_rows": 92,
-    "unmapped_or_empty_major_rows": 102647,
+    "unmapped_or_empty_major_rows": 100590,
     "candidate_counts_before_minimum": {
       "ACC": 1399,
+      "AMB": 195,
       "ANT": 297,
-      "ARC": 509,
-      "BAM": 1486,
+      "ARC": 511,
+      "BAM": 1487,
       "BCH": 254,
       "BIO": 2018,
-      "CEN": 405,
+      "CEN": 406,
       "CENM": 120,
       "CENR": 284,
       "CHE": 544,
+      "CIN": 131,
       "CIV": 1023,
+      "COM": 1092,
       "CRI": 175,
       "CRJ": 874,
-      "CSC": 1201,
-      "ECO": 1041,
+      "CSC": 1202,
+      "ECO": 1042,
       "EDU": 1785,
       "ELE": 463,
+      "EPR": 145,
       "FIN": 734,
       "GDE": 260,
       "GEO": 210,
+      "HAR": 115,
       "HIS": 924,
+      "HOT": 110,
       "IND": 116,
       "IRL": 219,
       "JOU": 360,
       "KIN": 265,
-      "LAW": 1047,
+      "LAW": 1048,
       "LIN": 193,
-      "MAT": 785,
-      "MEC": 722,
+      "MAT": 786,
+      "MEC": 724,
       "MED": 752,
       "MKT": 872,
       "MUS": 461,
@@ -52,18 +58,19 @@
       "PHI": 414,
       "PHY": 451,
       "POL": 653,
-      "PSY": 13144,
+      "PSY": 13146,
       "SOC": 856,
-      "SWK": 671
+      "SWK": 671,
+      "TEA": 136
     },
     "minimum_per_career": 100
   },
   "riasec_exclusion_reason_exclusive": {
     "career_below_min_count": 94,
-    "eligible": 40413,
+    "eligible": 42349,
     "invalid_age": 77,
     "invalid_interest": 10064,
-    "major_unmapped_or_empty": 95180
+    "major_unmapped_or_empty": 93244
   },
   "riasec_eligible_by_career": {
     "ACC": {
@@ -72,6 +79,15 @@
       "aliases": [
         "accounting",
         "accountancy"
+      ]
+    },
+    "AMB": {
+      "name": "Ciencias Ambientales",
+      "rows": 195,
+      "aliases": [
+        "ciencias ambientales",
+        "environmental science",
+        "environmental studies"
       ]
     },
     "ANT": {
@@ -83,19 +99,29 @@
     },
     "ARC": {
       "name": "Arquitectura",
-      "rows": 509,
+      "rows": 511,
       "aliases": [
         "architecture"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "arquitectura"
+        ]
+      }
     },
     "BAM": {
       "name": "Administración de empresas",
-      "rows": 1486,
+      "rows": 1487,
       "aliases": [
         "business administration",
         "business management",
         "business admin"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "bussines management"
+        ]
+      }
     },
     "BCH": {
       "name": "Bioquímica",
@@ -113,10 +139,15 @@
     },
     "CEN": {
       "name": "Ingeniería química",
-      "rows": 405,
+      "rows": 406,
       "aliases": [
         "chemical engineering"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "chrmical engineering"
+        ]
+      }
     },
     "CENM": {
       "name": "Ingeniería de software",
@@ -140,11 +171,34 @@
         "chemistry"
       ]
     },
+    "CIN": {
+      "name": "Cinematografía",
+      "rows": 131,
+      "aliases": [
+        "cine",
+        "cinematografia",
+        "cinematography",
+        "film",
+        "filmmaking"
+      ]
+    },
     "CIV": {
       "name": "Ingeniería civil",
       "rows": 1023,
       "aliases": [
         "civil engineering"
+      ]
+    },
+    "COM": {
+      "name": "Comunicación",
+      "rows": 1092,
+      "aliases": [
+        "ciencias de la comunicacion",
+        "communication",
+        "communication studies",
+        "communications",
+        "comunicacion",
+        "comunications"
       ]
     },
     "CRI": {
@@ -163,19 +217,29 @@
     },
     "CSC": {
       "name": "Ciencias de la computación",
-      "rows": 1201,
+      "rows": 1202,
       "aliases": [
         "computer science",
         "computer sciences",
         "computing science"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "computer sciences."
+        ]
+      }
     },
     "ECO": {
       "name": "Economía",
-      "rows": 1041,
+      "rows": 1042,
       "aliases": [
         "economics"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "economy"
+        ]
+      }
     },
     "EDU": {
       "name": "Educación",
@@ -189,6 +253,13 @@
       "rows": 463,
       "aliases": [
         "electrical engineering"
+      ]
+    },
+    "EPR": {
+      "name": "Educación Primaria",
+      "rows": 145,
+      "aliases": [
+        "elementary education"
       ]
     },
     "FIN": {
@@ -212,11 +283,28 @@
         "geography"
       ]
     },
+    "HAR": {
+      "name": "Historia del Arte",
+      "rows": 115,
+      "aliases": [
+        "art history",
+        "historia del arte"
+      ]
+    },
     "HIS": {
       "name": "Historia",
       "rows": 924,
       "aliases": [
         "history"
+      ]
+    },
+    "HOT": {
+      "name": "Administración Hotelera",
+      "rows": 110,
+      "aliases": [
+        "administracion hotelera",
+        "hospitality management",
+        "hotel management"
       ]
     },
     "IND": {
@@ -249,10 +337,15 @@
     },
     "LAW": {
       "name": "Derecho",
-      "rows": 1047,
+      "rows": 1048,
       "aliases": [
         "law"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "derecho"
+        ]
+      }
     },
     "LIN": {
       "name": "Lingüística",
@@ -263,19 +356,31 @@
     },
     "MAT": {
       "name": "Matemáticas",
-      "rows": 785,
+      "rows": 786,
       "aliases": [
         "mathematics",
         "math",
         "maths"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "matemáticas",
+          "matematicas"
+        ]
+      }
     },
     "MEC": {
       "name": "Ingeniería mecánica",
-      "rows": 722,
+      "rows": 724,
       "aliases": [
         "mechanical engineering"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "mechanical eng",
+          "mechanicl engineering"
+        ]
+      }
     },
     "MED": {
       "name": "Medicina",
@@ -335,12 +440,19 @@
     },
     "PSY": {
       "name": "Psicología",
-      "rows": 13144,
+      "rows": 13146,
       "aliases": [
         "psychology",
         "psycology",
         "pyschology"
-      ]
+      ],
+      "aliases_by_country": {
+        "MX": [
+          "psicología",
+          "psicologia",
+          "psychoogy"
+        ]
+      }
     },
     "SOC": {
       "name": "Sociología",
@@ -355,106 +467,115 @@
       "aliases": [
         "social work"
       ]
+    },
+    "TEA": {
+      "name": "Teatro",
+      "rows": 136,
+      "aliases": [
+        "teatro",
+        "theater",
+        "theatre"
+      ]
     }
   },
   "riasec_eligible_by_country": {
-    "US": 22725,
-    "MY": 2382,
-    "GB": 1797,
-    "CA": 1746,
-    "AU": 1329,
-    "PH": 1217,
-    "SG": 841,
-    "IN": 695,
-    "ID": 582,
-    "NONE": 500,
-    "DE": 350,
-    "NZ": 343,
-    "BR": 343,
-    "PT": 321,
-    "HK": 301,
-    "TH": 233,
-    "NL": 230,
-    "RO": 221,
-    "FR": 181,
-    "IT": 180,
-    "BE": 169,
-    "ZA": 163,
+    "US": 24019,
+    "MY": 2427,
+    "GB": 1856,
+    "CA": 1845,
+    "AU": 1385,
+    "PH": 1249,
+    "SG": 890,
+    "IN": 701,
+    "ID": 610,
+    "NONE": 521,
+    "NZ": 368,
+    "DE": 360,
+    "BR": 349,
+    "PT": 348,
+    "HK": 309,
+    "TH": 244,
+    "NL": 236,
+    "RO": 227,
+    "FR": 187,
+    "IT": 184,
+    "BE": 171,
+    "ZA": 170,
     "CN": 148,
-    "PK": 145,
-    "TR": 135,
-    "VN": 129,
-    "SE": 124,
-    "AE": 124,
-    "IE": 115,
-    "KE": 114,
+    "PK": 147,
+    "VN": 145,
+    "TR": 137,
+    "AE": 130,
+    "SE": 127,
+    "KE": 120,
+    "IE": 118,
+    "MX": 110,
     "PL": 107,
-    "HR": 93,
-    "JP": 90,
-    "CH": 88,
-    "NO": 87,
-    "IR": 86,
-    "CZ": 85,
-    "MX": 85,
-    "ES": 78,
-    "GR": 77,
-    "RU": 75,
-    "RS": 71,
-    "KR": 68,
+    "JP": 96,
+    "HR": 95,
+    "CH": 91,
+    "CZ": 89,
+    "NO": 89,
+    "IR": 87,
+    "ES": 82,
+    "GR": 79,
+    "RU": 78,
+    "KR": 73,
+    "RS": 73,
     "AT": 60,
-    "JM": 54,
-    "FI": 51,
-    "DK": 46,
-    "LB": 45,
+    "JM": 55,
+    "FI": 52,
+    "DK": 47,
+    "LB": 46,
+    "HU": 46,
     "EG": 45,
-    "HU": 44,
-    "IL": 44,
-    "TW": 43,
+    "TW": 45,
+    "IL": 45,
     "SI": 42,
     "SA": 38,
-    "TT": 35,
+    "TT": 36,
+    "BG": 34,
+    "CL": 34,
+    "NP": 34,
     "NG": 33,
-    "BG": 33,
-    "NP": 33,
-    "CL": 32,
     "AL": 31,
+    "PR": 30,
     "LK": 30,
-    "PR": 28,
     "BN": 26,
     "UA": 26,
     "SK": 22,
-    "CO": 21,
+    "CO": 22,
+    "GH": 22,
+    "LT": 21,
     "AR": 21,
-    "LT": 20,
-    "GH": 20,
     "GT": 19,
     "PS": 19,
     "IS": 19,
     "EE": 18,
-    "MT": 16,
-    "EC": 16,
+    "MT": 17,
+    "EC": 17,
     "QA": 15,
     "JO": 15,
+    "MA": 15,
     "AZ": 15,
     "MK": 14,
     "KW": 14,
-    "MA": 13,
-    "BD": 12,
+    "BD": 13,
+    "CY": 11,
     "PE": 11,
     "GU": 10,
-    "CY": 10,
     "KZ": 10,
+    "CR": 9,
     "MN": 8,
     "LU": 8,
+    "VE": 8,
     "MU": 8,
     "GE": 8,
     "BW": 8,
-    "CR": 8,
     "BH": 8,
     "HN": 8,
     "LV": 8,
     "SD": 8,
-    "VE": 7,
     "BB": 7,
     "BA": 7,
     "MD": 7,
@@ -462,20 +583,20 @@
     "UY": 6,
     "MM": 6,
     "PA": 6,
+    "UG": 6,
     "TN": 5,
     "DO": 5,
     "SV": 5,
     "ZW": 5,
-    "UG": 5,
     "MO": 4,
     "SY": 4,
     "PY": 4,
     "FJ": 4,
+    "IQ": 4,
+    "GD": 4,
     "NI": 4,
     "OM": 4,
     "BS": 4,
-    "IQ": 3,
-    "GD": 3,
     "PG": 3,
     "ME": 3,
     "KY": 3,
@@ -509,6 +630,7 @@
     "GI": 1,
     "MC": 1,
     "SR": 1,
+    "AD": 1,
     "CV": 1,
     "MZ": 1,
     "VC": 1,
@@ -527,6 +649,7 @@
   "riasec_eligible_by_career_for_top_countries_and_MX": {
     "AU": {
       "ACC": 67,
+      "AMB": 8,
       "ANT": 9,
       "ARC": 15,
       "BAM": 17,
@@ -536,7 +659,9 @@
       "CENM": 3,
       "CENR": 3,
       "CHE": 23,
+      "CIN": 3,
       "CIV": 28,
+      "COM": 33,
       "CRI": 14,
       "CSC": 20,
       "ECO": 44,
@@ -545,7 +670,9 @@
       "FIN": 53,
       "GDE": 5,
       "GEO": 8,
+      "HAR": 5,
       "HIS": 49,
+      "HOT": 6,
       "IND": 1,
       "IRL": 10,
       "JOU": 19,
@@ -563,10 +690,12 @@
       "POL": 3,
       "PSY": 418,
       "SOC": 26,
-      "SWK": 12
+      "SWK": 12,
+      "TEA": 1
     },
     "CA": {
       "ACC": 55,
+      "AMB": 14,
       "ANT": 25,
       "ARC": 20,
       "BAM": 27,
@@ -576,17 +705,22 @@
       "CENM": 7,
       "CENR": 11,
       "CHE": 32,
+      "CIN": 12,
       "CIV": 39,
+      "COM": 53,
       "CRI": 20,
       "CRJ": 16,
       "CSC": 45,
       "ECO": 31,
       "EDU": 93,
       "ELE": 20,
+      "EPR": 4,
       "FIN": 23,
       "GDE": 5,
       "GEO": 26,
+      "HAR": 2,
       "HIS": 54,
+      "HOT": 3,
       "IND": 3,
       "IRL": 11,
       "JOU": 14,
@@ -605,10 +739,12 @@
       "POL": 54,
       "PSY": 503,
       "SOC": 63,
-      "SWK": 43
+      "SWK": 43,
+      "TEA": 11
     },
     "GB": {
       "ACC": 20,
+      "AMB": 14,
       "ANT": 19,
       "ARC": 28,
       "BAM": 42,
@@ -618,7 +754,9 @@
       "CENM": 1,
       "CENR": 2,
       "CHE": 45,
+      "CIN": 9,
       "CIV": 24,
+      "COM": 14,
       "CRI": 9,
       "CRJ": 1,
       "CSC": 52,
@@ -628,7 +766,9 @@
       "FIN": 15,
       "GDE": 24,
       "GEO": 42,
+      "HAR": 12,
       "HIS": 128,
+      "HOT": 3,
       "IND": 2,
       "IRL": 9,
       "JOU": 16,
@@ -646,7 +786,8 @@
       "POL": 10,
       "PSY": 458,
       "SOC": 41,
-      "SWK": 20
+      "SWK": 20,
+      "TEA": 7
     },
     "ID": {
       "ACC": 29,
@@ -657,6 +798,7 @@
       "CENM": 1,
       "CENR": 7,
       "CIV": 30,
+      "COM": 25,
       "CSC": 13,
       "ECO": 11,
       "EDU": 9,
@@ -664,6 +806,7 @@
       "FIN": 10,
       "GDE": 8,
       "HIS": 1,
+      "HOT": 2,
       "IND": 3,
       "IRL": 13,
       "JOU": 2,
@@ -679,10 +822,12 @@
       "PHI": 5,
       "PSY": 253,
       "SOC": 4,
-      "SWK": 1
+      "SWK": 1,
+      "TEA": 1
     },
     "IN": {
       "ACC": 12,
+      "AMB": 1,
       "ARC": 7,
       "BAM": 23,
       "BCH": 1,
@@ -692,6 +837,7 @@
       "CENR": 34,
       "CHE": 19,
       "CIV": 55,
+      "COM": 4,
       "CRI": 1,
       "CSC": 44,
       "ECO": 28,
@@ -700,6 +846,7 @@
       "FIN": 35,
       "GEO": 1,
       "HIS": 6,
+      "HOT": 1,
       "IND": 4,
       "IRL": 2,
       "JOU": 3,
@@ -717,41 +864,49 @@
       "SWK": 3
     },
     "MX": {
+      "AMB": 2,
       "ANT": 1,
-      "ARC": 4,
-      "BAM": 1,
+      "ARC": 6,
+      "BAM": 2,
       "BCH": 1,
       "BIO": 5,
-      "CEN": 1,
+      "CEN": 2,
       "CENM": 1,
       "CENR": 2,
       "CHE": 1,
+      "CIN": 2,
       "CIV": 3,
+      "COM": 5,
       "CRJ": 3,
-      "CSC": 3,
-      "ECO": 6,
+      "CSC": 4,
+      "ECO": 7,
       "EDU": 3,
       "ELE": 1,
+      "EPR": 1,
       "FIN": 3,
       "GDE": 3,
+      "HAR": 1,
       "HIS": 1,
+      "HOT": 1,
       "IND": 3,
       "IRL": 3,
       "JOU": 2,
-      "LAW": 1,
-      "MAT": 4,
-      "MEC": 1,
+      "LAW": 2,
+      "MAT": 5,
+      "MEC": 3,
       "MED": 6,
       "MKT": 2,
       "PHI": 1,
       "PHY": 2,
       "POL": 2,
-      "PSY": 11,
+      "PSY": 13,
       "SOC": 3,
-      "SWK": 1
+      "SWK": 1,
+      "TEA": 1
     },
     "MY": {
       "ACC": 177,
+      "AMB": 4,
       "ARC": 79,
       "BAM": 55,
       "BCH": 8,
@@ -760,7 +915,9 @@
       "CENM": 22,
       "CENR": 8,
       "CHE": 45,
+      "CIN": 2,
       "CIV": 240,
+      "COM": 27,
       "CSC": 68,
       "ECO": 23,
       "EDU": 91,
@@ -769,6 +926,7 @@
       "GDE": 10,
       "GEO": 5,
       "HIS": 17,
+      "HOT": 11,
       "IRL": 4,
       "JOU": 9,
       "LAW": 116,
@@ -785,10 +943,12 @@
       "POL": 3,
       "PSY": 756,
       "SOC": 3,
-      "SWK": 3
+      "SWK": 3,
+      "TEA": 1
     },
     "NONE": {
       "ACC": 28,
+      "AMB": 1,
       "ANT": 2,
       "ARC": 6,
       "BAM": 28,
@@ -798,17 +958,21 @@
       "CENM": 2,
       "CENR": 5,
       "CHE": 7,
+      "CIN": 1,
       "CIV": 19,
+      "COM": 7,
       "CRI": 1,
       "CRJ": 3,
       "CSC": 23,
       "ECO": 11,
       "EDU": 11,
       "ELE": 6,
+      "EPR": 3,
       "FIN": 19,
       "GDE": 2,
       "GEO": 4,
       "HIS": 6,
+      "HOT": 5,
       "IND": 3,
       "IRL": 3,
       "KIN": 1,
@@ -826,10 +990,12 @@
       "POL": 6,
       "PSY": 131,
       "SOC": 11,
-      "SWK": 6
+      "SWK": 6,
+      "TEA": 4
     },
     "PH": {
       "ACC": 124,
+      "AMB": 9,
       "ARC": 54,
       "BAM": 42,
       "BCH": 2,
@@ -837,14 +1003,18 @@
       "CEN": 16,
       "CENR": 11,
       "CHE": 2,
+      "CIN": 2,
       "CIV": 120,
+      "COM": 9,
       "CRI": 17,
       "CSC": 15,
       "ECO": 16,
       "EDU": 95,
       "ELE": 13,
+      "EPR": 4,
       "FIN": 2,
       "HIS": 12,
+      "HOT": 7,
       "IND": 8,
       "IRL": 2,
       "JOU": 6,
@@ -862,10 +1032,12 @@
       "POL": 15,
       "PSY": 411,
       "SOC": 3,
-      "SWK": 3
+      "SWK": 3,
+      "TEA": 1
     },
     "SG": {
       "ACC": 49,
+      "AMB": 5,
       "ARC": 13,
       "BAM": 42,
       "BCH": 2,
@@ -873,7 +1045,9 @@
       "CEN": 27,
       "CENR": 10,
       "CHE": 16,
+      "CIN": 5,
       "CIV": 33,
+      "COM": 34,
       "CRI": 3,
       "CSC": 25,
       "ECO": 42,
@@ -882,7 +1056,9 @@
       "FIN": 27,
       "GDE": 6,
       "GEO": 6,
+      "HAR": 2,
       "HIS": 5,
+      "HOT": 2,
       "IND": 4,
       "IRL": 2,
       "JOU": 5,
@@ -900,10 +1076,12 @@
       "POL": 5,
       "PSY": 197,
       "SOC": 19,
-      "SWK": 12
+      "SWK": 12,
+      "TEA": 1
     },
     "US": {
       "ACC": 667,
+      "AMB": 117,
       "ANT": 193,
       "ARC": 114,
       "BAM": 860,
@@ -913,17 +1091,22 @@
       "CENM": 27,
       "CENR": 110,
       "CHE": 242,
+      "CIN": 77,
       "CIV": 232,
+      "COM": 749,
       "CRI": 94,
       "CRJ": 838,
       "CSC": 605,
       "ECO": 346,
       "EDU": 1169,
       "ELE": 161,
+      "EPR": 130,
       "FIN": 341,
       "GDE": 162,
       "GEO": 61,
+      "HAR": 72,
       "HIS": 506,
+      "HOT": 48,
       "IND": 27,
       "IRL": 71,
       "JOU": 212,
@@ -942,7 +1125,8 @@
       "POL": 458,
       "PSY": 8397,
       "SOC": 523,
-      "SWK": 477
+      "SWK": 477,
+      "TEA": 101
     }
   },
   "score_definition": "mean of eight 1–5 answers divided by 5, for each RIASEC area",

@@ -19,6 +19,25 @@ python3 train.py
 
 Los comandos históricos `python3 train.py --model svm` y otros modelos del repositorio siguen disponibles, pero sus artefactos no alimentan la API RIASEC.
 
+### Comparación de 40 y 47 carreras
+
+Desde `backend/`, la preparación actual genera el CSV de 47 clases. La comparación
+recupera el CSV histórico del commit que entrenó las 40 clases y usa los mismos
+casos de prueba para las clases compartidas.
+
+```bash
+python3 scripts/prepare_riasec_dataset.py
+riasec_baseline=$(mktemp)
+git show e953434:backend/data/vocapredict_unificado_riasec.csv > "$riasec_baseline" &&
+  python3 -m scripts.compare_riasec --baseline "$riasec_baseline"
+rm "$riasec_baseline"
+```
+
+Los dos modelos de la comparación se guardan en `artifacts/` y las métricas por
+carrera en [el reporte](docs/comparacion_riasec_40_47.md). El comando de comparación
+conserva el artefacto que carga la API. Ejecutar `train.py` con el CSV actual sí
+genera el artefacto de la API con las 47 clases.
+
 ## API y consola
 
 ```bash

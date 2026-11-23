@@ -47,21 +47,29 @@ def normalized_major(value: str) -> str:
     return re.sub(r"\s+", " ", unicodedata.normalize("NFKC", value).casefold()).strip()
 
 
-def load_catalog(path: Path) -> tuple[dict[str, dict], dict[str, dict]]:
+def load_catalog(path: Path) -> tuple[dict[tuple[str, str], dict], dict[str, dict]]:
     entries = json.loads(path.read_text(encoding="utf-8"))["careers"]
-    by_alias: dict[str, dict] = {}
+    by_alias: dict[tuple[str, str], dict] = {}
     by_code: dict[str, dict] = {}
     for entry in entries:
         code = entry["code"]
         if code in by_code:
             raise ValueError(f"Duplicate career code: {code}")
         by_code[code] = entry
-        for alias in entry["aliases"]:
-            key = normalized_major(alias)
-            if key in by_alias:
-                raise ValueError(f"Duplicate major alias: {alias}")
-            by_alias[key] = entry
+        scopes = {"": entry["aliases"], **entry.get("aliases_by_country", {})}
+        for country, aliases in scopes.items():
+            for alias in aliases:
+                key = (country, normalized_major(alias))
+                if key in by_alias:
+                    raise ValueError(f"Duplicate major alias: {alias} ({country})")
+                by_alias[key] = entry
     return by_alias, by_code
+
+
+def match_major(row: dict[str, str], by_alias: dict[tuple[str, str], dict]):
+    name = normalized_major(row.get("major") or "")
+    country = (row.get("country") or "").strip()
+    return by_alias.get((country, name)) or by_alias.get(("", name))
 
 
 def riasec_scores(row: dict[str, str]) -> list[str] | None:
@@ -85,7 +93,7 @@ def valid_age(value: str) -> bool:
     return 13 <= age <= 100 and age.is_integer()
 
 
-def read_riasec(path: Path, by_alias: dict[str, dict], min_count: int):
+def read_riasec(path: Path, by_alias: dict[tuple[str, str], dict], min_count: int):
     """Read twice to apply a fixed minimum per canonical career."""
     candidate_counts: Counter[str] = Counter()
     total = 0
@@ -101,7 +109,7 @@ def read_riasec(path: Path, by_alias: dict[str, dict], min_count: int):
                 invalid_interest += 1
             if not valid_age(row.get("age", "")):
                 invalid_age += 1
-            entry = by_alias.get(normalized_major(row.get("major") or ""))
+            entry = match_major(row, by_alias)
             if entry is None:
                 unmapped_major += 1
             if scores is not None and valid_age(row.get("age", "")) and entry:
@@ -114,7 +122,7 @@ def read_riasec(path: Path, by_alias: dict[str, dict], min_count: int):
                 scores = riasec_scores(row)
                 age_ok = valid_age(row.get("age", ""))
                 raw_major = row.get("major") or ""
-                entry = by_alias.get(normalized_major(raw_major))
+                entry = match_major(row, by_alias)
                 code = entry["code"] if entry else ""
                 # The first failed gate gives one auditable, mutually exclusive reason.
                 if scores is None:
@@ -226,7 +234,9 @@ def build(args: argparse.Namespace) -> dict:
         "riasec_exclusion_reason_exclusive": dict(sorted(reason_counts.items())),
         "riasec_eligible_by_career": {
             code: {"name": by_code[code]["name"], "rows": count,
-                   "aliases": by_code[code]["aliases"]}
+                   "aliases": by_code[code]["aliases"],
+                   **({"aliases_by_country": by_code[code]["aliases_by_country"]}
+                      if "aliases_by_country" in by_code[code] else {})}
             for code, count in sorted(eligible_counts.items())
         },
         "riasec_eligible_by_country": dict(eligible_country.most_common()),

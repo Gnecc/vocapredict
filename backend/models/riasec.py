@@ -20,6 +20,18 @@ METRICS = BACKEND_DIR / "artifacts" / "riasec_metrics.json"
 FEATURES = tuple(f"riasec_{area}" for area in "RIASEC")
 MIN_COUNTRY_TEST_ROWS = 50
 CLASS_WEIGHT_POWER = 0.6
+SPLIT_SEED = 20261015
+
+
+def fit_classifier(scores, labels):
+    labels = pd.Series(labels, dtype=str)
+    counts = labels.value_counts()
+    inverse_frequency = len(labels) / (len(counts) * labels.map(counts).to_numpy())
+    model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500))
+    model.fit(scores, labels.to_numpy(), logisticregression__sample_weight=(
+        inverse_frequency ** CLASS_WEIGHT_POWER
+    ))
+    return model
 
 
 def _top_k_rate(actual: np.ndarray, probabilities: np.ndarray, classes: np.ndarray, k: int) -> float:
@@ -70,15 +82,11 @@ def run(dataset_path: str | Path = DATASET) -> dict:
         indices,
         test_size=0.2,
         stratify=eligible["career_code"].to_numpy(),
-        random_state=20261015,
+        random_state=SPLIT_SEED,
     )
     x = scores.to_numpy(dtype=float)
     y = eligible["career_code"].to_numpy(dtype=str)
-    model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500))
-    train_counts = pd.Series(y[train_idx]).value_counts()
-    inverse_frequency = len(train_idx) / (len(train_counts) * pd.Series(y[train_idx]).map(train_counts).to_numpy())
-    sample_weight = inverse_frequency ** CLASS_WEIGHT_POWER
-    model.fit(x[train_idx], y[train_idx], logisticregression__sample_weight=sample_weight)
+    model = fit_classifier(x[train_idx], y[train_idx])
     probabilities = model.predict_proba(x[test_idx])
     classes = model.classes_
     predictions = classes[np.argmax(probabilities, axis=1)]

@@ -20,6 +20,8 @@ universitaria estudiada. `career_declared_code` aparece solo cuando el texto
 coincide con una regla explícita de `riasec_career_catalog.json`. Las reglas
 normalizan Unicode, mayúsculas y espacios, pero no hacen semejanza aproximada
 ni agrupan términos amplios como `business`, `engineering` o `medical`.
+El catálogo incluye siete clases nuevas y alias para 12 casos revisados
+con código de conexión MX. Los 12 recuperan clases que ya existían.
 `career_code` recoge la etiqueta utilizable dentro de cada instrumento;
 `label_type` indica su significado. Ninguna de estas etiquetas confirma que
 una carrera sea una recomendación satisfactoria.
@@ -36,8 +38,8 @@ No se sintetiza AMAI ni se convierten las escalas entre cuestionarios.
 carrera y país. `riasec_quality_overlapping` informa problemas que pueden
 coexistir en una fila; `riasec_exclusion_reason_exclusive` asigna una sola
 razón por fila, en orden: intereses inválidos, edad inválida, carrera sin
-mapeo y carrera con menos de 100 casos. En esta versión quedan 40,413 filas
-RIASEC elegibles para 40 carreras. El país procede de la ubicación de red
+mapeo y carrera con menos de 100 casos. En esta versión quedan 42,349 filas
+RIASEC elegibles para 47 carreras. El país procede de la ubicación de red
 según el codebook, no de una nacionalidad verificada.
 
 Para añadir carreras, revise las expresiones originales, agregue alias

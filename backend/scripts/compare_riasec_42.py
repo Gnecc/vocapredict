@@ -21,12 +21,17 @@ JOURNALISM_WEIGHT_43 = 1.3  # Seleccionado en el experimento de Periodismo.
 
 def evaluate(model, test, combine="max"):
     raw = model.predict_proba(test.loc[:, FEATURES].to_numpy())
-    mapped = np.array([MEMBERS.get(code, code) for code in model.classes_])
+    return evaluate_scores(raw, model.classes_, test, combine=combine)
+
+
+def evaluate_scores(raw, model_classes, test, combine="max", group_multiplier=1.0):
+    mapped = np.array([MEMBERS.get(code, code) for code in model_classes])
     classes = np.unique(mapped)
     reduce_scores = np.max if combine == "max" else np.sum
     scores = np.column_stack([
         reduce_scores(raw[:, mapped == code], axis=1) for code in classes
     ])
+    scores[:, classes == GROUP] *= group_multiplier
     ranked = classes[np.argsort(-scores, axis=1, kind="stable")[:, :3]]
     source = test["career_code"]
     target = source.replace(MEMBERS).to_numpy()

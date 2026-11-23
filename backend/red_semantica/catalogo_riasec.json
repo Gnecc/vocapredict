@@ -1,0 +1,244 @@
+{
+  "fuente_referencias": "https://doi.org/10.5281/zenodo.21403867",
+  "opciones": [
+    {
+      "id": "ACC",
+      "nombre": "Contaduría"
+    },
+    {
+      "id": "ANT",
+      "nombre": "Antropología"
+    },
+    {
+      "id": "ARC",
+      "nombre": "Arquitectura",
+      "referencia": {
+        "programa": "Arquitectura",
+        "codigo": "AIR"
+      }
+    },
+    {
+      "id": "BAM",
+      "nombre": "Administración de empresas"
+    },
+    {
+      "id": "BCH",
+      "nombre": "Bioquímica"
+    },
+    {
+      "id": "BIO",
+      "nombre": "Biología",
+      "referencia": {
+        "programa": "Biología",
+        "codigo": "IRE"
+      }
+    },
+    {
+      "id": "CEN",
+      "nombre": "Ingeniería química"
+    },
+    {
+      "id": "CENM",
+      "nombre": "Ingeniería de software",
+      "referencia": {
+        "programa": "Ingeniería de Software",
+        "codigo": "CIR"
+      }
+    },
+    {
+      "id": "CENR",
+      "nombre": "Ingeniería en computación"
+    },
+    {
+      "id": "CHE",
+      "nombre": "Química"
+    },
+    {
+      "id": "CIN",
+      "nombre": "Cinematografía"
+    },
+    {
+      "id": "CIV",
+      "nombre": "Ingeniería civil",
+      "referencia": {
+        "programa": "Ingeniería Civil",
+        "codigo": "RIE"
+      }
+    },
+    {
+      "id": "CPE",
+      "nombre": "Comunicación y Periodismo"
+    },
+    {
+      "id": "CRI",
+      "nombre": "Criminología"
+    },
+    {
+      "id": "CRJ",
+      "nombre": "Justicia penal"
+    },
+    {
+      "id": "CSC",
+      "nombre": "Ciencias de la computación",
+      "referencia": {
+        "programa": "Ciencias de la Computación",
+        "codigo": "CIR"
+      }
+    },
+    {
+      "id": "ECO",
+      "nombre": "Economía"
+    },
+    {
+      "id": "EDU",
+      "nombre": "Educación"
+    },
+    {
+      "id": "ELE",
+      "nombre": "Ingeniería eléctrica"
+    },
+    {
+      "id": "FIN",
+      "nombre": "Finanzas"
+    },
+    {
+      "id": "GDE",
+      "nombre": "Diseño gráfico"
+    },
+    {
+      "id": "GEO",
+      "nombre": "Geografía"
+    },
+    {
+      "id": "HIS",
+      "nombre": "Historia"
+    },
+    {
+      "id": "IND",
+      "nombre": "Ingeniería industrial",
+      "referencia": {
+        "programa": "Ingeniería Industrial",
+        "codigo": "ICE"
+      }
+    },
+    {
+      "id": "IRL",
+      "nombre": "Relaciones internacionales",
+      "referencia": {
+        "programa": "Relaciones Internacionales",
+        "codigo": "SEI"
+      }
+    },
+    {
+      "id": "KIN",
+      "nombre": "Kinesiología"
+    },
+    {
+      "id": "LAW",
+      "nombre": "Derecho",
+      "referencia": {
+        "programa": "Derecho",
+        "codigo": "ESA"
+      }
+    },
+    {
+      "id": "LIN",
+      "nombre": "Lingüística"
+    },
+    {
+      "id": "MAT",
+      "nombre": "Matemáticas"
+    },
+    {
+      "id": "MEC",
+      "nombre": "Ingeniería mecánica"
+    },
+    {
+      "id": "MED",
+      "nombre": "Medicina",
+      "referencia": {
+        "programa": "Medicina",
+        "codigo": "IRS"
+      }
+    },
+    {
+      "id": "MKT",
+      "nombre": "Mercadotecnia"
+    },
+    {
+      "id": "MUS",
+      "nombre": "Música",
+      "referencia": {
+        "programa": "Música",
+        "codigo": "ASI"
+      }
+    },
+    {
+      "id": "NUR",
+      "nombre": "Enfermería",
+      "referencia": {
+        "programa": "Enfermería",
+        "codigo": "SIA"
+      }
+    },
+    {
+      "id": "PHA",
+      "nombre": "Farmacia"
+    },
+    {
+      "id": "PHI",
+      "nombre": "Filosofía"
+    },
+    {
+      "id": "PHY",
+      "nombre": "Física"
+    },
+    {
+      "id": "POL",
+      "nombre": "Ciencias políticas",
+      "referencia": {
+        "programa": "Ciencias Políticas",
+        "codigo": "SEI"
+      }
+    },
+    {
+      "id": "PSY",
+      "nombre": "Psicología",
+      "referencia": {
+        "programa": "Psicología",
+        "codigo": "SIE"
+      }
+    },
+    {
+      "id": "SOC",
+      "nombre": "Sociología"
+    },
+    {
+      "id": "SWK",
+      "nombre": "Trabajo social"
+    },
+    {
+      "id": "TEA",
+      "nombre": "Teatro"
+    }
+  ],
+  "revision_fes_aragon": {
+    "opcion": "CPE",
+    "programa": "Licenciatura en Comunicación y Periodismo",
+    "institucion": "UNAM · FES Aragón",
+    "municipio": "Nezahualcóyotl, Estado de México",
+    "oferta": "https://oferta.unam.mx/comunicacion-y-periodismo.html",
+    "plan": "https://www.aragon.unam.mx/fes-aragon/public_html/documents/licenciaturas/comunicacion-y-periodismo/plan-de-estudios-comunicacion-y-periodismo.pdf",
+    "referencia": {
+      "programa": "Comunicación y Periodismo",
+      "codigo": "AES"
+    },
+    "evidencia": {
+      "A": "Redacción, Guionismo en radio y televisión, y Edición de diarios y revistas sustentan la creación y expresión.",
+      "E": "Publicidad y Comunicación social y relaciones públicas aportan actividades de persuasión y comunicación pública.",
+      "S": "Entrevista y Comunicación social y relaciones públicas apuntan a interacción con personas y públicos. Este vínculo es interpretativo.",
+      "I": "Métodos de Investigación en Comunicación y Reportaje aportan evidencia adicional de investigación que AES no representa."
+    },
+    "decision": "Afinidad curricular parcial con AES. El plan apoya el vínculo exploratorio y también destaca la investigación. No establece el orden de las letras."
+  }
+}

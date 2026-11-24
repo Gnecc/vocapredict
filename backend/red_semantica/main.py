@@ -1,0 +1,69 @@
+"""Punto de entrada: ejecuta el menú interactivo."""
+import time
+from ontologia import configurar_ontologia
+from reportes import imprimir_reporte_ontologia
+from visualizacion import visualizar_grafo
+from busquedas import buscar, buscar_por_nombre
+from consultas import consulta_por_enlace, consulta_por_propiedad, consulta_por_nodo
+from nivel_socio import demo_nivel_socioeconomico, submenu_nivel_socioeconomico
+from menu import menu
+
+
+if __name__ == "__main__":
+    G, alumnos, bloques, carreras, evaluaciones, relaciones = configurar_ontologia()
+    op = "0"
+    while op != "10":
+        menu()
+        op = input("\nusuario@> ")
+
+        match op:
+            case "1":
+                print("*" * 150, "\nIMPRESION DE TODA LA RED\n")
+                imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
+
+            case "2":
+                print("*" * 150, "\nGRAFO COMPLETO\n")
+                visualizar_grafo(G)
+
+            case "3":
+                print("*" * 150, "\nBUSQUEDA DE ALUMNO POR NUMERO DE CONTROL\n")
+                nc = input("\nIngresa el número de control del alumno a buscar (ej. 202301): ")
+                buscar(nc, G, alumnos)
+
+            case "4":
+                print("*" * 150, "\nBUSQUEDA DE ALUMNO POR NOMBRE\n")
+                nombre = input("\nIngresa el nombre del alumno a buscar (ej. Juan): ")
+                buscar_por_nombre(nombre, G, alumnos)
+
+            case "5":
+                print("*" * 150, "\nCONSULTA POR ENLACE\n")
+                consulta_por_enlace(G, input("Relación (evaluado / importante para / carrera sugerida): ").strip())
+
+            case "6":
+                print("*" * 150, "\nCONSULTA POR DATA PROPERTY (PUNTAJE)\n")
+                try:
+                    minimo = int(input("Puntaje mínimo: "))
+                    maximo = int(input("Puntaje máximo: "))
+                    consulta_por_propiedad(G, minimo, maximo)
+                except ValueError:
+                    print("[!] Ingresa números enteros.")
+
+            case "7":
+                print("*" * 150, "\nCONSULTA POR NODO AL QUE LLEVA\n")
+                consulta_por_nodo(G, input("ID del nodo (ej. a1, b3, c1): ").strip())
+
+            case "8":
+                print("*" * 150, "\nDEMO: CONSULTA POR NIVEL SOCIOECONÓMICO\n")
+                demo_nivel_socioeconomico(G)
+
+            case "9":
+                print("*" * 150, "\nSUBMENU: NIVEL SOCIOECONÓMICO\n")
+                submenu_nivel_socioeconomico(G)
+
+            case "10":
+                print("Saliendo del sistema...")
+                time.sleep(2.5)
+                print("Adios...")
+            case _:
+                print("Opcion no valida. Vuelve a intentarlo")
+                op = "0"

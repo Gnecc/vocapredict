@@ -1,0 +1,643 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/dbdzhz",
+    "id": "dbdzhz",
+    "slide": 2,
+    "layoutId": "f4782eb8-c798-4618-a816-e54c2375f030",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "f4782eb8-c798-4618-a816-e54c2375f030",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wbq9cvyt",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        78,
+        42,
+        420,
+        30
+      ],
+      "geometry": "rect",
+      "text": "EL PROBLEMA",
+      "textPreview": "EL PROBLEMA",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "EL PROBLEMA"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "EL PROBLEMA",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "EL PROBLEMA",
+              "fontSize": 14,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bahs3ah8",
+      "id": "2",
+      "name": "title",
+      "bbox": [
+        76,
+        62,
+        720,
+        118
+      ],
+      "geometry": "rect",
+      "text": "Elegir carrera suele mezclar gustos, contexto y dudas",
+      "textPreview": "Elegir carrera suele mezclar gustos, contexto y dudas",
+      "resolvedFontSize": 44,
+      "resolvedTextStyle": {
+        "fontSize": 44,
+        "typeface": "+mn-lt",
+        "color": "#1F261F",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Elegir carrera suele mezclar"
+          },
+          {
+            "index": 2,
+            "text": "gustos, contexto y dudas"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Elegir carrera suele mezclar gustos, contexto y dudas",
+          "resolvedTextStyle": {
+            "fontSize": 44,
+            "color": "#1F261F",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Elegir carrera suele mezclar gustos, contexto y dudas",
+              "fontSize": 44,
+              "color": "#1F261F",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/nql4r21w",
+      "id": "3",
+      "bbox": [
+        676,
+        82,
+        504,
+        438
+      ],
+      "geometry": "roundRect",
+      "alt": "question-screenshot",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "imageMask": {
+        "geometry": "roundRect",
+        "adjustmentList": [
+          {
+            "name": "adj",
+            "formula": "val 3653"
+          }
+        ]
+      },
+      "asset": {
+        "assetId": "fbe3028f-3f9d-42ec-b292-5ec679381401",
+        "contentType": "image/png",
+        "byteLength": 318786
+      }
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l0za9kfq",
+      "id": "4",
+      "name": "body-copy",
+      "bbox": [
+        80,
+        232,
+        492,
+        154
+      ],
+      "geometry": "rect",
+      "text": "VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué carrera sugiere el modelo.",
+      "textPreview": "VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué ca...",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VocaPredict convierte respuestas"
+          },
+          {
+            "index": 2,
+            "text": "dispersas en una lectura ordenada: qué"
+          },
+          {
+            "index": 3,
+            "text": "áreas interesan más, qué contexto"
+          },
+          {
+            "index": 4,
+            "text": "acompaña al estudiante y qué carrera"
+          },
+          {
+            "index": 5,
+            "text": "sugiere el modelo."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué carrera sugiere el modelo.",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué carrera sugiere el modelo.",
+              "fontSize": 26,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kfqtgfy5",
+      "id": "5",
+      "name": "step-1",
+      "bbox": [
+        88,
+        468,
+        172,
+        72
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#2C5234",
+      "lineColor": "#2C5234",
+      "lineWidth": 1
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jehs7axk",
+      "id": "6",
+      "name": "step-label-1",
+      "bbox": [
+        106,
+        486,
+        136,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Intereses",
+      "textPreview": "Intereses",
+      "resolvedFontSize": 18,
+      "resolvedTextStyle": {
+        "fontSize": 18,
+        "typeface": "+mn-lt",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Intereses"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Intereses",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Intereses",
+              "fontSize": 18,
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yd8re5gz",
+      "id": "7",
+      "name": "step-2",
+      "bbox": [
+        292,
+        468,
+        172,
+        72
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/14faxgz6",
+      "id": "8",
+      "name": "step-label-2",
+      "bbox": [
+        310,
+        486,
+        136,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Contexto",
+      "textPreview": "Contexto",
+      "resolvedFontSize": 18,
+      "resolvedTextStyle": {
+        "fontSize": 18,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Contexto"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Contexto",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Contexto",
+              "fontSize": 18,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0j694byl",
+      "id": "9",
+      "name": "step-3",
+      "bbox": [
+        496,
+        468,
+        172,
+        72
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/etsfulcn",
+      "id": "10",
+      "name": "step-label-3",
+      "bbox": [
+        514,
+        486,
+        136,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Sugerencia",
+      "textPreview": "Sugerencia",
+      "resolvedFontSize": 18,
+      "resolvedTextStyle": {
+        "fontSize": 18,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Sugerencia"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Sugerencia",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Sugerencia",
+              "fontSize": 18,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fu1g36d8",
+      "id": "11",
+      "name": "arrow-1",
+      "bbox": [
+        260,
+        504,
+        32,
+        0
+      ],
+      "geometry": "line",
+      "lineColor": "#9C8412",
+      "lineWidth": 2
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gvaxwbut",
+      "id": "12",
+      "name": "arrow-2",
+      "bbox": [
+        464,
+        504,
+        32,
+        0
+      ],
+      "geometry": "line",
+      "lineColor": "#9C8412",
+      "lineWidth": 2
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1wjy5gve",
+      "id": "13",
+      "name": "footer",
+      "bbox": [
+        1164,
+        654,
+        40,
+        24
+      ],
+      "geometry": "rect",
+      "text": "02",
+      "textPreview": "02",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#E2DED0",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#E2DED0",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02",
+              "fontSize": 14,
+              "color": "#E2DED0",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

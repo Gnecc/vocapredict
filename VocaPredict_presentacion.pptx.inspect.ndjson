@@ -1,0 +1,163 @@
+{"kind":"deck","id":"pr/z3uxbj","name":"Deck"}
+{"kind":"layout","layoutId":"aba16f6c-54b1-4cf0-b3b9-88a5a23a7666","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"f4782eb8-c798-4618-a816-e54c2375f030","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/4fd3it","slide":1,"title":"VocaPredict","textShapes":4}
+{"kind":"textbox","id":"sh/3excbmpc","slide":1,"name":"main-title","text":"VocaPredict","textPreview":"VocaPredict","textChars":11,"textLines":1,"bbox":[76,224,610,88]}
+{"kind":"textbox","id":"sh/2dov218r","slide":1,"name":"body-copy","text":"Una herramienta que combina intereses vocacionales y contexto socioeconómico para apoyar una sugerencia de carrera.","textPreview":"Una herramienta que combina intereses vocacionales y contexto socioeconómico para apoyar una sugerencia de carrera.","textChars":115,"textLines":1,"bbox":[80,330,540,136]}
+{"kind":"shape","id":"sh/gr6d0rql","slide":1,"name":"closing-line","bbox":[80,560,412,54]}
+{"kind":"textbox","id":"sh/fqxc7mp0","slide":1,"name":"closing-line-text","text":"Presentación general del proyecto","textPreview":"Presentación general del proyecto","textChars":33,"textLines":1,"bbox":[108,574,356,24]}
+{"kind":"textbox","id":"sh/epovyh8f","slide":1,"name":"footer","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/tsjed07e","slide":1,"name":"","geometry":"roundRect","alt":"logo","bbox":[74,68,210,122]}
+{"kind":"image","id":"im/gvax8fq5","slide":1,"name":"","geometry":"roundRect","alt":"home-screenshot","bbox":[706,74,488,456]}
+{"kind":"notes","id":"nt/4fd3it","slide":1,"text":"Abrir con la idea principal: VocaPredict no sustituye una orientación humana; organiza información relevante para iniciar una conversación mejor informada.\nLa presentación evita detalles técnicos y muestra el recorrido visible para el usuario.\n\n[Sources]\nbackend/README.md\nCaptura de https://ionic-react-quiz-app.fly.dev/home"}
+{"kind":"slide","id":"sl/dbdzhz","slide":2,"title":"EL PROBLEMA","textShapes":7}
+{"kind":"textbox","id":"sh/wbq9cvyt","slide":2,"name":"kicker","text":"EL PROBLEMA","textPreview":"EL PROBLEMA","textChars":11,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/bahs3ah8","slide":2,"name":"title","text":"Elegir carrera suele mezclar gustos, contexto y dudas","textPreview":"Elegir carrera suele mezclar gustos, contexto y dudas","textChars":53,"textLines":1,"bbox":[76,62,720,118]}
+{"kind":"textbox","id":"sh/l0za9kfq","slide":2,"name":"body-copy","text":"VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué carrera sugiere el modelo.","textPreview":"VocaPredict convierte respuestas dispersas en una lectura ordenada: qué áreas interesan más, qué contexto acompaña al estudiante y qué ca...","textChars":161,"textLines":1,"bbox":[80,232,492,154]}
+{"kind":"shape","id":"sh/kfqtgfy5","slide":2,"name":"step-1","bbox":[88,468,172,72]}
+{"kind":"textbox","id":"sh/jehs7axk","slide":2,"name":"step-label-1","text":"Intereses","textPreview":"Intereses","textChars":9,"textLines":1,"bbox":[106,486,136,34]}
+{"kind":"shape","id":"sh/yd8re5gz","slide":2,"name":"step-2","bbox":[292,468,172,72]}
+{"kind":"textbox","id":"sh/14faxgz6","slide":2,"name":"step-label-2","text":"Contexto","textPreview":"Contexto","textChars":8,"textLines":1,"bbox":[310,486,136,34]}
+{"kind":"shape","id":"sh/0j694byl","slide":2,"name":"step-3","bbox":[496,468,172,72]}
+{"kind":"textbox","id":"sh/etsfulcn","slide":2,"name":"step-label-3","text":"Sugerencia","textPreview":"Sugerencia","textChars":10,"textLines":1,"bbox":[514,486,136,34]}
+{"kind":"shape","id":"sh/fu1g36d8","slide":2,"name":"arrow-1","bbox":[260,504,32,0]}
+{"kind":"shape","id":"sh/gvaxwbut","slide":2,"name":"arrow-2","bbox":[464,504,32,0]}
+{"kind":"textbox","id":"sh/1wjy5gve","slide":2,"name":"footer","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/nql4r21w","slide":2,"name":"","geometry":"roundRect","alt":"question-screenshot","bbox":[676,82,504,438]}
+{"kind":"notes","id":"nt/dbdzhz","slide":2,"text":"Explicar que el valor está en reunir tres piezas en una experiencia sencilla: preferencias, datos socioeconómicos y una sugerencia final.\nEvitar venderlo como decisión automática; presentarlo como apoyo para orientación.\n\n[Sources]\nfrontend/src/pages/Home.jsx\nfrontend/src/questions/index.js\nCaptura de https://ionic-react-quiz-app.fly.dev/questions"}
+{"kind":"slide","id":"sl/q13npr","slide":3,"title":"RECORRIDO","textShapes":7}
+{"kind":"textbox","id":"sh/xk7qdcfq","slide":3,"name":"kicker","text":"RECORRIDO","textPreview":"RECORRIDO","textChars":9,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/ahg7ihgz","slide":3,"name":"title","text":"El usuario avanza por un flujo guiado y sin cambios bruscos","textPreview":"El usuario avanza por un flujo guiado y sin cambios bruscos","textChars":59,"textLines":1,"bbox":[76,62,820,118]}
+{"kind":"shape","id":"sh/2tw7exg3","slide":3,"name":"flow-arrow-1","bbox":[420,334,42,0]}
+{"kind":"shape","id":"sh/nu5o72xo","slide":3,"name":"flow-arrow-2","bbox":[818,334,42,0]}
+{"kind":"textbox","id":"sh/0repc7yx","slide":3,"name":"caption-1","text":"Inicio claro","textPreview":"Inicio claro","textChars":12,"textLines":1,"bbox":[88,482,300,34]}
+{"kind":"textbox","id":"sh/1sn65sfi","slide":3,"name":"caption-2","text":"Preguntas paso a paso","textPreview":"Preguntas paso a paso","textChars":21,"textLines":1,"bbox":[488,482,300,34]}
+{"kind":"textbox","id":"sh/l47atc3i","slide":3,"name":"caption-3","text":"Resultado entendible","textPreview":"Resultado entendible","textChars":20,"textLines":1,"bbox":[884,482,300,34]}
+{"kind":"textbox","id":"sh/k3y9k72x","slide":3,"name":"body-copy","text":"La pantalla muestra el avance, evita saturar y puede retomar el cuestionario si queda a medias.","textPreview":"La pantalla muestra el avance, evita saturar y puede retomar el cuestionario si queda a medias.","textChars":95,"textLines":1,"bbox":[220,568,840,52]}
+{"kind":"textbox","id":"sh/z2p8r2lc","slide":3,"name":"footer","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/m1wjaxsz","slide":3,"name":"","geometry":"roundRect","alt":"home","bbox":[74,210,336,250]}
+{"kind":"image","id":"im/hs729cbm","slide":3,"name":"","geometry":"roundRect","alt":"question","bbox":[472,210,336,250]}
+{"kind":"image","id":"im/wry1g7a1","slide":3,"name":"","geometry":"roundRect","alt":"result","bbox":[870,210,336,250]}
+{"kind":"notes","id":"nt/q13npr","slide":3,"text":"Resaltar que la experiencia está pensada para reducir fricción: una pregunta por vez, progreso visible y resultado final concentrado.\nSugerencia de animación: mostrar las tres capturas una por una con aparición suave.\n\n[Sources]\nfrontend/src/pages/Home.jsx\nfrontend/src/pages/Questions.jsx\nfrontend/src/pages/Prediction.jsx\nCapturas locales de http://127.0.0.1:3000/"}
+{"kind":"slide","id":"sl/uu8nn7","slide":4,"title":"CUESTIONARIOS","textShapes":6}
+{"kind":"textbox","id":"sh/r2x0jadc","slide":4,"name":"kicker","text":"CUESTIONARIOS","textPreview":"CUESTIONARIOS","textChars":13,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/c36hcfux","slide":4,"name":"title","text":"Intereses primero; contexto después","textPreview":"Intereses primero; contexto después","textChars":35,"textLines":1,"bbox":[76,62,820,118]}
+{"kind":"textbox","id":"sh/3exgfqd0","slide":4,"name":"left-label","text":"Inventario de intereses","textPreview":"Inventario de intereses","textChars":23,"textLines":1,"bbox":[144,560,380,34]}
+{"kind":"textbox","id":"sh/4f6h8vul","slide":4,"name":"right-label","text":"Estudio socioeconómico","textPreview":"Estudio socioeconómico","textChars":22,"textLines":1,"bbox":[756,560,380,34]}
+{"kind":"textbox","id":"sh/pgfih0v6","slide":4,"name":"body-copy","text":"La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.","textPreview":"La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.","textChars":105,"textLines":1,"bbox":[232,620,816,42]}
+{"kind":"textbox","id":"sh/u94z2lwj","slide":4,"name":"footer","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/s7ut4fq9","slide":4,"name":"","geometry":"roundRect","alt":"hereford-screen","bbox":[74,184,520,340]}
+{"kind":"image","id":"im/ji1c7q9s","slide":4,"name":"","geometry":"roundRect","alt":"socio-screen","bbox":[686,184,520,340]}
+{"kind":"notes","id":"nt/uu8nn7","slide":4,"text":"Explicar que Hereford pregunta por actividades concretas, no por carreras directamente.\nEl estudio socioeconómico no reemplaza la orientación; agrega contexto para enriquecer la sugerencia.\n\n[Sources]\nfrontend/src/questions/index.js\nfrontend/src/pages/Questions.jsx\nCapturas de https://ionic-react-quiz-app.fly.dev/questions"}
+{"kind":"slide","id":"sl/85k0ua","slide":5,"title":"CONTEXTO AMAI","textShapes":16}
+{"kind":"textbox","id":"sh/8vqp47qp","slide":5,"name":"kicker","text":"CONTEXTO AMAI","textPreview":"CONTEXTO AMAI","textChars":13,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/7uhov294","slide":5,"name":"title","text":"AMAI es una regla mexicana para clasificar hogares","textPreview":"AMAI es una regla mexicana para clasificar hogares","textChars":50,"textLines":1,"bbox":[76,62,850,118]}
+{"kind":"shape","id":"sh/mt872x8j","slide":5,"name":"origin-panel","bbox":[76,214,408,292]}
+{"kind":"textbox","id":"sh/h0j61cr6","slide":5,"name":"amai-word","text":"AMAI","textPreview":"AMAI","textChars":4,"textLines":1,"bbox":[120,260,320,76]}
+{"kind":"textbox","id":"sh/wzqp87ql","slide":5,"name":"body-copy","text":"Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión","textPreview":"Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión","textChars":68,"textLines":1,"bbox":[122,350,316,78]}
+{"kind":"textbox","id":"sh/vyhoz290","slide":5,"name":"origin-note","text":"No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.","textPreview":"No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.","textChars":90,"textLines":1,"bbox":[110,448,340,46]}
+{"kind":"shape","id":"sh/ux876h8f","slide":5,"name":"fact-dot-0","bbox":[570,208,48,48]}
+{"kind":"textbox","id":"sh/5ojq5wr2","slide":5,"name":"fact-number-0","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[570,221,48,22]}
+{"kind":"textbox","id":"sh/4napcrqh","slide":5,"name":"fact-title-0","text":"Origen","textPreview":"Origen","textChars":6,"textLines":1,"bbox":[642,194,424,34]}
+{"kind":"textbox","id":"sh/qxwf2xgf","slide":5,"name":"body-copy","text":"La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.","textPreview":"La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.","textChars":71,"textLines":1,"bbox":[642,232,500,58]}
+{"kind":"shape","id":"sh/by5gv2h0","slide":5,"name":"fact-dot-1","bbox":[570,324,48,48]}
+{"kind":"textbox","id":"sh/czex47yl","slide":5,"name":"fact-number-1","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[570,337,48,22]}
+{"kind":"textbox","id":"sh/d0nyxczq","slide":5,"name":"fact-title-1","text":"Base oficial","textPreview":"Base oficial","textChars":12,"textLines":1,"bbox":[642,310,424,34]}
+{"kind":"textbox","id":"sh/y1wf6hgb","slide":5,"name":"body-copy","text":"Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.","textPreview":"Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.","textChars":76,"textLines":1,"bbox":[642,348,500,58]}
+{"kind":"shape","id":"sh/z25gzmhw","slide":5,"name":"fact-dot-2","bbox":[570,440,48,48]}
+{"kind":"textbox","id":"sh/03eh87yh","slide":5,"name":"fact-number-2","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[570,453,48,22]}
+{"kind":"textbox","id":"sh/l47y1cz2","slide":5,"name":"fact-title-2","text":"Uso","textPreview":"Uso","textChars":3,"textLines":1,"bbox":[642,426,424,34]}
+{"kind":"textbox","id":"sh/e5cfudg7","slide":5,"name":"body-copy","text":"Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.","textPreview":"Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.","textChars":97,"textLines":1,"bbox":[642,464,500,58]}
+{"kind":"shape","id":"sh/f6lgnihs","slide":5,"name":"vocapredict-use","bbox":[174,572,932,56]}
+{"kind":"textbox","id":"sh/jahcvexk","slide":5,"name":"vocapredict-use-text","text":"En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.","textPreview":"En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.","textChars":97,"textLines":1,"bbox":[214,589,852,24]}
+{"kind":"textbox","id":"sh/i98v29wz","slide":5,"name":"footer","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"notes","id":"nt/85k0ua","slide":5,"text":"Aclaración importante: AMAI no debe presentarse como una metodología creada por el gobierno de México.\nLa regla la desarrolla AMAI; su conexión con fuentes oficiales viene del uso de la ENIGH de INEGI para estimaciones y revisión metodológica.\nEste contexto ayuda a explicar por qué VocaPredict pregunta por vivienda, escolaridad, autos, internet y personas que trabajan.\n\n[Sources]\nAMAI Preguntas frecuentes NSE: https://www.amai.org/NSE/index.php?queVeo=preguntas\nAMAI Estimaciones NSE 2022 y Regla AMAI 2024: https://www.amai.org/NSE/index.php?queVeo=NSE2024"}
+{"kind":"slide","id":"sl/1pk53s","slide":6,"title":"AMAI","textShapes":13}
+{"kind":"textbox","id":"sh/zml4red0","slide":6,"name":"kicker","text":"AMAI","textPreview":"AMAI","textChars":4,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/0nu50jel","slide":6,"name":"title","text":"AMAI resume el contexto del hogar en un indicador simple","textPreview":"AMAI resume el contexto del hogar en un indicador simple","textChars":56,"textLines":1,"bbox":[76,62,790,118]}
+{"kind":"shape","id":"sh/183mtov6","slide":6,"name":"amai-panel","bbox":[72,204,470,330]}
+{"kind":"textbox","id":"sh/m9cn2twr","slide":6,"name":"amai-big","text":"0 → 1","textPreview":"0 → 1","textChars":5,"textLines":1,"bbox":[124,256,360,86]}
+{"kind":"textbox","id":"sh/nal4vydc","slide":6,"name":"body-copy","text":"Cerca de 0 indica condiciones más limitadas. Cerca de 1 indica condiciones más favorables.","textPreview":"Cerca de 0 indica condiciones más limitadas. Cerca de 1 indica condiciones más favorables.","textChars":90,"textLines":1,"bbox":[122,358,370,82]}
+{"kind":"shape","id":"sh/obe543eh","slide":6,"name":"level-E","bbox":[634,285,52,52]}
+{"kind":"textbox","id":"sh/9cnmx8v2","slide":6,"name":"level-label-E","text":"E","textPreview":"E","textChars":1,"textLines":1,"bbox":[628,300,64,22]}
+{"kind":"shape","id":"sh/adwn6dwn","slide":6,"name":"level-D","bbox":[704,285,52,52]}
+{"kind":"textbox","id":"sh/ve54zid8","slide":6,"name":"level-label-D","text":"D","textPreview":"D","textChars":1,"textLines":1,"bbox":[698,300,64,22]}
+{"kind":"shape","id":"sh/b6tsjy5k","slide":6,"name":"level-D+","bbox":[774,285,52,52]}
+{"kind":"textbox","id":"sh/alkbadof","slide":6,"name":"level-label-D+","text":"D+","textPreview":"D+","textChars":2,"textLines":1,"bbox":[768,300,64,22]}
+{"kind":"shape","id":"sh/x8bal8nq","slide":6,"name":"level-C-","bbox":[844,285,52,52]}
+{"kind":"textbox","id":"sh/w72tc365","slide":6,"name":"level-label-C-","text":"C-","textPreview":"C-","textChars":2,"textLines":1,"bbox":[838,300,64,22]}
+{"kind":"shape","id":"sh/ni9sfy5o","slide":6,"name":"level-C","bbox":[914,285,52,52]}
+{"kind":"textbox","id":"sh/mh0b6to3","slide":6,"name":"level-label-C","text":"C","textPreview":"C","textChars":1,"textLines":1,"bbox":[908,300,64,22]}
+{"kind":"shape","id":"sh/9kbah8nu","slide":6,"name":"level-C+","bbox":[984,285,52,52]}
+{"kind":"textbox","id":"sh/ojit8369","slide":6,"name":"level-label-C+","text":"C+","textPreview":"C+","textChars":2,"textLines":1,"bbox":[978,300,64,22]}
+{"kind":"shape","id":"sh/7edsri5s","slide":6,"name":"level-A/B","bbox":[1054,285,52,52]}
+{"kind":"textbox","id":"sh/6d4bixo7","slide":6,"name":"level-label-A/B","text":"A/B","textPreview":"A/B","textChars":3,"textLines":1,"bbox":[1048,300,64,22]}
+{"kind":"textbox","id":"sh/2l8n6lcr","slide":6,"name":"body-copy","text":"El sistema calcula puntos con respuestas del hogar y después asigna una letra: E, D, C, C+, A/B.","textPreview":"El sistema calcula puntos con respuestas del hogar y después asigna una letra: E, D, C, C+, A/B.","textChars":96,"textLines":1,"bbox":[626,386,516,80]}
+{"kind":"textbox","id":"sh/3mh4zqtc","slide":6,"name":"footer","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"notes","id":"nt/1pk53s","slide":6,"text":"AMAI se puede explicar como una forma estandarizada de resumir condiciones del hogar en una sola lectura.\nLa normalización 0 a 1 sirve para que el modelo pueda usar el dato junto con los intereses sin mezclar escalas incompatibles.\n\n[Sources]\nfrontend/src/amai.js\nbackend/docs/reporte_aplicacion_amai.md\nAMAI Preguntas frecuentes NSE: https://www.amai.org/NSE/index.php?queVeo=preguntas"}
+{"kind":"slide","id":"sl/ni02ip","slide":7,"title":"MODELO","textShapes":14}
+{"kind":"textbox","id":"sh/43mdwfe9","slide":7,"name":"kicker","text":"MODELO","textPreview":"MODELO","textChars":6,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/32dc3ado","slide":7,"name":"title","text":"La predicción usa diez señales, no una sola respuesta","textPreview":"La predicción usa diez señales, no una sola respuesta","textChars":53,"textLines":1,"bbox":[76,62,820,118]}
+{"kind":"shape","id":"sh/214vu5w3","slide":7,"name":"signal-0","bbox":[84,214,176,78]}
+{"kind":"textbox","id":"sh/h0vu10vi","slide":7,"name":"signal-text-0","text":"Cálculo","textPreview":"Cálculo","textChars":7,"textLines":1,"bbox":[96,239,152,26]}
+{"kind":"shape","id":"sh/gz2dsvex","slide":7,"name":"signal-1","bbox":[302,214,176,78]}
+{"kind":"textbox","id":"sh/fytczadc","slide":7,"name":"signal-text-1","text":"Físico","textPreview":"Físico","textChars":6,"textLines":1,"bbox":[314,239,152,26]}
+{"kind":"shape","id":"sh/uxkvq5wr","slide":7,"name":"signal-2","bbox":[520,214,176,78]}
+{"kind":"textbox","id":"sh/1wfed4vm","slide":7,"name":"signal-text-2","text":"Biológico","textPreview":"Biológico","textChars":9,"textLines":1,"bbox":[532,239,152,26]}
+{"kind":"shape","id":"sh/0v6d4zu1","slide":7,"name":"signal-3","bbox":[738,214,176,78]}
+{"kind":"textbox","id":"sh/q94rm14r","slide":7,"name":"signal-text-3","text":"Mecánico","textPreview":"Mecánico","textChars":8,"textLines":1,"bbox":[750,239,152,26]}
+{"kind":"shape","id":"sh/rad8f65c","slide":7,"name":"signal-4","bbox":[956,214,176,78]}
+{"kind":"textbox","id":"sh/cbm9obmh","slide":7,"name":"signal-text-4","text":"Social","textPreview":"Social","textChars":6,"textLines":1,"bbox":[968,239,152,26]}
+{"kind":"shape","id":"sh/dcvahgn2","slide":7,"name":"signal-5","bbox":[84,342,176,78]}
+{"kind":"textbox","id":"sh/25kri14f","slide":7,"name":"signal-text-5","text":"Literario","textPreview":"Literario","textChars":9,"textLines":1,"bbox":[96,367,152,26]}
+{"kind":"shape","id":"sh/36t8b650","slide":7,"name":"signal-6","bbox":[302,342,176,78]}
+{"kind":"textbox","id":"sh/4729kbml","slide":7,"name":"signal-text-6","text":"Persuasivo","textPreview":"Persuasivo","textChars":10,"textLines":1,"bbox":[314,367,152,26]}
+{"kind":"shape","id":"sh/p8bqdwn6","slide":7,"name":"signal-7","bbox":[520,342,176,78]}
+{"kind":"textbox","id":"sh/m1orul4z","slide":7,"name":"signal-text-7","text":"Artístico","textPreview":"Artístico","textChars":9,"textLines":1,"bbox":[532,367,152,26]}
+{"kind":"shape","id":"sh/n2xsnq54","slide":7,"name":"signal-8","bbox":[738,342,176,78]}
+{"kind":"textbox","id":"sh/jmpofilw","slide":7,"name":"signal-text-8","text":"Musical","textPreview":"Musical","textChars":7,"textLines":1,"bbox":[750,367,152,26]}
+{"kind":"shape","id":"sh/ylgnmdkb","slide":7,"name":"signal-9","bbox":[956,342,176,78]}
+{"kind":"textbox","id":"sh/5876hs3m","slide":7,"name":"signal-text-9","text":"AMAI","textPreview":"AMAI","textChars":4,"textLines":1,"bbox":[968,367,152,26]}
+{"kind":"textbox","id":"sh/kny5on21","slide":7,"name":"body-copy","text":"Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.","textPreview":"Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.","textChars":100,"textLines":1,"bbox":[170,506,940,58]}
+{"kind":"textbox","id":"sh/7a9oj2ls","slide":7,"name":"footer","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"notes","id":"nt/ni02ip","slide":7,"text":"Evitar tecnicismos: decir que el modelo busca patrones entre perfiles anteriores y las respuestas actuales.\nSi alguien pregunta por 'modelo', explicar que es una fórmula entrenada con ejemplos para sugerir la clase más parecida.\n\n[Sources]\nbackend/README.md\nfrontend/src/pages/Results.jsx"}
+{"kind":"slide","id":"sl/9vwbf8","slide":8,"title":"MÓDULOS","textShapes":15}
+{"kind":"textbox","id":"sh/6503mlkj","slide":8,"name":"kicker","text":"MÓDULOS","textPreview":"MÓDULOS","textChars":7,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/t8r2hgja","slide":8,"name":"title","text":"Cada módulo cumple una función clara dentro del sistema","textPreview":"Cada módulo cumple una función clara dentro del sistema","textChars":55,"textLines":1,"bbox":[76,62,820,118]}
+{"kind":"shape","id":"sh/s7ilob2p","slide":8,"name":"module-0","bbox":[82,202,314,112]}
+{"kind":"textbox","id":"sh/futkjq1g","slide":8,"name":"module-name-0","text":"Frontend","textPreview":"Frontend","textChars":8,"textLines":1,"bbox":[106,224,260,30]}
+{"kind":"textbox","id":"sh/et03qlkv","slide":8,"name":"body-copy","text":"Lo que ve y responde el usuario","textPreview":"Lo que ve y responde el usuario","textChars":31,"textLines":1,"bbox":[106,264,260,38]}
+{"kind":"shape","id":"sh/1wb2l0j6","slide":8,"name":"module-1","bbox":[466,202,314,112]}
+{"kind":"textbox","id":"sh/gv2lsv2l","slide":8,"name":"module-name-1","text":"Cuestionarios","textPreview":"Cuestionarios","textChars":13,"textLines":1,"bbox":[490,224,260,30]}
+{"kind":"textbox","id":"sh/vypk76lw","slide":8,"name":"body-copy","text":"Preguntas Hereford y socioeconómicas","textPreview":"Preguntas Hereford y socioeconómicas","textChars":36,"textLines":1,"bbox":[490,264,260,38]}
+{"kind":"shape","id":"sh/uxgje1kb","slide":8,"name":"module-2","bbox":[850,202,314,112]}
+{"kind":"textbox","id":"sh/8ju5wret","slide":8,"name":"module-name-2","text":"AMAI","textPreview":"AMAI","textChars":4,"textLines":1,"bbox":[874,224,260,30]}
+{"kind":"textbox","id":"sh/t43mpcfy","slide":8,"name":"body-copy","text":"Convierte contexto en un valor comparable","textPreview":"Convierte contexto en un valor comparable","textChars":41,"textLines":1,"bbox":[874,264,260,38]}
+{"kind":"shape","id":"sh/6hcnuhwn","slide":8,"name":"module-3","bbox":[82,376,314,112]}
+{"kind":"textbox","id":"sh/7il4nmx8","slide":8,"name":"module-name-3","text":"Modelo","textPreview":"Modelo","textChars":6,"textLines":1,"bbox":[106,398,260,30]}
+{"kind":"textbox","id":"sh/g7e50rep","slide":8,"name":"body-copy","text":"Genera la sugerencia vocacional","textPreview":"Genera la sugerencia vocacional","textChars":31,"textLines":1,"bbox":[106,438,260,38]}
+{"kind":"shape","id":"sh/h8n6twfa","slide":8,"name":"module-4","bbox":[466,376,314,112]}
+{"kind":"textbox","id":"sh/u5cnyhwj","slide":8,"name":"module-name-4","text":"API","textPreview":"API","textChars":3,"textLines":1,"bbox":[490,398,260,30]}
+{"kind":"textbox","id":"sh/f6lormx4","slide":8,"name":"body-copy","text":"Conecta la app con la predicción","textPreview":"Conecta la app con la predicción","textChars":32,"textLines":1,"bbox":[490,438,260,38]}
+{"kind":"shape","id":"sh/wba5o7yl","slide":8,"name":"module-5","bbox":[850,376,314,112]}
+{"kind":"textbox","id":"sh/xcjmhsf6","slide":8,"name":"module-name-5","text":"Progreso local","textPreview":"Progreso local","textChars":14,"textLines":1,"bbox":[874,398,260,30]}
+{"kind":"textbox","id":"sh/dwru543i","slide":8,"name":"body-copy","text":"Permite retomar si se interrumpe","textPreview":"Permite retomar si se interrumpe","textChars":32,"textLines":1,"bbox":[874,438,260,38]}
+{"kind":"textbox","id":"sh/cvitwzmx","slide":8,"name":"footer","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"notes","id":"nt/9vwbf8","slide":8,"text":"Presentar los módulos como una cadena de responsabilidades, no como una lista técnica.\nLa idea clave: la app pregunta, ordena, calcula y consulta el modelo; el backend responde con la sugerencia.\n\n[Sources]\nbackend/README.md\nfrontend/src/App.jsx\nfrontend/src/pages/Results.jsx\nbackend/serve.py"}
+{"kind":"slide","id":"sl/pjyyhe","slide":9,"title":"RESULTADO","textShapes":4}
+{"kind":"textbox","id":"sh/zmxw3udc","slide":9,"name":"kicker","text":"RESULTADO","textPreview":"RESULTADO","textChars":9,"textLines":1,"bbox":[78,42,420,30]}
+{"kind":"textbox","id":"sh/kn6xwzex","slide":9,"name":"title","text":"La salida muestra perfil, AMAI y sugerencia del modelo","textPreview":"La salida muestra perfil, AMAI y sugerencia del modelo","textChars":54,"textLines":1,"bbox":[76,62,820,118]}
+{"kind":"textbox","id":"sh/bydwzadg","slide":9,"name":"body-copy","text":"Primero se revisa el perfil de intereses. Después se envían los datos y aparece una carrera sugerida.","textPreview":"Primero se revisa el perfil de intereses. Después se envían los datos y aparece una carrera sugerida.","textChars":101,"textLines":1,"bbox":[190,584,900,54]}
+{"kind":"textbox","id":"sh/czmdsfe1","slide":9,"name":"footer","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/sv6dkvet","slide":9,"name":"","geometry":"roundRect","alt":"results-screen","bbox":[72,200,520,350]}
+{"kind":"image","id":"im/fyhwvqdk","slide":9,"name":"","geometry":"roundRect","alt":"prediction-screen","bbox":[688,200,520,350]}
+{"kind":"notes","id":"nt/pjyyhe","slide":9,"text":"Mostrar que el resultado no solo da una etiqueta: también permite revisar el perfil por áreas y el indicador AMAI.\nSugerencia de animación: resultados primero, predicción después, con aparición discreta.\n\n[Sources]\nfrontend/src/pages/Results.jsx\nfrontend/src/pages/Prediction.jsx\nCapturas de https://ionic-react-quiz-app.fly.dev/results y /prediction"}
+{"kind":"slide","id":"sl/huui0d","slide":10,"title":"VocaPredict ayuda a conversar mejor sobre el futuro","textShapes":5}
+{"kind":"textbox","id":"sh/ilwfetsf","slide":10,"name":"title","text":"VocaPredict ayuda a conversar mejor sobre el futuro","textPreview":"VocaPredict ayuda a conversar mejor sobre el futuro","textChars":51,"textLines":1,"bbox":[76,214,850,118]}
+{"kind":"textbox","id":"sh/jm5gnyt0","slide":10,"name":"body-copy","text":"No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.","textPreview":"No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.","textChars":135,"textLines":1,"bbox":[80,360,650,104]}
+{"kind":"shape","id":"sh/wjexcja9","slide":10,"name":"next","bbox":[820,268,310,168]}
+{"kind":"textbox","id":"sh/hknylobu","slide":10,"name":"next-title","text":"Mensaje final","textPreview":"Mensaje final","textChars":13,"textLines":1,"bbox":[858,306,234,32]}
+{"kind":"textbox","id":"sh/uhwfa9sj","slide":10,"name":"body-copy","text":"Tecnología como apoyo, no como sustituto de la orientación.","textPreview":"Tecnología como apoyo, no como sustituto de la orientación.","textChars":59,"textLines":1,"bbox":[858,356,234,50]}
+{"kind":"textbox","id":"sh/vi5gjet4","slide":10,"name":"footer","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1164,654,40,24]}
+{"kind":"image","id":"im/cz69ofut","slide":10,"name":"","geometry":"roundRect","alt":"logo","bbox":[76,70,174,106]}
+{"kind":"notes","id":"nt/huui0d","slide":10,"text":"Cerrar reforzando el valor humano: VocaPredict abre una conversación más informada, no dicta una decisión.\nInvitar a preguntas sobre el flujo, datos o próximos ajustes visuales.\n\n[Sources]\nbackend/README.md\nfrontend/src/pages/Home.jsx"}

@@ -4,6 +4,9 @@ primary_region = 'iad'
 [build]
   dockerfile = 'Dockerfile'
 
+  [build.args]
+    REACT_APP_API_URL = 'https://macso-patient-dream-1724.fly.dev'
+
 [http_service]
   internal_port = 8080
   force_https = true

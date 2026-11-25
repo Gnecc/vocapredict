@@ -1,0 +1,7 @@
+VocaPredict presentation sources:
+- Local project README: backend/README.md
+- Local frontend source: frontend/src/pages, frontend/src/questions, frontend/src/amai.js
+- Screenshots captured locally from http://127.0.0.1:3000/
+- Backend local endpoint: http://127.0.0.1:8080/predict
+- AMAI NSE FAQ: https://www.amai.org/NSE/index.php?queVeo=preguntas
+- AMAI 2024 rule: https://www.amai.org/NSE/index.php?queVeo=NSE2024

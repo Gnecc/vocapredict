@@ -38,6 +38,8 @@ ese tipo de consultas.
 
 ------------------------------------------------------------------------------------------------------------
 06/noviembre/2026
-POR CUMPLIR, POR REVISAR
+CUMPLIDO, POR REVISAR
 
 1. HACER UNA DEMO QUE CONSULTE POR NIVEL SOCIOECONOMICO
+git commit -m "1. se separo el archivo red_semantica.py en diferentes modulos
+2. Se termino la el metdo que filtra por nivel SOCIOECONOMICO"

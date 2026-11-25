@@ -1,0 +1,446 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/huui0d",
+    "id": "huui0d",
+    "slide": 10,
+    "layoutId": "f4782eb8-c798-4618-a816-e54c2375f030",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "f4782eb8-c798-4618-a816-e54c2375f030",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/cz69ofut",
+      "id": "1",
+      "bbox": [
+        76,
+        70,
+        174,
+        106
+      ],
+      "geometry": "roundRect",
+      "alt": "logo",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "imageMask": {
+        "geometry": "roundRect",
+        "adjustmentList": [
+          {
+            "name": "adj",
+            "formula": "val 15094"
+          }
+        ]
+      },
+      "asset": {
+        "assetId": "7fadbfc0-eaef-4e72-9c45-c9197800eb74",
+        "contentType": "image/png",
+        "byteLength": 131893
+      }
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ilwfetsf",
+      "id": "2",
+      "name": "title",
+      "bbox": [
+        76,
+        214,
+        850,
+        118
+      ],
+      "geometry": "rect",
+      "text": "VocaPredict ayuda a conversar mejor sobre el futuro",
+      "textPreview": "VocaPredict ayuda a conversar mejor sobre el futuro",
+      "resolvedFontSize": 44,
+      "resolvedTextStyle": {
+        "fontSize": 44,
+        "typeface": "+mn-lt",
+        "color": "#1F261F",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "VocaPredict ayuda a conversar mejor"
+          },
+          {
+            "index": 2,
+            "text": "sobre el futuro"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "VocaPredict ayuda a conversar mejor sobre el futuro",
+          "resolvedTextStyle": {
+            "fontSize": 44,
+            "color": "#1F261F",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "VocaPredict ayuda a conversar mejor sobre el futuro",
+              "fontSize": 44,
+              "color": "#1F261F",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jm5gnyt0",
+      "id": "3",
+      "name": "body-copy",
+      "bbox": [
+        80,
+        360,
+        650,
+        104
+      ],
+      "geometry": "rect",
+      "text": "No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.",
+      "textPreview": "No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "fontSize": 27,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "No decide por la persona. Ordena información,"
+          },
+          {
+            "index": 2,
+            "text": "muestra patrones y ofrece una sugerencia inicial"
+          },
+          {
+            "index": 3,
+            "text": "para orientar la siguiente conversación."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "No decide por la persona. Ordena información, muestra patrones y ofrece una sugerencia inicial para orientar la siguiente conversación.",
+              "fontSize": 27,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wjexcja9",
+      "id": "4",
+      "name": "next",
+      "bbox": [
+        820,
+        268,
+        310,
+        168
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FBF8EF",
+      "lineColor": "#F2EAD0",
+      "lineWidth": 1
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hknylobu",
+      "id": "5",
+      "name": "next-title",
+      "bbox": [
+        858,
+        306,
+        234,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Mensaje final",
+      "textPreview": "Mensaje final",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Mensaje final"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Mensaje final",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Mensaje final",
+              "fontSize": 26,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/uhwfa9sj",
+      "id": "6",
+      "name": "body-copy",
+      "bbox": [
+        858,
+        356,
+        234,
+        50
+      ],
+      "geometry": "rect",
+      "text": "Tecnología como apoyo, no como sustituto de la orientación.",
+      "textPreview": "Tecnología como apoyo, no como sustituto de la orientación.",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Tecnología como"
+          },
+          {
+            "index": 2,
+            "text": "apoyo, no como"
+          },
+          {
+            "index": 3,
+            "text": "sustituto de la"
+          },
+          {
+            "index": 4,
+            "text": "orientación."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Tecnología como apoyo, no como sustituto de la orientación.",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Tecnología como apoyo, no como sustituto de la orientación.",
+              "fontSize": 20,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vi5gjet4",
+      "id": "7",
+      "name": "footer",
+      "bbox": [
+        1164,
+        654,
+        40,
+        24
+      ],
+      "geometry": "rect",
+      "text": "10",
+      "textPreview": "10",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#E2DED0",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "10"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "10",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#E2DED0",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "10",
+              "fontSize": 14,
+              "color": "#E2DED0",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

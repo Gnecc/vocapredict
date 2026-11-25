@@ -1,0 +1,1182 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/85k0ua",
+    "id": "85k0ua",
+    "slide": 5,
+    "layoutId": "f4782eb8-c798-4618-a816-e54c2375f030",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "f4782eb8-c798-4618-a816-e54c2375f030",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8vqp47qp",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        78,
+        42,
+        420,
+        30
+      ],
+      "geometry": "rect",
+      "text": "CONTEXTO AMAI",
+      "textPreview": "CONTEXTO AMAI",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "CONTEXTO AMAI"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "CONTEXTO AMAI",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CONTEXTO AMAI",
+              "fontSize": 14,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7uhov294",
+      "id": "2",
+      "name": "title",
+      "bbox": [
+        76,
+        62,
+        850,
+        118
+      ],
+      "geometry": "rect",
+      "text": "AMAI es una regla mexicana para clasificar hogares",
+      "textPreview": "AMAI es una regla mexicana para clasificar hogares",
+      "resolvedFontSize": 44,
+      "resolvedTextStyle": {
+        "fontSize": 44,
+        "typeface": "+mn-lt",
+        "color": "#1F261F",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "AMAI es una regla mexicana para"
+          },
+          {
+            "index": 2,
+            "text": "clasificar hogares"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "AMAI es una regla mexicana para clasificar hogares",
+          "resolvedTextStyle": {
+            "fontSize": 44,
+            "color": "#1F261F",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "AMAI es una regla mexicana para clasificar hogares",
+              "fontSize": 44,
+              "color": "#1F261F",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mt872x8j",
+      "id": "3",
+      "name": "origin-panel",
+      "bbox": [
+        76,
+        214,
+        408,
+        292
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FBF8EF",
+      "lineColor": "#F2EAD0",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h0j61cr6",
+      "id": "4",
+      "name": "amai-word",
+      "bbox": [
+        120,
+        260,
+        320,
+        76
+      ],
+      "geometry": "rect",
+      "text": "AMAI",
+      "textPreview": "AMAI",
+      "resolvedFontSize": 58,
+      "resolvedTextStyle": {
+        "fontSize": 58,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "AMAI"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "AMAI",
+          "resolvedTextStyle": {
+            "fontSize": 58,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "AMAI",
+              "fontSize": 58,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wzqp87ql",
+      "id": "5",
+      "name": "body-copy",
+      "bbox": [
+        122,
+        350,
+        316,
+        78
+      ],
+      "geometry": "rect",
+      "text": "Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión",
+      "textPreview": "Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Asociación Mexicana de"
+          },
+          {
+            "index": 2,
+            "text": "Agencias de Inteligencia de"
+          },
+          {
+            "index": 3,
+            "text": "Mercado y Opinión"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión",
+              "fontSize": 24,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vyhoz290",
+      "id": "6",
+      "name": "origin-note",
+      "bbox": [
+        110,
+        448,
+        340,
+        46
+      ],
+      "geometry": "rect",
+      "text": "No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.",
+      "textPreview": "No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "fontSize": 17,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "No nace como metodología"
+          },
+          {
+            "index": 2,
+            "text": "gubernamental; se apoya en datos"
+          },
+          {
+            "index": 3,
+            "text": "oficiales para sus estimaciones."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "color": "#697168",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "No nace como metodología gubernamental; se apoya en datos oficiales para sus estimaciones.",
+              "fontSize": 17,
+              "color": "#697168",
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ux876h8f",
+      "id": "7",
+      "name": "fact-dot-0",
+      "bbox": [
+        570,
+        208,
+        48,
+        48
+      ],
+      "geometry": "ellipse",
+      "fillColor": "#2C5234",
+      "lineColor": "#2C5234",
+      "lineWidth": 1
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5ojq5wr2",
+      "id": "8",
+      "name": "fact-number-0",
+      "bbox": [
+        570,
+        221,
+        48,
+        22
+      ],
+      "geometry": "rect",
+      "text": "1",
+      "textPreview": "1",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "1"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "1",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "1",
+              "fontSize": 20,
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4napcrqh",
+      "id": "9",
+      "name": "fact-title-0",
+      "bbox": [
+        642,
+        194,
+        424,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Origen",
+      "textPreview": "Origen",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Origen"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Origen",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Origen",
+              "fontSize": 25,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qxwf2xgf",
+      "id": "10",
+      "name": "body-copy",
+      "bbox": [
+        642,
+        232,
+        500,
+        58
+      ],
+      "geometry": "rect",
+      "text": "La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.",
+      "textPreview": "La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "La desarrolla y actualiza el Comité de Niveles"
+          },
+          {
+            "index": 2,
+            "text": "Socioeconómicos de AMAI."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "La desarrolla y actualiza el Comité de Niveles Socioeconómicos de AMAI.",
+              "fontSize": 20,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/by5gv2h0",
+      "id": "11",
+      "name": "fact-dot-1",
+      "bbox": [
+        570,
+        324,
+        48,
+        48
+      ],
+      "geometry": "ellipse",
+      "fillColor": "#9C8412",
+      "lineColor": "#9C8412",
+      "lineWidth": 1
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/czex47yl",
+      "id": "12",
+      "name": "fact-number-1",
+      "bbox": [
+        570,
+        337,
+        48,
+        22
+      ],
+      "geometry": "rect",
+      "text": "2",
+      "textPreview": "2",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "2"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "2",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "2",
+              "fontSize": 20,
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d0nyxczq",
+      "id": "13",
+      "name": "fact-title-1",
+      "bbox": [
+        642,
+        310,
+        424,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Base oficial",
+      "textPreview": "Base oficial",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Base oficial"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Base oficial",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Base oficial",
+              "fontSize": 25,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/y1wf6hgb",
+      "id": "14",
+      "name": "body-copy",
+      "bbox": [
+        642,
+        348,
+        500,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.",
+      "textPreview": "Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Usa información de la ENIGH, levantada por INEGI,"
+          },
+          {
+            "index": 2,
+            "text": "para estimar proporciones."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Usa información de la ENIGH, levantada por INEGI, para estimar proporciones.",
+              "fontSize": 20,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z25gzmhw",
+      "id": "15",
+      "name": "fact-dot-2",
+      "bbox": [
+        570,
+        440,
+        48,
+        48
+      ],
+      "geometry": "ellipse",
+      "fillColor": "#2C5234",
+      "lineColor": "#2C5234",
+      "lineWidth": 1
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/03eh87yh",
+      "id": "16",
+      "name": "fact-number-2",
+      "bbox": [
+        570,
+        453,
+        48,
+        22
+      ],
+      "geometry": "rect",
+      "text": "3",
+      "textPreview": "3",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "3"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "3",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "3",
+              "fontSize": 20,
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l47y1cz2",
+      "id": "17",
+      "name": "fact-title-2",
+      "bbox": [
+        642,
+        426,
+        424,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Uso",
+      "textPreview": "Uso",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Uso"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Uso",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Uso",
+              "fontSize": 25,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/e5cfudg7",
+      "id": "18",
+      "name": "body-copy",
+      "bbox": [
+        642,
+        464,
+        500,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.",
+      "textPreview": "Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Ayuda a comparar hogares con una regla común en"
+          },
+          {
+            "index": 2,
+            "text": "investigación, academia e instituciones públicas."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Ayuda a comparar hogares con una regla común en investigación, academia e instituciones públicas.",
+              "fontSize": 20,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/f6lgnihs",
+      "id": "19",
+      "name": "vocapredict-use",
+      "bbox": [
+        174,
+        572,
+        932,
+        56
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jahcvexk",
+      "id": "20",
+      "name": "vocapredict-use-text",
+      "bbox": [
+        214,
+        589,
+        852,
+        24
+      ],
+      "geometry": "rect",
+      "text": "En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.",
+      "textPreview": "En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable"
+          },
+          {
+            "index": 2,
+            "text": "para el modelo."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "En VocaPredict, AMAI permite resumir el contexto del hogar en un valor comparable para el modelo.",
+              "fontSize": 20,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 21,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/i98v29wz",
+      "id": "21",
+      "name": "footer",
+      "bbox": [
+        1164,
+        654,
+        40,
+        24
+      ],
+      "geometry": "rect",
+      "text": "05",
+      "textPreview": "05",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#E2DED0",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "05"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "05",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#E2DED0",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "05",
+              "fontSize": 14,
+              "color": "#E2DED0",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

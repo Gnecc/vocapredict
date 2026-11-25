@@ -1,82 +1,39 @@
+"""Print the three highest RIASEC career suggestions for six area scores."""
+
 import argparse
-import sys
-import joblib
-import numpy as np
 from pathlib import Path
 
-MODEL_PATH = Path("svm_model.joblib")
-ENC_PATH   = Path("label_encoder.joblib")
+import joblib
+import numpy as np
 
-def load_artifacts():
-    if not MODEL_PATH.exists():
-        print("No encuentro svm_model.joblib", flush=True)
-        sys.exit(1)
-    if not ENC_PATH.exists():
-        print("No encuentro label_encoder.joblib", flush=True)
-        sys.exit(1)
 
-    try:
-        clf = joblib.load(MODEL_PATH)
-    except Exception as e:
-        print(f"Error cargando modelo: {e}", flush=True)
-        sys.exit(1)
+MODEL_PATH = Path(__file__).resolve().parent / "riasec_model.joblib"
 
-    try:
-        enc = joblib.load(ENC_PATH)
-    except Exception as e:
-        print(f"Error cargando encoder: {e}", flush=True)
-        sys.exit(1)
-
-    return clf, enc
-
-def parse_scores(scores_str: str, expected_count: int) -> np.ndarray:
-    try:
-        vals = [float(x.strip()) for x in scores_str.split(",")]
-    except ValueError:
-        print("Los puntajes deben ser números separados por comas.", flush=True)
-        sys.exit(1)
-    if len(vals) != expected_count:
-        print(f"Debes pasar exactamente {expected_count} valores. Recibí {len(vals)}.", flush=True)
-        sys.exit(1)
-    return np.array(vals, dtype=float).reshape(1, -1)
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Clasificación con SVM entrenado."
-    )
-    parser.add_argument(
-        "--scores",
-        required=True,
-        help='Valores separados por comas. Ej con AMAI: "0.74,0.78,0.9,0.54,0.23,0.1,0.1,0.2,0.68,0.45"'
-    )
+    parser = argparse.ArgumentParser(description="Sugerencias de carrera basadas en RIASEC.")
+    parser.add_argument("--scores", required=True, help='Seis puntajes R,I,A,S,E,C separados por comas; ejemplo "0.8,0.9,0.5,0.6,0.4,0.5"')
     parser.add_argument("--topk", type=int, default=3)
     args = parser.parse_args()
-
-    clf, enc = load_artifacts()
-    expected_count = int(getattr(clf, "n_features_in_", 10))
-    X = parse_scores(args.scores, expected_count)
-
     try:
-        pred_idx = clf.predict(X)[0]
-        pred_lbl = enc.inverse_transform([pred_idx])[0]
-        print(f"Predicción: {pred_lbl} (índice: {pred_idx})", flush=True)
-    except Exception as e:
-        print(f"Error en predict(): {e}", flush=True)
-        sys.exit(1)
+        scores = np.array([float(value.strip()) for value in args.scores.split(",")])
+    except ValueError:
+        parser.error("Los puntajes deben ser números separados por comas.")
+    if len(scores) != 6 or not np.isfinite(scores).all() or np.any(scores < 0.2) or np.any(scores > 1):
+        parser.error("Se requieren seis puntajes R,I,A,S,E,C entre 0.2 y 1.0.")
+    if args.topk < 1:
+        parser.error("--topk debe ser positivo.")
 
-    try:
-        if hasattr(clf, "predict_proba"):
-            proba = clf.predict_proba(X)[0]
-            order = np.argsort(proba)[::-1]
-            k = max(1, min(args.topk, proba.shape[0]))
-            print("\nTop probabilidades:", flush=True)
-            for i in order[:k]:
-                lbl = enc.inverse_transform([i])[0]
-                print(f"  - {lbl:>20s}: {proba[i]:.4f}", flush=True)
-        else:
-            print("Este modelo no expone predict_proba", flush=True)
-    except Exception as e:
-        print(f"Error en predict_proba(): {e}", flush=True)
+    artifact = joblib.load(MODEL_PATH)
+    model = artifact["model"]
+    labels = artifact["career_labels"]
+    probabilities = model.predict_proba(scores.reshape(1, -1))[0]
+    order = np.argsort(-probabilities, kind="stable")
+    for i in order[:args.topk]:
+        code = str(model.classes_[i])
+        print(f"{code}: {labels[code]} ({probabilities[i]:.3f})")
+    print("Puntajes relativos basados en carrera declarada en RIASEC; no son probabilidades calibradas ni validan satisfacción futura.")
+
 
 if __name__ == "__main__":
     main()

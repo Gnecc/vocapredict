@@ -1,0 +1,506 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/uu8nn7",
+    "id": "uu8nn7",
+    "slide": 4,
+    "layoutId": "f4782eb8-c798-4618-a816-e54c2375f030",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "f4782eb8-c798-4618-a816-e54c2375f030",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r2x0jadc",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        78,
+        42,
+        420,
+        30
+      ],
+      "geometry": "rect",
+      "text": "CUESTIONARIOS",
+      "textPreview": "CUESTIONARIOS",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "CUESTIONARIOS"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "CUESTIONARIOS",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CUESTIONARIOS",
+              "fontSize": 14,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/c36hcfux",
+      "id": "2",
+      "name": "title",
+      "bbox": [
+        76,
+        62,
+        820,
+        118
+      ],
+      "geometry": "rect",
+      "text": "Intereses primero; contexto después",
+      "textPreview": "Intereses primero; contexto después",
+      "resolvedFontSize": 44,
+      "resolvedTextStyle": {
+        "fontSize": 44,
+        "typeface": "+mn-lt",
+        "color": "#1F261F",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Intereses primero; contexto después"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Intereses primero; contexto después",
+          "resolvedTextStyle": {
+            "fontSize": 44,
+            "color": "#1F261F",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Intereses primero; contexto después",
+              "fontSize": 44,
+              "color": "#1F261F",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/s7ut4fq9",
+      "id": "3",
+      "bbox": [
+        74,
+        184,
+        520,
+        340
+      ],
+      "geometry": "roundRect",
+      "alt": "hereford-screen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "imageMask": {
+        "geometry": "roundRect",
+        "adjustmentList": [
+          {
+            "name": "adj",
+            "formula": "val 4706"
+          }
+        ]
+      },
+      "asset": {
+        "assetId": "03195c97-bbd8-4816-af84-aded484756cb",
+        "contentType": "image/png",
+        "byteLength": 318786
+      }
+    },
+    {
+      "order": 4,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/ji1c7q9s",
+      "id": "4",
+      "bbox": [
+        686,
+        184,
+        520,
+        340
+      ],
+      "geometry": "roundRect",
+      "alt": "socio-screen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "imageMask": {
+        "geometry": "roundRect",
+        "adjustmentList": [
+          {
+            "name": "adj",
+            "formula": "val 4706"
+          }
+        ]
+      },
+      "asset": {
+        "assetId": "28fc63b5-cd08-4fd6-ad64-f9230fb8c053",
+        "contentType": "image/png",
+        "byteLength": 125677
+      }
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3exgfqd0",
+      "id": "5",
+      "name": "left-label",
+      "bbox": [
+        144,
+        560,
+        380,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Inventario de intereses",
+      "textPreview": "Inventario de intereses",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Inventario de intereses"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Inventario de intereses",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Inventario de intereses",
+              "fontSize": 24,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4f6h8vul",
+      "id": "6",
+      "name": "right-label",
+      "bbox": [
+        756,
+        560,
+        380,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Estudio socioeconómico",
+      "textPreview": "Estudio socioeconómico",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Estudio socioeconómico"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Estudio socioeconómico",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Estudio socioeconómico",
+              "fontSize": 24,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/pgfih0v6",
+      "id": "7",
+      "name": "body-copy",
+      "bbox": [
+        232,
+        620,
+        816,
+        42
+      ],
+      "geometry": "rect",
+      "text": "La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.",
+      "textPreview": "La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "La primera parte mide afinidad por actividades. La segunda parte ayuda a"
+          },
+          {
+            "index": 2,
+            "text": "contextualizar la recomendación."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "La primera parte mide afinidad por actividades. La segunda parte ayuda a contextualizar la recomendación.",
+              "fontSize": 22,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u94z2lwj",
+      "id": "8",
+      "name": "footer",
+      "bbox": [
+        1164,
+        654,
+        40,
+        24
+      ],
+      "geometry": "rect",
+      "text": "04",
+      "textPreview": "04",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#E2DED0",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "04"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "04",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#E2DED0",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "04",
+              "fontSize": 14,
+              "color": "#E2DED0",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

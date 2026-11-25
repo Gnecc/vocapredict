@@ -9,47 +9,54 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Answer } from '../components/Answer';
 import { CompletedCard } from '../components/CompletedCard';
-import { saveResponse } from "../storage";
-import { MOCK_QUESTIONS } from "../questions";
+import { loadResponses, saveResponse } from "../storage";
+import { RIASEC_QUESTIONS } from "../questions/riasec";
 
-const DISPLAY_AREAS = {
-    "Cálculo": "Cálculo",
-    "C. Físico": "Científico-física",
-    "C. Biológico": "Científico-biológica",
-    "Mecánico": "Mecánica",
-    "Servicio Social": "Servicio social",
-    "Literario": "Literaria",
-    "Persuasivo": "Persuasiva",
-    "Artístico": "Artística",
-    "Musical": "Musical",
-};
+const DISPLAY_AREAS = { R: "Realista", I: "Investigador", A: "Artístico", S: "Social", E: "Emprendedor", C: "Convencional" };
+
+function getResumeIndex(questions) {
+    const answeredIds = new Set(loadResponses().map(response => String(response.questionId)));
+    const nextIndex = questions.findIndex(question => !answeredIds.has(String(question.id)));
+    return nextIndex === -1 ? questions.length : Math.max(nextIndex, 0);
+}
+
+function shouldResumeFromStorage(questions, sessionKey) {
+    const responses = loadResponses();
+    const hasPartialProgress = responses.length > 0 && responses.length < questions.length;
+    return sessionKey.includes("resume=1") || hasPartialProgress;
+}
 
 export default function Questions() {
     const completionContainerRef = useRef(null);
     const sessionKeyRef = useRef("");
 
-    const questions = useMemo(() => MOCK_QUESTIONS || [], []);
+    const questions = useMemo(() => RIASEC_QUESTIONS, []);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [completed, setCompleted] = useState(false);
     const [answering, setAnswering] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [inputValue, setInputValue] = useState("");
 
-    const resetQuestionnaire = () => {
-        setCurrentIndex(0);
-        setCompleted(false);
+    const resetQuestionnaire = (resume = false) => {
+        const nextIndex = resume ? getResumeIndex(questions) : 0;
+
+        setCurrentIndex(Math.min(nextIndex, Math.max(questions.length - 1, 0)));
+        setCompleted(resume && nextIndex >= questions.length);
         setAnswering(false);
         setSelectedAnswer(null);
         setInputValue("");
     };
 
-    useEffect(resetQuestionnaire, []);
+    useEffect(() => {
+        const sessionKey = window.location.search;
+        resetQuestionnaire(shouldResumeFromStorage(questions, sessionKey));
+    }, []);
 
     useIonViewWillEnter(() => {
         const sessionKey = window.location.search;
         if (sessionKey && sessionKey !== sessionKeyRef.current) {
             sessionKeyRef.current = sessionKey;
-            resetQuestionnaire();
+            resetQuestionnaire(shouldResumeFromStorage(questions, sessionKey));
         }
     });
 
@@ -87,7 +94,7 @@ export default function Questions() {
             questionId: question.id,
             question: question.question,
             category: question.category ?? null,
-            type: question.type ?? "hereford",
+            type: question.type ?? "riasec",
             amaiKey: question.amaiKey ?? null,
             answerKey,
             answerLabel: question.answers?.[answerKey],
@@ -106,7 +113,7 @@ export default function Questions() {
             questionId: question.id,
             question: question.question,
             category: question.category ?? null,
-            type: question.type ?? "hereford",
+            type: question.type ?? "riasec",
             amaiKey: question.amaiKey ?? null,
             answerKey: selected.join("|"),
             answerLabel: selected.map(key => question.answers?.[key]).join("; "),
@@ -124,7 +131,7 @@ export default function Questions() {
             questionId: question.id,
             question: question.question,
             category: question.category ?? null,
-            type: question.type ?? "hereford",
+            type: question.type ?? "riasec",
             amaiKey: question.amaiKey ?? null,
             answerKey: "input",
             answerLabel: value,
@@ -147,7 +154,7 @@ export default function Questions() {
                     <div className={styles.headerShell}>
                         <img src="/assets/logo-home.png" className={styles.questionLogo} alt="VocaPredict" />
                         <div className={styles.headerMeta}>
-                            <span>{isSocioeconomic ? "Estudio socioeconómico" : "Inventario Hereford"}</span>
+                            <span>Intereses RIASEC</span>
                             <strong>{Math.min(currentIndex + 1, questions.length)} / {questions.length}</strong>
                         </div>
                     </div>
@@ -156,88 +163,90 @@ export default function Questions() {
             </IonHeader>
 
             <IonContent fullscreen className="background">
-                {!completed && currentQuestion && (
-                    <IonGrid className={styles.mainGrid}>
-                        <IonRow className={styles.mainRow}>
-                            <IonCol size="12">
-                                <IonCard id="questionCard">
-                                    <IonCardHeader className="ion-text-center">
-                                        <IonCardSubtitle>
-                                            {isSocioeconomic ? "Sección final" : "Área de interés"}
-                                        </IonCardSubtitle>
-                                        <IonBadge color="success">
-                                            {isSocioeconomic ? "Socioeconómico" : areaLabel}
-                                        </IonBadge>
-                                        {isFirstSocioeconomic && (
-                                            <p className={styles.sectionIntro}>
-                                                Terminaste el inventario principal. Ahora responde este breve bloque
-                                                socioeconómico para complementar la sugerencia.
-                                            </p>
-                                        )}
-                                        <IonCardTitle className={styles.questionTitle}>
-                                            {currentQuestion.question}
-                                        </IonCardTitle>
-                                    </IonCardHeader>
+                <div>
+                    {!completed && currentQuestion && (
+                        <IonGrid className={styles.mainGrid}>
+                            <IonRow className={styles.mainRow}>
+                                <IonCol size="12">
+                                    <IonCard id="questionCard">
+                                        <IonCardHeader className="ion-text-center">
+                                            <IonCardSubtitle>
+                                                {isSocioeconomic ? "Sección final" : "Área de interés"}
+                                            </IonCardSubtitle>
+                                            <IonBadge color="success">
+                                                {isSocioeconomic ? "Socioeconómico" : areaLabel}
+                                            </IonBadge>
+                                            {isFirstSocioeconomic && (
+                                                <p className={styles.sectionIntro}>
+                                                    Terminaste el inventario principal. Ahora responde este breve bloque
+                                                    socioeconómico para complementar tu perfil.
+                                                </p>
+                                            )}
+                                            <IonCardTitle className={styles.questionTitle}>
+                                                {currentQuestion.question}
+                                            </IonCardTitle>
+                                        </IonCardHeader>
 
-                                    <IonCardContent>
-                                        {currentQuestion.input && (
-                                            <>
-                                                <IonItem>
-                                                    <IonInput
-                                                        value={inputValue}
-                                                        placeholder={currentQuestion.optional ? "Opcional" : "Escribe tu respuesta"}
-                                                        onIonChange={event => setInputValue(event.detail.value ?? "")}
-                                                    />
-                                                </IonItem>
-                                                <IonButton
-                                                    expand="block"
-                                                    onClick={() => handleInputContinue(currentQuestion)}
-                                                    disabled={!currentQuestion.optional && !String(inputValue).trim()}
-                                                >
-                                                    Continuar
-                                                </IonButton>
-                                            </>
-                                        )}
-                                        {!currentQuestion.input && Object.keys(currentQuestion.answers)
-                                                .filter(answerKey => currentQuestion.answers[answerKey] !== null)
-                                                .map(answerKey => (
-                                                    <Answer
-                                                        key={answerKey}
-                                                        answer={answerKey}
-                                                        question={currentQuestion}
-                                                        handleAnswerClick={handleAnswerClick}
-                                                        disabled={answering}
-                                                        selected={
-                                                            currentQuestion.multiple
-                                                                ? Array.isArray(selectedAnswer) && selectedAnswer.includes(answerKey)
-                                                                : selectedAnswer === answerKey
-                                                        }
-                                                    />
-                                                ))}
-                                        {currentQuestion.multiple && (
-                                            <>
-                                                <IonNote>Selecciona una o más opciones.</IonNote>
-                                                <IonButton
-                                                    expand="block"
-                                                    onClick={() => handleMultipleContinue(currentQuestion)}
-                                                    disabled={!Array.isArray(selectedAnswer) || !selectedAnswer.length}
-                                                >
-                                                    Continuar
-                                                </IonButton>
-                                            </>
-                                        )}
-                                    </IonCardContent>
-                                </IonCard>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
-                )}
+                                        <IonCardContent>
+                                            {currentQuestion.input && (
+                                                <>
+                                                    <IonItem>
+                                                        <IonInput
+                                                            value={inputValue}
+                                                            placeholder={currentQuestion.optional ? "Opcional" : "Escribe tu respuesta"}
+                                                            onIonChange={event => setInputValue(event.detail.value ?? "")}
+                                                        />
+                                                    </IonItem>
+                                                    <IonButton
+                                                        expand="block"
+                                                        onClick={() => handleInputContinue(currentQuestion)}
+                                                        disabled={!currentQuestion.optional && !String(inputValue).trim()}
+                                                    >
+                                                        Continuar
+                                                    </IonButton>
+                                                </>
+                                            )}
+                                            {!currentQuestion.input && Object.keys(currentQuestion.answers)
+                                                    .filter(answerKey => currentQuestion.answers[answerKey] !== null)
+                                                    .map(answerKey => (
+                                                        <Answer
+                                                            key={answerKey}
+                                                            answer={answerKey}
+                                                            question={currentQuestion}
+                                                            handleAnswerClick={handleAnswerClick}
+                                                            disabled={answering}
+                                                            selected={
+                                                                currentQuestion.multiple
+                                                                    ? Array.isArray(selectedAnswer) && selectedAnswer.includes(answerKey)
+                                                                    : selectedAnswer === answerKey
+                                                            }
+                                                        />
+                                                    ))}
+                                            {currentQuestion.multiple && (
+                                                <>
+                                                    <IonNote>Selecciona una o más opciones.</IonNote>
+                                                    <IonButton
+                                                        expand="block"
+                                                        onClick={() => handleMultipleContinue(currentQuestion)}
+                                                        disabled={!Array.isArray(selectedAnswer) || !selectedAnswer.length}
+                                                    >
+                                                        Continuar
+                                                    </IonButton>
+                                                </>
+                                            )}
+                                        </IonCardContent>
+                                    </IonCard>
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
+                    )}
 
-                {completed && (
-                    <CompletedCard
-                        completionContainerRef={completionContainerRef}
-                    />
-                )}
+                    {completed && (
+                        <CompletedCard
+                            completionContainerRef={completionContainerRef}
+                        />
+                    )}
+                </div>
             </IonContent>
         </IonPage>
     );

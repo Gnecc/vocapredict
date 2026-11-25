@@ -1,0 +1,4 @@
+networkx
+matplotlib
+rdflib>=7.6
+owlrl>=7.1

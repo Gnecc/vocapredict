@@ -60,6 +60,17 @@ if __name__ == "__main__":
                 print("*" * 150, "\nSUBMENU: NIVEL SOCIOECONÓMICO\n")
                 submenu_nivel_socioeconomico(G)
 
+            case "11":
+                from riasec_owl import cargar_catalogo, imprimir_inferencia, inferir
+
+                catalogo = cargar_catalogo()
+                valores = input("Seis puntajes en orden R I A S E C, separados por espacios: ").split()
+                try:
+                    _, resultados = inferir(catalogo, valores)
+                    imprimir_inferencia(resultados, catalogo["fuente_referencias"])
+                except ValueError as error:
+                    print(f"[!] {error}")
+
             case "10":
                 print("Saliendo del sistema...")
                 time.sleep(2.5)

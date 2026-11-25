@@ -48,6 +48,6 @@ backend/.venv/bin/python backend/red_semantica/riasec_owl.py --puntajes 0.6 0.95
 backend/.venv/bin/python -m unittest discover -s backend/red_semantica -p 'test_riasec_owl.py'
 ```
 
-La opción **10** de `red_semantica.py` también permite ingresar los seis
+La opción **11** de `main.py` también permite ingresar los seis
 puntajes. Con solo `--salida`, el archivo RDF/XML contiene el catálogo sin
 los datos de una consulta.

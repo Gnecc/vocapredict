@@ -28,12 +28,15 @@ function toCSV(rows) {
 
 const AREA_LABELS = { R: "Realista", I: "Investigador", A: "Artístico", S: "Social", E: "Emprendedor", C: "Convencional" };
 
-function aggregateByCategory(responses) {
+function indexedAnswers(responses) {
     const validIds = new Set(RIASEC_QUESTIONS.map(question => question.id));
-    const byId = new Map(responses.filter(response =>
+    return new Map(responses.filter(response =>
         response.type === "riasec" && validIds.has(response.questionId) &&
         Number.isInteger(response.value) && response.value >= 1 && response.value <= 5
     ).map(response => [response.questionId, response.value]));
+}
+
+function aggregateByCategory(byId) {
     return RIASEC_AREAS.map(category => {
         const values = Array.from({ length: 8 }, (_, index) => byId.get(`${category}${index + 1}`)).filter(value => value != null);
         const count = values.length;
@@ -51,7 +54,8 @@ export default function Results() {
     useEffect(() => { setResponses(loadResponses()); }, []);
     useIonViewWillEnter(() => { setResponses(loadResponses()); });
 
-    const aggregates = useMemo(() => aggregateByCategory(responses), [responses]);
+    const byId = useMemo(() => indexedAnswers(responses), [responses]);
+    const aggregates = useMemo(() => aggregateByCategory(byId), [byId]);
     const complete = aggregates.every(area => area.count === 8);
 
     const handleClear = () => {
@@ -80,7 +84,10 @@ export default function Results() {
                 return;
             }
 
-            const payload = { scores: aggregates.map(area => Number(area.pctOfMax.toFixed(6))) };
+            const payload = {
+                scores: aggregates.map(area => Number(area.pctOfMax.toFixed(6))),
+                answers: RIASEC_QUESTIONS.map(question => byId.get(question.id)),
+            };
 
             const res = await fetch(PREDICT_URL, {
                 method: "POST",
@@ -93,23 +100,8 @@ export default function Results() {
                 throw new Error(data.detail || "El servicio no devolvió carreras sugeridas.");
             }
 
-            localStorage.setItem("last_prediction_riasec_v1", JSON.stringify({
-                prediction: data?.prediction ?? null,
-                probabilities: data?.probabilities ?? null,
-                recommendations: data.recommendations,
-                career_labels: data.career_labels ?? null,
-                model_basis: data.model_basis ?? null,
-            }));
-
-            router.push("/prediction", {
-                state: {
-                    prediction: data?.prediction ?? null,
-                    probabilities: data?.probabilities ?? null,
-                    recommendations: data.recommendations,
-                    career_labels: data.career_labels ?? null,
-                    model_basis: data.model_basis ?? null,
-                }
-            });
+            localStorage.setItem("last_prediction_riasec_v1", JSON.stringify(data));
+            router.push("/prediction");
 
         } catch (err) {
             console.error("Error /predict:", err);

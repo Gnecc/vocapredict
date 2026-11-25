@@ -2,6 +2,8 @@
 
 La API usa seis puntajes de intereses RIASEC, en el orden **R, I, A, S, E, C**. Cada puntaje es la media de las ocho respuestas del área, dividida entre 5. Por eso cada entrada válida está entre 0.2 y 1.0. El modelo ofrece tres carreras ordenadas. Se entrenó para reconocer la **carrera universitaria declarada** por participantes de OpenPsychometrics; sus resultados no validan satisfacción futura ni garantizan que una carrera sea adecuada para una persona.
 
+Al enviar también `answers` con las 48 respuestas enteras de 1 a 5, en orden R1–R8, I1–I8, A1–A8, S1–S8, E1–E8 y C1–C8, el servicio incluye `family_recommendations` con cuatro familias ordenadas. El modelo de familias acertó en 6,766 de 8,083 perfiles de la prueba histórica (83.7% top 4). El campo `recommendations` contiene las tres carreras del predictor de 40 carreras.
+
 ## Datos
 
 `data/vocapredict_unificado_riasec.csv` conserva las filas Hereford/AMAI de VocaPredict y las filas RIASEC con su procedencia, tipo de etiqueta y marca de sintético. Solo entran al entrenamiento las filas de `source=openpsychometrics_riasec`, `instrument=RIASEC` y `riasec_eligible=1`. El modelo no usa AMAI ni rellena puntajes Hereford en filas RIASEC. Las reglas revisables para traducir `major` a códigos y nombres de carrera están en `data/riasec_career_catalog.json`.
@@ -54,3 +56,14 @@ python3 predict.py --scores "0.8,0.9,0.5,0.6,0.4,0.5"
 Devuelve `prediction` (código de la primera carrera), `recommendations` (hasta tres objetos con `career_code`, `career_name`, `score`), `probabilities` (todos los códigos; nombre conservado para compatibilidad), `career_labels` y una explicación de la procedencia del modelo. Debido a los pesos de clase, `score` es una **puntuación relativa del modelo**, no una probabilidad calibrada de estudiar esa carrera ni de éxito vocacional. Entradas con longitud o rango incorrecto reciben HTTP 422.
 
 La imagen de Docker copia el artefacto `riasec_model.joblib` ya entrenado. Debe generarse antes de construir la imagen.
+
+## Regenerar el modelo de familias
+
+Desde `backend/`, con el archivo original de respuestas RIASEC (TSV) y scikit-learn 1.8.0.
+
+```bash
+git show e953434:backend/data/vocapredict_unificado_riasec.csv > /tmp/vocapredict-riasec40-base.csv
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=1 \
+python -m scripts.export_family_predictor --baseline /tmp/vocapredict-riasec40-base.csv \
+  --raw-riasec /ruta/al/data.csv
+```

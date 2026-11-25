@@ -21,6 +21,7 @@ export default function Prediction() {
     const nav = router.routeInfo?.state ?? {};
     const result = nav?.recommendations ? nav : loadLastPrediction() ?? {};
     const recommendations = result.recommendations ?? [];
+    const families = result.family_recommendations ?? [];
     const suggestedCareer = recommendations[0];
 
     const goHome = () => {
@@ -33,7 +34,7 @@ export default function Prediction() {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Carreras sugeridas</IonTitle>
+                    <IonTitle>Orientación vocacional</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -42,13 +43,19 @@ export default function Prediction() {
                 <IonCard className={styles.predictionCard}>
                     <IonCardHeader>
                         <IonCardTitle>
-                            Carreras sugeridas según tus intereses
+                            Opciones para explorar
                         </IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
+                        {families.length > 0 && (
+                            <section>
+                                <h2>Familias vocacionales sugeridas</h2>
+                                <ol>{families.map(family => <li key={family}>{family}</li>)}</ol>
+                            </section>
+                        )}
                         {suggestedCareer && (
                             <div className={styles.predictionHero}>
-                                <span>Primera opción para explorar</span>
+                                <span>Primera carrera sugerida</span>
                                 <strong>{suggestedCareer.career_name}</strong>
                             </div>
                         )}

@@ -17,8 +17,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el servicio y el artefacto RIASEC ya entrenado
-COPY serve.py .
-COPY riasec_model.joblib ./
+COPY serve.py family_prediction.py ./
+COPY riasec_model.joblib riasec_families.joblib ./
 
 EXPOSE 8080
 

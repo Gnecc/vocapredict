@@ -7,12 +7,18 @@ import joblib
 import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictInt
+
+if __package__:
+    from .family_prediction import family_scores
+else:
+    from family_prediction import family_scores
 
 MODEL_PATH = Path(__file__).resolve().parent / "riasec_model.joblib"
 artifact = joblib.load(MODEL_PATH)
 clf = artifact["model"]
 career_labels = artifact["career_labels"]
+family_artifact = joblib.load(MODEL_PATH.with_name("riasec_families.joblib"))
 
 app = FastAPI(title="VocaPredict RIASEC", version="2.0")
 
@@ -35,6 +41,7 @@ app.add_middleware(
 
 class Scores(BaseModel):
     scores: list[float]
+    answers: list[StrictInt] | None = None
 
 @app.post("/predict")
 def predict(data: Scores):
@@ -44,11 +51,23 @@ def predict(data: Scores):
     if not np.isfinite(vals).all() or np.any(vals < 0.2) or np.any(vals > 1.0):
         raise HTTPException(status_code=422, detail="Los seis puntajes deben estar entre 0.2 y 1.0.")
 
+    families = {}
+    if data.answers is not None:
+        answers = np.asarray(data.answers)
+        if answers.shape != (48,) or np.any(answers < 1) or np.any(answers > 5):
+            raise HTTPException(status_code=422, detail="Se requieren 48 respuestas enteras entre 1 y 5.")
+        if not np.allclose(vals, answers.reshape(6, 8).mean(axis=1) / 5, rtol=0, atol=1e-6):
+            raise HTTPException(status_code=422, detail="Los puntajes y las respuestas no coinciden.")
+        scores = family_scores(family_artifact, [data.answers])[0]
+        ranked = np.argsort(-scores, kind="stable")[:4]
+        families["family_recommendations"] = [str(family_artifact["families"][i]) for i in ranked]
+
     probabilities = clf.predict_proba(vals.reshape(1, -1))[0]
     classes = clf.classes_
     order = np.argsort(-probabilities, kind="stable")
     best = str(classes[order[0]])
     return {
+        **families,
         "prediction": best,
         "probabilities": {str(code): float(probabilities[i]) for i, code in enumerate(classes)},
         "recommendations": [

@@ -40,7 +40,7 @@ const Home = () => {
 								<h1>Cuestionario de intereses RIASEC</h1>
 								<p>
 									Califica qué tanto te gustaría realizar cada una de las 48 actividades.
-									Al finalizar verás tres carreras sugeridas a partir de tus intereses.
+									Al finalizar verás cuatro familias vocacionales y tres carreras para explorar según tus intereses.
 								</p>
 								<p className={styles.responseHint}>
 									Lee cada enunciado con calma y elige la opción que mejor represente qué tanto

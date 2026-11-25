@@ -66,6 +66,18 @@ def predict(data: Scores):
     classes = clf.classes_
     order = np.argsort(-probabilities, kind="stable")
     best = str(classes[order[0]])
+    if families:
+        memberships = {
+            str(code): family_artifact["families"][row.argmax()]
+            for code, row in zip(family_artifact["grouped"].classes_, family_artifact["memberships"])
+        }
+        families["careers_by_family"] = {
+            family: [
+                career_labels[str(classes[i])]
+                for i in order if memberships[str(classes[i])] == family
+            ][:2]
+            for family in families["family_recommendations"]
+        }
     return {
         **families,
         "prediction": best,

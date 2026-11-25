@@ -163,88 +163,90 @@ export default function Questions() {
             </IonHeader>
 
             <IonContent fullscreen className="background">
-                {!completed && currentQuestion && (
-                    <IonGrid className={styles.mainGrid}>
-                        <IonRow className={styles.mainRow}>
-                            <IonCol size="12">
-                                <IonCard id="questionCard">
-                                    <IonCardHeader className="ion-text-center">
-                                        <IonCardSubtitle>
-                                            {isSocioeconomic ? "Sección final" : "Área de interés"}
-                                        </IonCardSubtitle>
-                                        <IonBadge color="success">
-                                            {isSocioeconomic ? "Socioeconómico" : areaLabel}
-                                        </IonBadge>
-                                        {isFirstSocioeconomic && (
-                                            <p className={styles.sectionIntro}>
-                                                Terminaste el inventario principal. Ahora responde este breve bloque
-                                                socioeconómico para complementar tu perfil.
-                                            </p>
-                                        )}
-                                        <IonCardTitle className={styles.questionTitle}>
-                                            {currentQuestion.question}
-                                        </IonCardTitle>
-                                    </IonCardHeader>
+                <div>
+                    {!completed && currentQuestion && (
+                        <IonGrid className={styles.mainGrid}>
+                            <IonRow className={styles.mainRow}>
+                                <IonCol size="12">
+                                    <IonCard id="questionCard">
+                                        <IonCardHeader className="ion-text-center">
+                                            <IonCardSubtitle>
+                                                {isSocioeconomic ? "Sección final" : "Área de interés"}
+                                            </IonCardSubtitle>
+                                            <IonBadge color="success">
+                                                {isSocioeconomic ? "Socioeconómico" : areaLabel}
+                                            </IonBadge>
+                                            {isFirstSocioeconomic && (
+                                                <p className={styles.sectionIntro}>
+                                                    Terminaste el inventario principal. Ahora responde este breve bloque
+                                                    socioeconómico para complementar tu perfil.
+                                                </p>
+                                            )}
+                                            <IonCardTitle className={styles.questionTitle}>
+                                                {currentQuestion.question}
+                                            </IonCardTitle>
+                                        </IonCardHeader>
 
-                                    <IonCardContent>
-                                        {currentQuestion.input && (
-                                            <>
-                                                <IonItem>
-                                                    <IonInput
-                                                        value={inputValue}
-                                                        placeholder={currentQuestion.optional ? "Opcional" : "Escribe tu respuesta"}
-                                                        onIonChange={event => setInputValue(event.detail.value ?? "")}
-                                                    />
-                                                </IonItem>
-                                                <IonButton
-                                                    expand="block"
-                                                    onClick={() => handleInputContinue(currentQuestion)}
-                                                    disabled={!currentQuestion.optional && !String(inputValue).trim()}
-                                                >
-                                                    Continuar
-                                                </IonButton>
-                                            </>
-                                        )}
-                                        {!currentQuestion.input && Object.keys(currentQuestion.answers)
-                                                .filter(answerKey => currentQuestion.answers[answerKey] !== null)
-                                                .map(answerKey => (
-                                                    <Answer
-                                                        key={answerKey}
-                                                        answer={answerKey}
-                                                        question={currentQuestion}
-                                                        handleAnswerClick={handleAnswerClick}
-                                                        disabled={answering}
-                                                        selected={
-                                                            currentQuestion.multiple
-                                                                ? Array.isArray(selectedAnswer) && selectedAnswer.includes(answerKey)
-                                                                : selectedAnswer === answerKey
-                                                        }
-                                                    />
-                                                ))}
-                                        {currentQuestion.multiple && (
-                                            <>
-                                                <IonNote>Selecciona una o más opciones.</IonNote>
-                                                <IonButton
-                                                    expand="block"
-                                                    onClick={() => handleMultipleContinue(currentQuestion)}
-                                                    disabled={!Array.isArray(selectedAnswer) || !selectedAnswer.length}
-                                                >
-                                                    Continuar
-                                                </IonButton>
-                                            </>
-                                        )}
-                                    </IonCardContent>
-                                </IonCard>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
-                )}
+                                        <IonCardContent>
+                                            {currentQuestion.input && (
+                                                <>
+                                                    <IonItem>
+                                                        <IonInput
+                                                            value={inputValue}
+                                                            placeholder={currentQuestion.optional ? "Opcional" : "Escribe tu respuesta"}
+                                                            onIonChange={event => setInputValue(event.detail.value ?? "")}
+                                                        />
+                                                    </IonItem>
+                                                    <IonButton
+                                                        expand="block"
+                                                        onClick={() => handleInputContinue(currentQuestion)}
+                                                        disabled={!currentQuestion.optional && !String(inputValue).trim()}
+                                                    >
+                                                        Continuar
+                                                    </IonButton>
+                                                </>
+                                            )}
+                                            {!currentQuestion.input && Object.keys(currentQuestion.answers)
+                                                    .filter(answerKey => currentQuestion.answers[answerKey] !== null)
+                                                    .map(answerKey => (
+                                                        <Answer
+                                                            key={answerKey}
+                                                            answer={answerKey}
+                                                            question={currentQuestion}
+                                                            handleAnswerClick={handleAnswerClick}
+                                                            disabled={answering}
+                                                            selected={
+                                                                currentQuestion.multiple
+                                                                    ? Array.isArray(selectedAnswer) && selectedAnswer.includes(answerKey)
+                                                                    : selectedAnswer === answerKey
+                                                            }
+                                                        />
+                                                    ))}
+                                            {currentQuestion.multiple && (
+                                                <>
+                                                    <IonNote>Selecciona una o más opciones.</IonNote>
+                                                    <IonButton
+                                                        expand="block"
+                                                        onClick={() => handleMultipleContinue(currentQuestion)}
+                                                        disabled={!Array.isArray(selectedAnswer) || !selectedAnswer.length}
+                                                    >
+                                                        Continuar
+                                                    </IonButton>
+                                                </>
+                                            )}
+                                        </IonCardContent>
+                                    </IonCard>
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
+                    )}
 
-                {completed && (
-                    <CompletedCard
-                        completionContainerRef={completionContainerRef}
-                    />
-                )}
+                    {completed && (
+                        <CompletedCard
+                            completionContainerRef={completionContainerRef}
+                        />
+                    )}
+                </div>
             </IonContent>
         </IonPage>
     );

@@ -22,7 +22,7 @@ export default function Prediction() {
     const result = nav?.recommendations ? nav : loadLastPrediction() ?? {};
     const recommendations = result.recommendations ?? [];
     const families = result.family_recommendations ?? [];
-    const suggestedCareer = recommendations[0];
+    const careersByFamily = result.careers_by_family;
 
     const goHome = () => {
         clearResponses();
@@ -50,16 +50,26 @@ export default function Prediction() {
                         {families.length > 0 && (
                             <section>
                                 <h2>Familias vocacionales sugeridas</h2>
-                                <ol>{families.map(family => <li key={family}>{family}</li>)}</ol>
+                                <ol>
+                                    {families.map(family => (
+                                        <li key={family}>
+                                            <strong>{family}</strong>
+                                            {careersByFamily?.[family]?.length > 0 && (
+                                                <ul>
+                                                    {careersByFamily[family].map(career => <li key={career}>{career}</li>)}
+                                                </ul>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ol>
+                                {careersByFamily ? (
+                                    <p>Las carreras de cada familia son opciones para explorar según tus respuestas.</p>
+                                ) : (
+                                    <p>Vuelve a analizar tus respuestas para ver carreras dentro de cada familia.</p>
+                                )}
                             </section>
                         )}
-                        {suggestedCareer && (
-                            <div className={styles.predictionHero}>
-                                <span>Primera carrera sugerida</span>
-                                <strong>{suggestedCareer.career_name}</strong>
-                            </div>
-                        )}
-                        {recommendations.length ? (
+                        {families.length === 0 && (recommendations.length ? (
                             <>
                                 <p>El modelo relaciona tus respuestas con carreras que otras personas declararon estudiar. No predice satisfacción ni éxito profesional.</p>
                                 <IonList className={styles.probabilityList}>
@@ -80,7 +90,7 @@ export default function Prediction() {
                             </>
                         ) : (
                             <p>No hay sugerencias guardadas. Completa el cuestionario y analiza tu perfil.</p>
-                        )}
+                        ))}
 
                         <div className={styles.predictionActions}>
                             <IonButton expand="block" onClick={() => router.push("/results")}>

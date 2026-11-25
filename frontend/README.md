@@ -50,4 +50,4 @@ npm run build
 - `/home`: instrucciones e inicio del cuestionario.
 - `/questions`: 48 actividades RIASEC calificadas de 1 a 5.
 - `/results`: seis puntajes normalizados y envío al backend.
-- `/prediction`: cuatro familias vocacionales y tres carreras sugeridas para explorar.
+- `/prediction`: cuatro familias vocacionales con carreras sugeridas para explorar.

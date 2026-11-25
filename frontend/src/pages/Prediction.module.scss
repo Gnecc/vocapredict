@@ -110,10 +110,30 @@
     transition: width 240ms ease;
 }
 
+.families {
+    ol {
+        padding-inline-start: 1.4rem;
+    }
+
+    ul {
+        padding-inline-start: 1.1rem;
+        margin-top: 0.3rem;
+    }
+
+    ol > li + li {
+        margin-top: 0.75rem;
+    }
+}
+
 .predictionActions {
     display: flex;
     gap: 0.75rem;
     margin-top: 1.25rem;
+
+    ion-button {
+        flex: 1;
+        margin-inline: 0;
+    }
 }
 
 @media (max-width: 767px) {

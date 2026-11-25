@@ -1,4 +1,4 @@
-.homeGrid {
+.homeGrid.homeGrid {
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -6,22 +6,36 @@
     padding: clamp(1rem, 4vw, 3rem);
     width: min(100%, 1120px);
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
-.logoRow {
-    flex: 0 0 auto;
+.homeRow {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoColumn {
+    display: flex;
+    justify-content: center;
+}
+
+.contentColumn {
+    min-width: 0;
 }
 
 .title {
     width: clamp(190px, 30vw, 310px);
+    max-width: 100%;
+    height: auto;
+    display: block;
     margin: 0 auto clamp(1rem, 3vw, 1.5rem);
 }
 
-.playButton {
-
+.playButton.playButton {
     min-height: 3.5rem;
     --border-radius: 500px;
-    width: min(100%, 420px);
+    width: 100%;
     --padding-start: 2rem;
     --padding-end: 2rem;
     margin: 0 auto;
@@ -31,36 +45,31 @@
     }
 }
 
-.helpButton {
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    width: fit-content;
-    margin: 0 auto;
-    margin-top: 0.85rem;
+.helpButton.helpButton {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    margin: 0.85rem auto 0;
     opacity: 70%;
     --border-radius: 10rem !important;
-    --padding-end: 1.25rem;
+    --padding-start: 1rem;
+    --padding-end: 1rem;
 
     ion-icon {
-
-        margin-top: 0.2rem;
         margin-right: 0.5rem;
     }
 }
 
-.instructions {
-    width: min(100%, 680px);
+.instructions.instructions {
+    width: 100%;
+    max-width: 680px;
     margin: 0 auto 1rem;
     overflow: hidden;
 
     h1 {
         margin: 0 0 0.75rem;
         font-size: clamp(1.7rem, 4vw, 2.7rem);
-        line-height: 1.05;
+        line-height: 1.12;
         font-weight: 850;
         letter-spacing: -0.04em;
     }
@@ -73,8 +82,13 @@
 
     ul {
         margin-bottom: 0;
-        padding-left: 1.25rem;
+        padding-left: 0;
         line-height: 1.55;
+        list-style: none;
+    }
+
+    li + li {
+        margin-top: 0.2rem;
     }
 }
 
@@ -98,7 +112,8 @@
 }
 
 .sponsorStrip {
-    width: min(100%, 680px);
+    width: 100%;
+    max-width: 680px;
     min-height: 94px;
     margin: 0 auto 1rem;
     padding: 0.75rem 1rem;
@@ -130,12 +145,13 @@
 }
 
 .actions {
-    width: min(100%, 420px);
+    width: 100%;
+    max-width: 420px;
     margin: 0 auto;
 }
 
 @media (max-width: 420px) {
-    .homeGrid {
+    .homeGrid.homeGrid {
         justify-content: flex-start;
         padding-top: 0.75rem;
         padding-bottom: 2rem;
@@ -146,16 +162,16 @@
         margin-bottom: 0.8rem;
     }
 
-    .playButton {
+    .playButton.playButton {
         min-height: 3.35rem;
     }
 
-    .helpButton {
+    .helpButton.helpButton {
         margin-top: 0.55rem;
         margin-bottom: 1rem;
     }
 
-    .instructions {
+    .instructions.instructions {
         :global(ion-card-content) {
             padding: 1rem;
         }
@@ -170,12 +186,7 @@
         }
 
         ul {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.25rem 0.75rem;
-            padding-left: 0;
-            line-height: 1.25;
-            list-style: none;
+            line-height: 1.4;
         }
     }
 
@@ -199,26 +210,9 @@
     }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-    .instructions,
-    .sponsorStrip {
-        width: min(100%, 620px);
-    }
-}
-
-@media (min-width: 1200px) {
-    .homeGrid {
-        display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
-        align-items: center;
-        gap: 3rem;
-    }
-
-    .logoRow {
-        grid-row: span 2;
-    }
-
+@media (min-width: 992px) {
     .title {
         width: min(100%, 360px);
+        margin-bottom: 0;
     }
 }

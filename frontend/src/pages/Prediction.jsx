@@ -48,7 +48,7 @@ export default function Prediction() {
                     </IonCardHeader>
                     <IonCardContent>
                         {families.length > 0 && (
-                            <section>
+                            <section className={styles.families}>
                                 <h2>Familias vocacionales sugeridas</h2>
                                 <ol>
                                     {families.map(family => (

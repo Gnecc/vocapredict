@@ -1,0 +1,1140 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ni02ip",
+    "id": "ni02ip",
+    "slide": 7,
+    "layoutId": "f4782eb8-c798-4618-a816-e54c2375f030",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "f4782eb8-c798-4618-a816-e54c2375f030",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "aba16f6c-54b1-4cf0-b3b9-88a5a23a7666",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/43mdwfe9",
+      "id": "1",
+      "name": "kicker",
+      "bbox": [
+        78,
+        42,
+        420,
+        30
+      ],
+      "geometry": "rect",
+      "text": "MODELO",
+      "textPreview": "MODELO",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "MODELO"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "MODELO",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#2C5234",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MODELO",
+              "fontSize": 14,
+              "color": "#2C5234",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/32dc3ado",
+      "id": "2",
+      "name": "title",
+      "bbox": [
+        76,
+        62,
+        820,
+        118
+      ],
+      "geometry": "rect",
+      "text": "La predicción usa diez señales, no una sola respuesta",
+      "textPreview": "La predicción usa diez señales, no una sola respuesta",
+      "resolvedFontSize": 44,
+      "resolvedTextStyle": {
+        "fontSize": 44,
+        "typeface": "+mn-lt",
+        "color": "#1F261F",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "La predicción usa diez señales, no"
+          },
+          {
+            "index": 2,
+            "text": "una sola respuesta"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "La predicción usa diez señales, no una sola respuesta",
+          "resolvedTextStyle": {
+            "fontSize": 44,
+            "color": "#1F261F",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "La predicción usa diez señales, no una sola respuesta",
+              "fontSize": 44,
+              "color": "#1F261F",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/214vu5w3",
+      "id": "3",
+      "name": "signal-0",
+      "bbox": [
+        84,
+        214,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h0vu10vi",
+      "id": "4",
+      "name": "signal-text-0",
+      "bbox": [
+        96,
+        239,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Cálculo",
+      "textPreview": "Cálculo",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Cálculo"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Cálculo",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Cálculo",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gz2dsvex",
+      "id": "5",
+      "name": "signal-1",
+      "bbox": [
+        302,
+        214,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fytczadc",
+      "id": "6",
+      "name": "signal-text-1",
+      "bbox": [
+        314,
+        239,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Físico",
+      "textPreview": "Físico",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Físico"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Físico",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Físico",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/uxkvq5wr",
+      "id": "7",
+      "name": "signal-2",
+      "bbox": [
+        520,
+        214,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1wfed4vm",
+      "id": "8",
+      "name": "signal-text-2",
+      "bbox": [
+        532,
+        239,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Biológico",
+      "textPreview": "Biológico",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Biológico"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Biológico",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Biológico",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0v6d4zu1",
+      "id": "9",
+      "name": "signal-3",
+      "bbox": [
+        738,
+        214,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q94rm14r",
+      "id": "10",
+      "name": "signal-text-3",
+      "bbox": [
+        750,
+        239,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Mecánico",
+      "textPreview": "Mecánico",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Mecánico"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Mecánico",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Mecánico",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/rad8f65c",
+      "id": "11",
+      "name": "signal-4",
+      "bbox": [
+        956,
+        214,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cbm9obmh",
+      "id": "12",
+      "name": "signal-text-4",
+      "bbox": [
+        968,
+        239,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Social",
+      "textPreview": "Social",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Social"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Social",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Social",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dcvahgn2",
+      "id": "13",
+      "name": "signal-5",
+      "bbox": [
+        84,
+        342,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/25kri14f",
+      "id": "14",
+      "name": "signal-text-5",
+      "bbox": [
+        96,
+        367,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Literario",
+      "textPreview": "Literario",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Literario"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Literario",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Literario",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/36t8b650",
+      "id": "15",
+      "name": "signal-6",
+      "bbox": [
+        302,
+        342,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4729kbml",
+      "id": "16",
+      "name": "signal-text-6",
+      "bbox": [
+        314,
+        367,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Persuasivo",
+      "textPreview": "Persuasivo",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Persuasivo"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Persuasivo",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Persuasivo",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p8bqdwn6",
+      "id": "17",
+      "name": "signal-7",
+      "bbox": [
+        520,
+        342,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m1orul4z",
+      "id": "18",
+      "name": "signal-text-7",
+      "bbox": [
+        532,
+        367,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Artístico",
+      "textPreview": "Artístico",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Artístico"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Artístico",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Artístico",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n2xsnq54",
+      "id": "19",
+      "name": "signal-8",
+      "bbox": [
+        738,
+        342,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#EEF6F0",
+      "lineColor": "#E2DED0",
+      "lineWidth": 1
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jmpofilw",
+      "id": "20",
+      "name": "signal-text-8",
+      "bbox": [
+        750,
+        367,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Musical",
+      "textPreview": "Musical",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#2C5234",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Musical"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Musical",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#2C5234",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Musical",
+              "fontSize": 21,
+              "color": "#2C5234",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 21,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ylgnmdkb",
+      "id": "21",
+      "name": "signal-9",
+      "bbox": [
+        956,
+        342,
+        176,
+        78
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FBF8EF",
+      "lineColor": "#9C8412",
+      "lineWidth": 1
+    },
+    {
+      "order": 22,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5876hs3m",
+      "id": "22",
+      "name": "signal-text-9",
+      "bbox": [
+        968,
+        367,
+        152,
+        26
+      ],
+      "geometry": "rect",
+      "text": "AMAI",
+      "textPreview": "AMAI",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "+mn-lt",
+        "color": "#9C8412",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "AMAI"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "AMAI",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "color": "#9C8412",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "AMAI",
+              "fontSize": 21,
+              "color": "#9C8412",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 23,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kny5on21",
+      "id": "23",
+      "name": "body-copy",
+      "bbox": [
+        170,
+        506,
+        940,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.",
+      "textPreview": "Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "+mn-lt",
+        "color": "#697168",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Las nueve primeras señales vienen del inventario vocacional. La décima es el"
+          },
+          {
+            "index": 2,
+            "text": "valor AMAI normalizado."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "color": "#697168"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Las nueve primeras señales vienen del inventario vocacional. La décima es el valor AMAI normalizado.",
+              "fontSize": 26,
+              "color": "#697168"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 24,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7a9oj2ls",
+      "id": "24",
+      "name": "footer",
+      "bbox": [
+        1164,
+        654,
+        40,
+        24
+      ],
+      "geometry": "rect",
+      "text": "07",
+      "textPreview": "07",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#E2DED0",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "07"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "07",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#E2DED0",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "07",
+              "fontSize": 14,
+              "color": "#E2DED0",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

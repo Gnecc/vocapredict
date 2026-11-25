@@ -7,10 +7,10 @@ RUN npm ci
 
 COPY . .
 
-ARG REACT_APP_API_URL=https://macso-patient-dream-1724.fly.dev
+ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
-RUN npm run build
+RUN test -n "$REACT_APP_API_URL" && npm run build
 
 FROM nginx:alpine
 

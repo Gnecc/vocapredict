@@ -5,3 +5,5 @@ numpy
 pandas
 scikit-learn==1.8.0
 openpyxl
+rdflib>=7.6
+owlrl>=7.1

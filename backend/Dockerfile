@@ -19,6 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia el servicio y el artefacto RIASEC ya entrenado
 COPY serve.py family_prediction.py ./
 COPY riasec_model.joblib riasec_families.joblib ./
+COPY red_semantica/riasec_owl.py red_semantica/catalogo_riasec.json ./red_semantica/
 
 EXPOSE 8080
 

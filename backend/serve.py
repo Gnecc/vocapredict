@@ -11,14 +11,18 @@ from pydantic import BaseModel, StrictInt
 
 if __package__:
     from .family_prediction import family_scores
+    from .red_semantica.riasec_owl import NOMBRES, cargar_catalogo, inferir
 else:
     from family_prediction import family_scores
+    from red_semantica.riasec_owl import NOMBRES, cargar_catalogo, inferir
 
 MODEL_PATH = Path(__file__).resolve().parent / "riasec_model.joblib"
 artifact = joblib.load(MODEL_PATH)
 clf = artifact["model"]
 career_labels = artifact["career_labels"]
 family_artifact = joblib.load(MODEL_PATH.with_name("riasec_families.joblib"))
+
+semantic_catalog = cargar_catalogo()
 
 app = FastAPI(title="VocaPredict RIASEC", version="2.0")
 
@@ -78,8 +82,21 @@ def predict(data: Scores):
             ][:2]
             for family in families["family_recommendations"]
         }
+    _, connections = inferir(semantic_catalog, vals)
+    semantic_connections = [
+        {
+            "career_code": option["id"],
+            "career_name": option["nombre"],
+            "interests": [
+                {"code": area, "name": NOMBRES[area], "score": float(score)}
+                for area, score in evidence
+            ],
+        }
+        for option, evidence in connections
+    ]
     return {
         **families,
+        "semantic_connections": semantic_connections,
         "prediction": best,
         "probabilities": {str(code): float(probabilities[i]) for i, code in enumerate(classes)},
         "recommendations": [

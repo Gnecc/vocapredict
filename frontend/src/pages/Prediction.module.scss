@@ -153,3 +153,131 @@
         margin: 0;
     }
 }
+
+.network {
+    margin-top: 0.65rem;
+}
+
+.careerPicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.85rem 0 1.1rem;
+
+    button {
+        min-height: 44px;
+        padding: 0.5rem 0.8rem;
+        color: var(--vp-green);
+        background: #fff;
+        border: 1px solid var(--vp-line);
+        border-radius: 12px;
+        font: inherit;
+        text-align: start;
+        cursor: pointer;
+    }
+
+    button[aria-pressed="true"] {
+        background: var(--vp-green);
+        border-color: var(--vp-green);
+        color: white;
+    }
+
+    button:focus-visible {
+        outline: 2px solid var(--vp-green);
+        outline-offset: 3px;
+    }
+}
+
+.connectionGraph {
+    --connection-line: #708c76;
+    display: grid;
+    justify-items: center;
+    padding: clamp(0.75rem, 3vw, 1.25rem);
+    background: #f2f6ef;
+    border-radius: 16px;
+}
+
+.careerNode {
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.6rem 0.9rem;
+    background: var(--vp-green);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.families .interestNodes {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin: 0;
+    position: relative;
+    width: 100%;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 0.65rem;
+        border-left: 1px solid var(--connection-line);
+    }
+
+    li {
+        position: relative;
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0.6rem 0.2rem;
+        margin: 0 0.15rem;
+        border: 1px solid var(--vp-line);
+        border-radius: 10px;
+        background: white;
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+
+    li::before,
+    li::after {
+        content: "";
+        position: absolute;
+        top: -0.65rem;
+    }
+
+    li::before {
+        left: 50%;
+        height: 0.65rem;
+        border-left: 1px solid var(--connection-line);
+    }
+
+    li::after {
+        left: -0.16rem;
+        right: -0.16rem;
+        border-top: 1px solid var(--connection-line);
+    }
+
+    li:first-child::after { left: 50%; }
+    li:last-child::after { right: 50%; }
+
+    span {
+        display: block;
+        color: var(--vp-green);
+        font-weight: 750;
+    }
+}
+
+.scoreNote {
+    margin-top: 0.55rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .interestNodes {
+        animation: revealInterests 180ms ease-out;
+    }
+}
+
+@keyframes revealInterests {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}

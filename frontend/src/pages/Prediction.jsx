@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent,
@@ -16,6 +16,41 @@ function loadLastPrediction() {
     }
 }
 
+function InterestNetwork({ connections }) {
+    const [selectedCode, setSelectedCode] = useState(null);
+    const selected = connections.find(connection => connection.career_code === selectedCode) ?? connections[0];
+
+    return (
+        <div className={styles.network}>
+            <p>Elige una carrera para ver qué intereses la conectan con tu perfil.</p>
+            <div className={styles.careerPicker} role="group" aria-label="Carreras conectadas con tus intereses">
+                {connections.map(connection => (
+                    <button
+                        key={connection.career_code}
+                        type="button"
+                        aria-pressed={selected.career_code === connection.career_code}
+                        onClick={() => setSelectedCode(connection.career_code)}
+                    >
+                        {connection.career_name}
+                    </button>
+                ))}
+            </div>
+            <div className={styles.connectionGraph} aria-live="polite">
+                <strong className={styles.careerNode}>{selected.career_name}</strong>
+                <ul key={selected.career_code} className={styles.interestNodes} aria-label="Intereses que respaldan la conexión">
+                    {selected.interests.map(interest => (
+                        <li key={interest.code}>
+                            <strong>{interest.name} ({interest.code})</strong>
+                            <span>{Math.round(interest.score * 100)}%</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <p className={styles.scoreNote}>Cada porcentaje corresponde a tu puntaje de interés en esa área.</p>
+        </div>
+    );
+}
+
 export default function Prediction() {
     const router = useIonRouter();
     const nav = router.routeInfo?.state ?? {};
@@ -23,6 +58,7 @@ export default function Prediction() {
     const recommendations = result.recommendations ?? [];
     const families = result.family_recommendations ?? [];
     const careersByFamily = result.careers_by_family;
+    const connections = result.semantic_connections;
 
     const goHome = () => {
         clearResponses();
@@ -91,6 +127,19 @@ export default function Prediction() {
                         ) : (
                             <p>No hay sugerencias guardadas. Completa el cuestionario y analiza tu perfil.</p>
                         ))}
+
+                        {(Array.isArray(connections) || families.length > 0) && (
+                            <section className={styles.families}>
+                                <h2>Conexiones por intereses</h2>
+                                {connections?.length > 0 ? (
+                                    <InterestNetwork connections={connections} />
+                                ) : (
+                                    <p>{connections
+                                        ? "La red encontró evidencia insuficiente para conectar tus intereses con una carrera de referencia."
+                                        : "Vuelve a analizar tus respuestas para consultar las conexiones de la red semántica."}</p>
+                                )}
+                            </section>
+                        )}
 
                         <div className={styles.predictionActions}>
                             <IonButton expand="block" onClick={() => router.push("/results")}>

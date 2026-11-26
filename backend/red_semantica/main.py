@@ -23,7 +23,11 @@ if __name__ == "__main__":
                 imprimir_reporte_ontologia(alumnos, bloques, carreras, evaluaciones, relaciones)
 
             case "2":
-                print("*" * 150, "\nGRAFO COMPLETO\n")
+                from visualizacion_riasec import visualizar_catalogo_riasec
+
+                visualizar_catalogo_riasec()
+
+            case "15":
                 visualizar_grafo(G)
 
             case "3":

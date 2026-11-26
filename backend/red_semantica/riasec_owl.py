@@ -18,12 +18,19 @@ NOMBRES = dict(zip(AREAS, (
     "Realista", "Investigador", "Artístico", "Social", "Emprendedor", "Convencional",
 )))
 CATALOGO = Path(__file__).with_name("catalogo_riasec.json")
+REFERENCIAS_CSV = Path(__file__).with_name("referencias_riasec_csv.json")
 CSV_RIASEC = Path(__file__).resolve().parents[1] / "data" / "vocapredict_unificado_riasec.csv"
 CPE_EXPERIMENTOS = ("AES", "AEI", "AIS", "IES")
 
 
-def cargar_catalogo():
-    return json.loads(CATALOGO.read_text(encoding="utf-8"))
+def cargar_catalogo(*, ampliar=False):
+    catalogo = json.loads(CATALOGO.read_text(encoding="utf-8"))
+    if ampliar:
+        referencias = json.loads(REFERENCIAS_CSV.read_text(encoding="utf-8"))
+        for opcion in catalogo["opciones"]:
+            if opcion["id"] in referencias:
+                opcion["referencia"] = referencias[opcion["id"]]
+    return catalogo
 
 
 def crear_grafo(catalogo, cpe_experimental=None):
@@ -53,7 +60,9 @@ def crear_grafo(catalogo, cpe_experimental=None):
         referencia = opcion.get("referencia")
         if referencia:
             perfil = VOC[f"referencia/{opcion['id']}"]
-            agregar_referencia(grafo, perfil, referencia, fuente, "provisional")
+            agregar_referencia(grafo, perfil, referencia,
+                               URIRef(referencia["fuente"]) if "fuente" in referencia else fuente,
+                               "derivado del CSV" if "perfiles_entrenamiento" in referencia else "provisional")
             grafo.add((nodo, VOC.tienePerfilReferencia, perfil))
             for letra in referencia["codigo"]:
                 grafo.add((VOC[f"area/{letra}"], VOC.respaldaOpcion, nodo))
@@ -102,6 +111,8 @@ def agregar_referencia(grafo, perfil, referencia, fuente, estado):
     grafo.add((perfil, VOC.codigoRIASEC, Literal(referencia["codigo"])))
     grafo.add((perfil, VOC.estado, Literal(estado)))
     grafo.add((perfil, DCTERMS.source, fuente))
+    if "perfiles_entrenamiento" in referencia:
+        grafo.add((perfil, VOC.perfilesEntrenamiento, Literal(referencia["perfiles_entrenamiento"])))
 
 
 def validar_puntajes(valores):
@@ -193,8 +204,10 @@ def imprimir_inferencia(resultados, fuente):
         print("    " + ", ".join(f"{NOMBRES[letra]} {puntaje}" for letra, puntaje in evidencia))
         if opcion.get("experimental"):
             print("    Referencia del experimento: " + opcion["fuente"])
+        elif "perfiles_entrenamiento" in opcion["referencia"]:
+            print(f"    Referencia del CSV · {opcion['referencia']['perfiles_entrenamiento']} perfiles de entrenamiento")
     if resultados:
-        print("  Fuente de los perfiles provisionales: " + fuente)
+        print("  Fuente de las referencias de Zenodo: " + fuente)
 
 
 def main():
@@ -203,11 +216,15 @@ def main():
     consulta.add_argument("--perfil-riasec", metavar="ID", help="Identificador source_row_id en el CSV unificado.")
     consulta.add_argument("--puntajes", nargs=6, metavar="VALOR", help="En orden R I A S E C.")
     parser.add_argument("--catalogo", action="store_true", help="Lista las opciones y sus perfiles.")
+    parser.add_argument("--catalogo-ampliado", action="store_true",
+                        help="Usa las referencias derivadas del CSV y el perfil experimental AEI.")
     parser.add_argument("--cpe-experimental", choices=CPE_EXPERIMENTOS,
                         help="Prueba un código de Comunicación y Periodismo.")
     parser.add_argument("--salida", type=Path, help="Exporta el grafo a OWL en formato RDF/XML.")
     args = parser.parse_args()
-    catalogo = cargar_catalogo()
+    catalogo = cargar_catalogo(ampliar=args.catalogo_ampliado)
+    if args.catalogo_ampliado and args.cpe_experimental is None:
+        args.cpe_experimental = "AEI"
     if args.catalogo:
         for opcion in catalogo["opciones"]:
             if opcion["id"] == "CPE":

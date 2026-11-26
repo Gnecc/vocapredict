@@ -1,0 +1,170 @@
+{
+  "ACC": {
+    "programa": "Contaduría",
+    "codigo": "CSE",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 1119
+  },
+  "ANT": {
+    "programa": "Antropología",
+    "codigo": "IAS",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 238
+  },
+  "BAM": {
+    "programa": "Administración de empresas",
+    "codigo": "SEC",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 1189
+  },
+  "BCH": {
+    "programa": "Bioquímica",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 203
+  },
+  "CEN": {
+    "programa": "Ingeniería química",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 324
+  },
+  "CENR": {
+    "programa": "Ingeniería en computación",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 227
+  },
+  "CHE": {
+    "programa": "Química",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 435
+  },
+  "CIN": {
+    "programa": "Cinematografía",
+    "codigo": "ASI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 105
+  },
+  "CRI": {
+    "programa": "Criminología",
+    "codigo": "SIA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 140
+  },
+  "CRJ": {
+    "programa": "Justicia penal",
+    "codigo": "SIA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 699
+  },
+  "ECO": {
+    "programa": "Economía",
+    "codigo": "SAI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 833
+  },
+  "EDU": {
+    "programa": "Educación",
+    "codigo": "SAI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 1428
+  },
+  "ELE": {
+    "programa": "Ingeniería eléctrica",
+    "codigo": "ISR",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 370
+  },
+  "FIN": {
+    "programa": "Finanzas",
+    "codigo": "SCE",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 587
+  },
+  "GDE": {
+    "programa": "Diseño gráfico",
+    "codigo": "ASI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 208
+  },
+  "GEO": {
+    "programa": "Geografía",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 168
+  },
+  "HIS": {
+    "programa": "Historia",
+    "codigo": "SAI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 739
+  },
+  "KIN": {
+    "programa": "Kinesiología",
+    "codigo": "SIA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 212
+  },
+  "LIN": {
+    "programa": "Lingüística",
+    "codigo": "AIS",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 154
+  },
+  "MAT": {
+    "programa": "Matemáticas",
+    "codigo": "ISC",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 628
+  },
+  "MEC": {
+    "programa": "Ingeniería mecánica",
+    "codigo": "RIS",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 578
+  },
+  "MKT": {
+    "programa": "Mercadotecnia",
+    "codigo": "SEA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 698
+  },
+  "PHA": {
+    "programa": "Farmacia",
+    "codigo": "ISA",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 183
+  },
+  "PHI": {
+    "programa": "Filosofía",
+    "codigo": "AIS",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 331
+  },
+  "PHY": {
+    "programa": "Física",
+    "codigo": "IAS",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 361
+  },
+  "SOC": {
+    "programa": "Sociología",
+    "codigo": "SAI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 685
+  },
+  "SWK": {
+    "programa": "Trabajo social",
+    "codigo": "SAI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 537
+  },
+  "TEA": {
+    "programa": "Teatro",
+    "codigo": "ASI",
+    "fuente": "https://openpsychometrics.org/_rawdata/",
+    "perfiles_entrenamiento": 109
+  }
+}

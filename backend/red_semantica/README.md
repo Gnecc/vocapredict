@@ -127,3 +127,27 @@ aportan dos coincidencias con ninguna referencia disponible.
 ```bash
 backend/.venv/bin/python backend/red_semantica/riasec_owl.py --perfil-riasec ID
 ```
+
+La opción **15** abre el grafo de demostración de Hereford.
+
+## Catálogo ampliado de evaluación
+
+La opción **2** muestra las 42 referencias del ensayo. Incluye 13 códigos de
+Zenodo, 28 códigos calculados con el promedio de los perfiles de entrenamiento
+del CSV y el código **AEI experimental** de Comunicación y Periodismo.
+El predictor web usa el catálogo habitual de 13 referencias.
+
+Para probar la inferencia ampliada por consola, añade `--catalogo-ampliado`:
+
+```bash
+backend/.venv/bin/python backend/red_semantica/riasec_owl.py \
+  --catalogo-ampliado --puntajes 0.6 1 0.2 0.4 0.4 0.8
+```
+
+Desde `backend/`, los siguientes comandos regeneran las referencias y el
+[informe](../docs/referencias_ampliadas_riasec.md):
+
+```bash
+git show e953434:backend/data/vocapredict_unificado_riasec.csv > /tmp/vocapredict-riasec40-base.csv
+.venv/bin/python -m scripts.ampliar_referencias_riasec --baseline /tmp/vocapredict-riasec40-base.csv
+```
